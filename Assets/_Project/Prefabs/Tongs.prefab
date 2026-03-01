@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3491469537512004369}
   - component: {fileID: 3514306715181626808}
   - component: {fileID: 1937307155227850190}
+  - component: {fileID: 3582835463252058822}
+  - component: {fileID: 6780151272701599642}
   m_Layer: 0
   m_Name: Tongs
   m_TagString: Untagged
@@ -59,9 +61,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &1937307155227850190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,11 +77,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable
   m_InteractionManager: {fileID: 0}
-  m_Colliders: []
+  m_Colliders:
+  - {fileID: 264519250873657762}
+  - {fileID: 6511223311877054457}
   m_InteractionLayers:
     m_Bits: 1
   m_DistanceCalculationMode: 1
-  m_SelectMode: 0
+  m_SelectMode: 1
   m_FocusMode: 1
   m_CustomReticle: {fileID: 0}
   m_AllowGazeInteraction: 0
@@ -136,8 +140,8 @@ MonoBehaviour:
   m_StartingInteractionStrengthFilters: []
   m_AutoFindParentInteractableInHierarchy: 0
   m_ParentInteractableObject: {fileID: 0}
-  m_AttachTransform: {fileID: 0}
-  m_SecondaryAttachTransform: {fileID: 0}
+  m_AttachTransform: {fileID: 4249692430475027704}
+  m_SecondaryAttachTransform: {fileID: 7137837615060767395}
   m_UseDynamicAttach: 0
   m_MatchAttachPosition: 1
   m_MatchAttachRotation: 1
@@ -191,6 +195,50 @@ MonoBehaviour:
   m_LimitAngularVelocity: 0
   m_MaxLinearVelocityDelta: 10
   m_MaxAngularVelocityDelta: 20
+--- !u!64 &3582835463252058822
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9201115148558986032}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
+--- !u!64 &6780151272701599642
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9201115148558986032}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1326180111244983326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -199,6 +247,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3491469537512004369}
     m_Modifications:
+    - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_VersionIndex
+      value: 9223
+      objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
       value: 
@@ -257,6 +309,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6897592240669013164, guid: 04641707246974d419cf6a49be17469f, type: 3}
   m_PrefabInstance: {fileID: 1326180111244983326}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &6511223311877054457 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 5204765692680561639, guid: 04641707246974d419cf6a49be17469f, type: 3}
+  m_PrefabInstance: {fileID: 1326180111244983326}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7137837615060767395 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+  m_PrefabInstance: {fileID: 1326180111244983326}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5445071891474598469
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -267,7 +329,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_VersionIndex
-      value: 8452
+      value: 8458
       objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
@@ -322,8 +384,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04641707246974d419cf6a49be17469f, type: 3}
+--- !u!64 &264519250873657762 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 5204765692680561639, guid: 04641707246974d419cf6a49be17469f, type: 3}
+  m_PrefabInstance: {fileID: 5445071891474598469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1452942563313975017 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6897592240669013164, guid: 04641707246974d419cf6a49be17469f, type: 3}
+  m_PrefabInstance: {fileID: 5445071891474598469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4249692430475027704 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
   m_PrefabInstance: {fileID: 5445071891474598469}
   m_PrefabAsset: {fileID: 0}
