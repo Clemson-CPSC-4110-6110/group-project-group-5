@@ -77,9 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable
   m_InteractionManager: {fileID: 0}
-  m_Colliders:
-  - {fileID: 264519250873657762}
-  - {fileID: 6511223311877054457}
+  m_Colliders: []
   m_InteractionLayers:
     m_Bits: 1
   m_DistanceCalculationMode: 1
@@ -142,7 +140,7 @@ MonoBehaviour:
   m_ParentInteractableObject: {fileID: 0}
   m_AttachTransform: {fileID: 4249692430475027704}
   m_SecondaryAttachTransform: {fileID: 7137837615060767395}
-  m_UseDynamicAttach: 0
+  m_UseDynamicAttach: 1
   m_MatchAttachPosition: 1
   m_MatchAttachRotation: 1
   m_SnapToColliderVolume: 1
@@ -249,7 +247,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_VersionIndex
-      value: 9223
+      value: 9319
       objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
@@ -299,6 +297,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right Tong
       objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.08745256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0059849955
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5624044
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.08374917
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.011684697
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.99620134
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.020794312
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -307,11 +333,6 @@ PrefabInstance:
 --- !u!4 &5611100658424924338 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6897592240669013164, guid: 04641707246974d419cf6a49be17469f, type: 3}
-  m_PrefabInstance: {fileID: 1326180111244983326}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &6511223311877054457 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 5204765692680561639, guid: 04641707246974d419cf6a49be17469f, type: 3}
   m_PrefabInstance: {fileID: 1326180111244983326}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7137837615060767395 stripped
@@ -329,7 +350,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_VersionIndex
-      value: 8458
+      value: 8548
       objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
@@ -379,16 +400,39 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Tong
       objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.08745256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0059849955
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5624044
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.08374917
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.011684697
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.99620134
+      objectReference: {fileID: 0}
+    - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.020794312
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04641707246974d419cf6a49be17469f, type: 3}
---- !u!64 &264519250873657762 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 5204765692680561639, guid: 04641707246974d419cf6a49be17469f, type: 3}
-  m_PrefabInstance: {fileID: 5445071891474598469}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1452942563313975017 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6897592240669013164, guid: 04641707246974d419cf6a49be17469f, type: 3}
