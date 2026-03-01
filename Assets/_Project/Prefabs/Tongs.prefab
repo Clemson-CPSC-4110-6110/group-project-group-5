@@ -237,10 +237,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   pivotTransform: {fileID: 6614217186772579831}
-  firstHand: {fileID: 0}
-  secondHand: {fileID: 0}
   grabInteractable: {fileID: 1937307155227850190}
-  maxAngle: 35
+  maxAngle: 19
+  minAngle: 0
+  minDistance: 0.1
+  maxDistance: 0.2
 --- !u!1001 &1326180111244983326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -251,7 +252,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_VersionIndex
-      value: 9334
+      value: 9565
       objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
@@ -354,7 +355,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_VersionIndex
-      value: 8563
+      value: 8794
       objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
