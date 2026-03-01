@@ -1,0 +1,11 @@
+Model Information:
+* title:	Stove Forge Blacksmith
+* source:	https://sketchfab.com/3d-models/stove-forge-blacksmith-e2e59e9458ce46a8afa14f408c710d95
+* author:	DeadLink (https://sketchfab.com/d43dLink)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Stove Forge Blacksmith" (https://sketchfab.com/3d-models/stove-forge-blacksmith-e2e59e9458ce46a8afa14f408c710d95) by DeadLink (https://sketchfab.com/d43dLink) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
