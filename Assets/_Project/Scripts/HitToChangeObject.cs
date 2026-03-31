@@ -18,10 +18,6 @@ public class HitToChangeObject : MonoBehaviour
                 SpawnReplacementObject();
             }
         }
-        else
-        {
-            Debug.Log("Colliding with non-hammer.");
-        }
     }
 
     private void SpawnReplacementObject()
