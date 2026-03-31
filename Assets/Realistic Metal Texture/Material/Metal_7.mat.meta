@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 563a093b1696fa2458291d92081864b7
+timeCreated: 1509635631
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 305877
+  packageName: Realistic Metal Texture
+  packageVersion: 1.0
+  assetPath: Assets/Realistic Metal Texture/Material/Metal_7.mat
+  uploadId: 718941
