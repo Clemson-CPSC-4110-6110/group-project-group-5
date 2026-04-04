@@ -40,8 +40,11 @@ public class ScaleAwayOnHit : MonoBehaviour
         ContactPoint contact = collision.GetContact(0);
 
         // Only react if this specific collider was hit
-        if (contact.thisCollider != targetCollider)
-            return;
+        // if (contact.thisCollider != targetCollider)
+        //     return;
+
+        // Rigidbody hammerRb = collision.rigidbody; // the hammer
+        // float velocityMagnitude = hammerRb.linearVelocity.magnitude;
 
         Vector3 worldNormal = contact.normal;
         RecalculateMeasurements();
@@ -49,6 +52,7 @@ public class ScaleAwayOnHit : MonoBehaviour
         // Map velocity to volume shift
         float maxVolumeShift = 0.001f * volumeShiftModifier; // Upper limit
         float velocityMagnitude = collision.relativeVelocity.magnitude;
+        // float velocityMagnitude = collision.impulse.magnitude;
         Debug.Log("Collision's velocity magnitude = " + velocityMagnitude);
 
         float minVelocity = 0.01f;   // Ignore tiny impacts
