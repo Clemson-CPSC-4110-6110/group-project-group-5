@@ -1,24 +1,31 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ScaleAwayOnHit : MonoBehaviour
 {
     [Header("Target")]
-    public Collider targetCollider; // Assign your child MeshCollider here
+    [SerializeField]  Collider targetCollider; // Assign your child MeshCollider here
 
     [Header("Scaling Settings")]
-    public float shrinkFactor = 0.95f;
-    public float growFactor = 1.05f;
+    [SerializeField] float shrinkFactor = 0.95f;
+    [SerializeField] float growFactor = 1.05f;
 
     [Header("Clamp Settings")]
-    public Vector3 minScale = new Vector3(0.2f, 0.2f, 0.2f);
-    public Vector3 maxScale = new Vector3(3f, 3f, 3f);
+    [SerializeField] Vector3 minScale = new Vector3(0.2f, 0.2f, 0.2f);
+    [SerializeField] Vector3 maxScale = new Vector3(3f, 3f, 3f);
 
     [Header("Scale Target")]
-    public Transform scaleTarget; // What actually gets scaled
+    [SerializeField] Transform scaleTarget; // What actually gets scaled
+
+    [Header("Size")]
+    [SerializeField] Vector3 unscaledSize;
 
     [Header("Events")]
     public UnityEvent<Vector3, Vector3> onScaleChanged;
+    float volume;
+    Vector3 scaledSize;
+    Vector3 area;
 
     void Start()
     {
@@ -37,8 +44,22 @@ public class ScaleAwayOnHit : MonoBehaviour
             return;
 
         Vector3 worldNormal = contact.normal;
-
+        // collision.impulse.magnitude
         HandleDirectionalScale(worldNormal);
+    }
+
+    void RecalculateVolume()
+    {
+        scaledSize = new(unscaledSize[0] * scaleTarget.localScale[0], unscaledSize[1] * scaleTarget.localScale[1], unscaledSize[2] * scaleTarget.localScale[2]);
+        volume = scaledSize[0] * scaledSize[1] * scaledSize[2];
+        Debug.Log("\nunscaledSize[0] * scaleTarget.localScale[0]: " + unscaledSize[0] * scaleTarget.localScale[0] + 
+                "\nunscaledSize[1] * scaleTarget.localScale[1]: " + unscaledSize[1] * scaleTarget.localScale[1] + 
+                "\nunscaledSize[2] * scaleTarget.localScale[2]: " + unscaledSize[2] * scaleTarget.localScale[2]);
+    }
+
+    void RecalculateArea()
+    {
+        area = new(scaledSize[1] * scaledSize[2], scaledSize[0] * scaledSize[2], scaledSize[0] * scaledSize[1]);
     }
 
     void HandleDirectionalScale(Vector3 worldNormal)
@@ -54,23 +75,98 @@ public class ScaleAwayOnHit : MonoBehaviour
         Vector3 oldScale = scaleTarget.localScale;
         Vector3 newScale = oldScale;
 
+        RecalculateVolume();
+        RecalculateArea();
+        float volumeShiftedOnHit = 0.002f;
+        float hitAxisSizeLost;
+        float hitAxisShrinkFactor;
+        float changeInAxis;
+
         if (absNormal.x > absNormal.y && absNormal.x > absNormal.z)
         {
-            newScale.x *= shrinkFactor;
-            newScale.y *= growFactor;
-            newScale.z *= growFactor;
+            Debug.Log("Volume before: " + volume);
+            hitAxisSizeLost = volumeShiftedOnHit / area[0];
+            hitAxisShrinkFactor = (scaledSize[0] - hitAxisSizeLost) / scaledSize[0];
+            newScale.x *= hitAxisShrinkFactor;
+
+            // changeInAxis = volumeShiftedOnHit / (area[1] + area[2]);
+            // newScale.y *= (changeInAxis + scaledSize[1]) / scaledSize[1];
+            // newScale.z *= (changeInAxis + scaledSize[2]) / scaledSize[2];
+
+            float preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
+            newScale.y *= preservedFactor;
+            newScale.z *= preservedFactor;
+
+
+            // float volumeAfterHitAxis = scaledSize[0] * scaledSize[1] * scaledSize[2];
+            // float scaleFactor = Mathf.Sqrt(volume / volumeAfterHitAxis);
+            // newScale.y *= scaleFactor;
+            // newScale.z *= scaleFactor;
+
+            RecalculateVolume();
+            Debug.Log("Volume after: " + volume);
+
+
+
+            // newScale.x *= shrinkFactor;
+            // newScale.y *= growFactor;
+            // newScale.z *= growFactor;
         }
         else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z)
         {
-            newScale.y *= shrinkFactor;
-            newScale.x *= growFactor;
-            newScale.z *= growFactor;
+            Debug.Log("Volume before: " + volume);
+            hitAxisSizeLost = volumeShiftedOnHit / area[1];
+            hitAxisShrinkFactor = (scaledSize[1] - hitAxisSizeLost) / scaledSize[1];
+            newScale.y *= hitAxisShrinkFactor;
+
+            // changeInAxis = volumeShiftedOnHit / (area[0] + area[2]);
+            // newScale.x *= (changeInAxis + scaledSize[0]) / scaledSize[0];
+            // newScale.z *= (changeInAxis + scaledSize[2]) / scaledSize[2];
+
+            float preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
+            newScale.x *= preservedFactor;
+            newScale.z *= preservedFactor;
+
+            // float volumeAfterHitAxis = scaledSize[0] * scaledSize[1] * scaledSize[2];
+            // float scaleFactor = Mathf.Sqrt(volume / volumeAfterHitAxis);
+            // newScale.x *= scaleFactor;
+            // newScale.z *= scaleFactor;
+
+            RecalculateVolume();
+            Debug.Log("Volume after: " + volume);
+
+
+            // newScale.y *= shrinkFactor;
+            // newScale.x *= growFactor;
+            // newScale.z *= growFactor;
         }
         else
         {
-            newScale.z *= shrinkFactor;
-            newScale.x *= growFactor;
-            newScale.y *= growFactor;
+            Debug.Log("Volume before: " + volume);
+            hitAxisSizeLost = volumeShiftedOnHit / area[2];
+            hitAxisShrinkFactor = (scaledSize[2] - hitAxisSizeLost) / scaledSize[2];
+            newScale.z *= hitAxisShrinkFactor;
+
+            // changeInAxis = volumeShiftedOnHit / (area[0] + area[1]);
+            // newScale.x *= (changeInAxis + scaledSize[0]) / scaledSize[0];
+            // newScale.y *= (changeInAxis + scaledSize[1]) / scaledSize[1];
+
+            float preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
+            newScale.x *= preservedFactor;
+            newScale.y *= preservedFactor;
+
+            // float volumeAfterHitAxis = scaledSize[0] * scaledSize[1] * scaledSize[2];
+            // float scaleFactor = Mathf.Sqrt(volume / volumeAfterHitAxis);
+            // newScale.x *= scaleFactor;
+            // newScale.y *= scaleFactor;
+
+            RecalculateVolume();
+            Debug.Log("Volume after: " + volume);
+
+
+            // newScale.z *= shrinkFactor;
+            // newScale.x *= growFactor;
+            // newScale.y *= growFactor;
         }
 
         // Clamp scale
