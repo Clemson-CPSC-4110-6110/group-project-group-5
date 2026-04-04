@@ -49,13 +49,14 @@ public class ScaleAwayOnHit : MonoBehaviour
         // Map velocity to volume shift
         float maxVolumeShift = 0.001f * volumeShiftModifier; // Upper limit
         float velocityMagnitude = collision.relativeVelocity.magnitude;
-        float minVelocity = 3f;   // Ignore tiny impacts
-        float maxVelocity = 10f;    // Cap extreme values
+        Debug.Log("Collision's velocity magnitude = " + velocityMagnitude);
+
+        float minVelocity = 0.01f;   // Ignore tiny impacts
+        float maxVelocity = 1f;    // Cap extreme values
         if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) { return; }
 
         // Adjust the scaling factor to your liking
-        float maxExpectedVelocity = 10f; // tweak depending on your hammer speed
-        float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxExpectedVelocity) * maxVolumeShift;
+        float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift;
 
         HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
     }
@@ -141,13 +142,29 @@ public class ScaleAwayOnHit : MonoBehaviour
         }
 
         // Clamp scale
-        newScale.x = Mathf.Clamp(newScale.x, minScale.x, maxScale.x);
-        newScale.y = Mathf.Clamp(newScale.y, minScale.y, maxScale.y);
-        newScale.z = Mathf.Clamp(newScale.z, minScale.z, maxScale.z);
-
+        
+        // newScale.x = Mathf.Clamp(newScale.x, minScale.x, maxScale.x);
+        // newScale.y = Mathf.Clamp(newScale.y, minScale.y, maxScale.y);
+        // newScale.z = Mathf.Clamp(newScale.z, minScale.z, maxScale.z);
         // Apply scale
-        scaleTarget.localScale = newScale;
+        // scaleTarget.localScale = newScale;
+        // onScaleChanged.Invoke(oldScale, newScale);
 
-        onScaleChanged.Invoke(oldScale, newScale);
+        // Check if all new scales are within limits
+        bool withinBounds = 
+            newScale.x >= minScale.x && newScale.x <= maxScale.x &&
+            newScale.y >= minScale.y && newScale.y <= maxScale.y &&
+            newScale.z >= minScale.z && newScale.z <= maxScale.z;
+
+        if (withinBounds)
+        {
+            // Only apply scale if all axes are valid
+            scaleTarget.localScale = newScale;
+            onScaleChanged.Invoke(oldScale, newScale);
+        }
+        else
+        {
+            Debug.Log("Scale change rejected: newScale out of bounds");
+        }
     }
 }
