@@ -3951,6 +3951,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &1279441823 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 4261822959256422772, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+  m_PrefabInstance: {fileID: 3471209543921931044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1292860482
 Mesh:
   m_ObjectHideFlags: 0
@@ -4999,6 +5004,11 @@ Transform:
   - {fileID: 397389378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1492950964 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4603479426351239002, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+  m_PrefabInstance: {fileID: 3471209543921931044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1508714043 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
@@ -7436,6 +7446,11 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &113247392038949422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+  m_PrefabInstance: {fileID: 3471209543921931044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!33 &180267759278883131
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -8454,7 +8469,11 @@ PrefabInstance:
       objectReference: {fileID: 1392439486}
     - target: {fileID: 372389270261475340, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_VersionIndex
-      value: 5103
+      value: 5109
+      objectReference: {fileID: 0}
+    - target: {fileID: 899518083940920841, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+      propertyPath: m_Name
+      value: Sword Handle Pivot
       objectReference: {fileID: 0}
     - target: {fileID: 943698594294854379, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8508,6 +8527,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1392439486}
+    - target: {fileID: 4151210780088618988, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+      propertyPath: m_Name
+      value: Sword Blade Body Pivot
+      objectReference: {fileID: 0}
     - target: {fileID: 4261822959256422772, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -8526,7 +8549,7 @@ PrefabInstance:
       objectReference: {fileID: 2008556708}
     - target: {fileID: 6654768006419005829, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_VersionIndex
-      value: 5085
+      value: 5091
       objectReference: {fileID: 0}
     - target: {fileID: 8490046304343351193, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_Mesh
@@ -8534,7 +8557,7 @@ PrefabInstance:
       objectReference: {fileID: 916136222}
     - target: {fileID: 8490046304343351193, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_VersionIndex
-      value: 5085
+      value: 5091
       objectReference: {fileID: 0}
     - target: {fileID: 8752637457307419979, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_Mesh
@@ -8543,7 +8566,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6460793319401439897}
   m_SourcePrefab: {fileID: 100100000, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
 --- !u!33 &3516563715717502726
 MeshFilter:
@@ -9589,6 +9615,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6460793319401439897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113247392038949422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0472be8ae2d664f8f346d3f8f18a17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScaleAwayOnHit
+  targetCollider: {fileID: 1279441823}
+  shrinkFactor: 0.95
+  growFactor: 1.05
+  minScale: {x: 0.2, y: 0.2, z: 0.2}
+  maxScale: {x: 3, y: 3, z: 3}
+  scaleTarget: {fileID: 1492950964}
+  onScaleChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!33 &6556973418368123905
 MeshFilter:
   m_ObjectHideFlags: 0
