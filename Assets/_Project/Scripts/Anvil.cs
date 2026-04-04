@@ -1,38 +1,25 @@
 using UnityEngine;
 
-public class Anvil : MonoBehaviour
+public class StickySurface : MonoBehaviour
 {
-    [Header("Sticky Settings")]
-    public float breakForceThreshold = 5f; // upward velocity threshold to escape
-    public bool lockAngular = false;       // optional: lock rotation if needed
+    public float stickForce = 5000f;   // How strong the stick is
 
-    private void OnCollisionStay(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        Rigidbody rb = collision.rigidbody;
-        if (rb == null) return;
+        Rigidbody otherRb = collision.rigidbody;
 
-        // Calculate upward velocity relative to world
-        float upwardVelocity = Vector3.Dot(rb.linearVelocity, Vector3.up);
-
-        // Only lock Y if upward velocity is below threshold
-        if (upwardVelocity < breakForceThreshold)
+        if (otherRb != null && otherRb.gameObject.GetComponent<FixedJoint>() == null)
         {
-            // Lock Y position to surface
-            Vector3 pos = rb.position;
-            pos.y = transform.position.y;
-            rb.position = pos;
+            // Create a joint to "stick" the object to this surface
+            FixedJoint joint = otherRb.gameObject.AddComponent<FixedJoint>();
+            joint.connectedBody = GetComponent<Rigidbody>();
 
-            // Zero out Y velocity if small enough
-            Vector3 vel = rb.linearVelocity;
-            if (vel.y < breakForceThreshold)
-                vel.y = 0;
-            rb.linearVelocity = vel;
-        }
+            // If surface has no rigidbody, connect to world
+            if (joint.connectedBody == null)
+                joint.connectedBody = null;
 
-        // Optionally lock rotation
-        if (lockAngular)
-        {
-            rb.angularVelocity = Vector3.zero;
+            joint.breakForce = stickForce;
+            joint.breakTorque = stickForce;
         }
     }
 }
