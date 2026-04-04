@@ -14505,7 +14505,7 @@ PrefabInstance:
       objectReference: {fileID: 1347378515}
     - target: {fileID: 4758394493496410856, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: swordBladeBaseHeight
-      value: 0.8013645
+      value: 0.6799901
       objectReference: {fileID: 0}
     - target: {fileID: 5028366579951615805, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_Mesh
