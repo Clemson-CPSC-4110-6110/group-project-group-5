@@ -753,7 +753,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6148
+  m_VersionIndex: 6160
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -927,6 +927,8 @@ GameObject:
   - component: {fileID: 1903613602436164208}
   - component: {fileID: 2945676224104437852}
   - component: {fileID: 4758394493496410856}
+  - component: {fileID: 7936837250145609914}
+  - component: {fileID: 1649319245707210816}
   m_Layer: 28
   m_Name: Split Sword 1
   m_TagString: anvilSocketable
@@ -1125,13 +1127,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScaleAwayOnHit
   targetCollider: {fileID: 4036743557569182032}
   scaleTarget: {fileID: 5550971783894777169}
-  minScale: {x: 0.4, y: 0.4, z: 0.4}
+  minScale: {x: 0.2, y: 0.2, z: 0.2}
   maxScale: {x: 3, y: 3, z: 3}
   unscaledSize: {x: 0.09676158, y: 0.6799901, z: 0.08287985}
-  yGrowthScale: 0.9
+  yGrowthScale: 0.7
   volumeShiftModifier: 1
-  minVelocity: 0.00001
+  minVelocity: 0.4
   maxVelocity: 1.4
+  anvilAttachable: {fileID: 1649319245707210816}
   onScaleChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1159,7 +1162,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  isOnAnvil: 0
 --- !u!114 &4758394493496410856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1174,6 +1176,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PushAwayWhenOtherObjectScales
   swordBladeBaseHeight: 0.6799901
   swordTipTransform: {fileID: 4713175680388511163}
+--- !u!114 &7936837250145609914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2582469074622645331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d429e273c20bb94e91d218b51204069, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  swordBladeScaleTarget: {fileID: 4151210780088618988}
+  swordTipScaleHandler: {fileID: 4758394493496410856}
+--- !u!114 &1649319245707210816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2582469074622645331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35e0f4c1725348c4d8dd878c24aa5e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AnvilAttachable
+  isOnAnvil: 0
 --- !u!1 &4151210780088618988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1654,7 +1683,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5166
+  m_VersionIndex: 5178
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2514,7 +2543,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6676
+  m_VersionIndex: 6688
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

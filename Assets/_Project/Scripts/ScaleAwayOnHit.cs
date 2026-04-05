@@ -10,7 +10,7 @@ public class ScaleAwayOnHit : MonoBehaviour
 
     [Header("Clamp Settings")]
     [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
-    [SerializeField] Vector3 maxScale = new(2f, 2f, 2f);
+    public Vector3 maxScale = new(2f, 2f, 2f);
 
     [Header("Size")]
     [SerializeField] Vector3 unscaledSize;
