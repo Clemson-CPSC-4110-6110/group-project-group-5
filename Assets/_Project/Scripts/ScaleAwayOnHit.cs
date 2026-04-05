@@ -21,7 +21,7 @@ public class ScaleAwayOnHit : MonoBehaviour
     [SerializeField] float minVelocity = 0.01f;
     [SerializeField] float maxVelocity = 1f;
     [SerializeField] AnvilAttachable anvilAttachable;
-
+    [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
 
     [Header("Events")]
     public UnityEvent<Vector3, Vector3> onScaleChanged;
@@ -30,14 +30,20 @@ public class ScaleAwayOnHit : MonoBehaviour
     Vector3 area;
     float volume;
     float maxVolumeShift;
-
-    // bool pendingScale = false;
-    // Vector3 pendingNormal;
-    // float pendingVolumeShift;
+    private float lastHitTime = 0f;
 
     void Start()
     {
         maxVolumeShift = 0.001f * volumeShiftModifier; // Upper limit
+    }
+
+    public void ScaleUpMaxScale(Vector3 modifier)
+    {
+        maxScale = new(
+            maxScale[0] * modifier[0], 
+            maxScale[1] * modifier[1], 
+            maxScale[2] * modifier[2]
+        );
     }
 
     // void FixedUpdate()
@@ -83,7 +89,8 @@ public class ScaleAwayOnHit : MonoBehaviour
         // velocityMagnitude = collision.relativeVelocity.magnitude;
         if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) return;
         Debug.Log("Collision's velocity magnitude = " + velocityMagnitude);
-
+        if (Time.time - lastHitTime < hitCooldown) return;
+        lastHitTime = Time.time;
         // VOLUME SHIFT
         float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift;
 
@@ -117,7 +124,7 @@ public class ScaleAwayOnHit : MonoBehaviour
 
         Vector3 oldScale = scaleTarget.localScale;
         Vector3 newScale = oldScale;
-        Debug.Log("New Scale: " + newScale);
+        // Debug.Log("New Scale: " + newScale);
 
         // Debug.Log("Volume After: " + volume);
         RecalculateMeasurements();

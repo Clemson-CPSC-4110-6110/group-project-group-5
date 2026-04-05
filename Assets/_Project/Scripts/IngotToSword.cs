@@ -11,6 +11,9 @@ public class IngotToSword : MonoBehaviour
     [SerializeField] float minHitVelocity = 0.01f;
     [SerializeField] float maxHitVelocity = 1f;
     [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
+    [SerializeField] Vector3 defaultSwordBladeBodySize;
+    [SerializeField] Vector3 defaultSwordHandleSize;
+    [SerializeField] Vector3 defaultSwordTipSize;
     private int currentHitCount = 0;
     private float lastHitTime = 0f;
 
@@ -18,6 +21,25 @@ public class IngotToSword : MonoBehaviour
     {
         visualOfSwordInProgress.transform.localScale = new(0.01f,0.01f,0.01f);
     }
+
+    void SetVolume(float volume)
+    {
+        float defaultHandleVolume = defaultSwordHandleSize[0] * defaultSwordHandleSize[1] * defaultSwordHandleSize[2];
+        float defaultBodyVolume = defaultSwordBladeBodySize[0] * defaultSwordBladeBodySize[1] * defaultSwordBladeBodySize[2];
+        float defaultTipVolume = defaultSwordTipSize[0] * defaultSwordTipSize[1] * defaultSwordTipSize[2];
+        float defaultTotalVolume = defaultHandleVolume + defaultBodyVolume + defaultTipVolume;
+        float volumeMultiplier = volume / defaultTotalVolume;
+        
+        float xAxisScaleMultiplier = Mathf.Pow(volumeMultiplier, 1f / 3f) * Random.Range(0.8f, 1.2f);
+        float yAxisScaleMultiplier = Mathf.Pow(volumeMultiplier / xAxisScaleMultiplier, 1f / 2f) * Random.Range(0.8f, 1.2f);
+        float zAxisScaleMultiplier = volumeMultiplier / xAxisScaleMultiplier / yAxisScaleMultiplier;
+        transform.localScale = new(
+            transform.localScale[0] * xAxisScaleMultiplier, 
+            transform.localScale[1] * yAxisScaleMultiplier, 
+            transform.localScale[2] * zAxisScaleMultiplier
+        );
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnCollisionEnter(Collision collision)
     {

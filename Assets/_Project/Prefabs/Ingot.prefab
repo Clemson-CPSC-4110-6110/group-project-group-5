@@ -60,7 +60,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2362333114129222386}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.6689999, y: 1.2502853, z: 1.6169999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -243,9 +243,12 @@ MonoBehaviour:
   swordBladeFinalScale: {x: 1, y: 1, z: 1}
   swordPrefab: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
   anvilAttachable: {fileID: 6653365586317619973}
-  minHitVelocity: 1
+  minHitVelocity: 2
   maxHitVelocity: 6
-  hitCooldown: 0.2
+  hitCooldown: 0.3
+  defaultSwordBladeBodySize: {x: 0, y: 0, z: 0}
+  defaultSwordHandleSize: {x: 0, y: 0, z: 0}
+  defaultSwordTipSize: {x: 0, y: 0, z: 0}
 --- !u!114 &6653365586317619973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,13 +325,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3429059269904639320}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 385129765499383714}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &2299692899617773506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,7 +784,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2112
+  m_VersionIndex: 2121
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1642,7 +1645,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6685
+  m_VersionIndex: 6694
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2524,7 +2527,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6157
+  m_VersionIndex: 6166
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3101,7 +3104,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5175
+  m_VersionIndex: 5184
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
