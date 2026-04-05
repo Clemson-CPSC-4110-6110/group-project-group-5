@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class StickySurface : MonoBehaviour
 {
-    private ScaleAwayOnHit[] scalingScripts;
+    private AnvilAttachable[] anvilAttachables;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -15,8 +15,8 @@ public class StickySurface : MonoBehaviour
 
         collidingRb.constraints = RigidbodyConstraints.FreezeAll;
 
-        scalingScripts = collidingRb.gameObject.GetComponents<ScaleAwayOnHit>();
-        foreach (ScaleAwayOnHit script in scalingScripts)
+        anvilAttachables = collidingRb.gameObject.GetComponents<AnvilAttachable>();
+        foreach (AnvilAttachable script in anvilAttachables)
         {
             script.isOnAnvil = true;
         }
@@ -30,7 +30,7 @@ public class StickySurface : MonoBehaviour
 
         collidingRb.constraints = RigidbodyConstraints.None;
 
-        foreach (ScaleAwayOnHit script in scalingScripts)
+        foreach (AnvilAttachable script in anvilAttachables)
         {
             script.isOnAnvil = false;
         }

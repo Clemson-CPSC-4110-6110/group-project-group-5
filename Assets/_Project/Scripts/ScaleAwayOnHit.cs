@@ -20,12 +20,12 @@ public class ScaleAwayOnHit : MonoBehaviour
     [SerializeField] float volumeShiftModifier = 1f;
     [SerializeField] float minVelocity = 0.01f;
     [SerializeField] float maxVelocity = 1f;
+    [SerializeField] AnvilAttachable anvilAttachable;
 
 
     [Header("Events")]
     public UnityEvent<Vector3, Vector3> onScaleChanged;
 
-    public bool isOnAnvil = false;
     Vector3 scaledSize;
     Vector3 area;
     float volume;
@@ -52,7 +52,7 @@ public class ScaleAwayOnHit : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!isOnAnvil) 
+        if (!anvilAttachable.isOnAnvil) 
         {
             // Debug.Log("Weapon is not on anvil. Cannot modify weapon proportions.");
             return;
