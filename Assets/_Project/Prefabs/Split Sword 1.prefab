@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3435554728844979649}
   - component: {fileID: 4036743557569182032}
   - component: {fileID: 6399953491554939626}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Sword Blade Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,7 +753,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6106
+  m_VersionIndex: 6112
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -856,7 +856,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -878,7 +878,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.096761584, y: 0.6799901, z: 0.08287985}
   m_Center: {x: -0.000000059604645, y: 0.00000004470347, z: -0.0000010859223}
@@ -891,7 +891,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4603479426351239002}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Sword Handle Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -928,7 +928,7 @@ GameObject:
   - component: {fileID: 2945676224104437852}
   - component: {fileID: 4758394493496410856}
   - component: {fileID: 4751842624762657805}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Split Sword 1
   m_TagString: anvilSocketable
   m_Icon: {fileID: 0}
@@ -994,9 +994,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable
   m_InteractionManager: {fileID: 0}
   m_Colliders:
-  - {fileID: 4036743557569182032}
+  - {fileID: 6399953491554939626}
   - {fileID: 4128099604750991296}
-  - {fileID: 4261822959256422772}
+  - {fileID: 73887065980721683}
   m_InteractionLayers:
     m_Bits: 1
   m_DistanceCalculationMode: 1
@@ -1129,10 +1129,10 @@ MonoBehaviour:
   minScale: {x: 0.4, y: 0.4, z: 0.4}
   maxScale: {x: 3, y: 3, z: 3}
   unscaledSize: {x: 0.09676158, y: 0.6799901, z: 0.08287985}
-  yGrowthScale: 1
+  zGrowthScale: 0.7
   volumeShiftModifier: 1
-  minVelocity: 0.01
-  maxVelocity: 1
+  minVelocity: 0.00001
+  maxVelocity: 1.4
   onScaleChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1187,15 +1187,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc0472be8ae2d664f8f346d3f8f18a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScaleAwayOnHit
-  targetCollider: {fileID: 4261822959256422772}
+  targetCollider: {fileID: 0}
   scaleTarget: {fileID: 4603479426351239002}
   minScale: {x: 0.7, y: 0.7, z: 0.7}
   maxScale: {x: 3, y: 3, z: 3}
   unscaledSize: {x: 0.02399999, y: 0.203, z: 0.01999987}
-  yGrowthScale: 1
+  zGrowthScale: 0.7
   volumeShiftModifier: 0.001
-  minVelocity: 0.01
-  maxVelocity: 1
+  minVelocity: 0.00001
+  maxVelocity: 1.4
   onScaleChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1209,7 +1209,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5550971783894777169}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Sword Blade Body Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1227,7 +1227,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8748173761733870311}
   m_Father: {fileID: 943698594294854379}
@@ -1245,9 +1245,8 @@ GameObject:
   - component: {fileID: 8728789920409057813}
   - component: {fileID: 2048638751682707988}
   - component: {fileID: 5028366579951615805}
-  - component: {fileID: 4261822959256422772}
   - component: {fileID: 73887065980721683}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Sword Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1681,7 +1680,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5124
+  m_VersionIndex: 5130
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1767,28 +1766,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6401135191150951281}
   m_Mesh: {fileID: 0}
---- !u!64 &4261822959256422772
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6401135191150951281}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!65 &73887065980721683
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1825,7 +1802,7 @@ GameObject:
   - component: {fileID: 811795274734697682}
   - component: {fileID: 4128099604750991296}
   - component: {fileID: 9187962567014640079}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Sword Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2563,7 +2540,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6634
+  m_VersionIndex: 6640
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

@@ -34,8 +34,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Player
+  - Interactables
   - Tongs
   - Door
   - Handle

@@ -31,10 +31,24 @@ public class ScaleAwayOnHit : MonoBehaviour
     float volume;
     float maxVolumeShift;
 
+    // bool pendingScale = false;
+    // Vector3 pendingNormal;
+    // float pendingVolumeShift;
+
     void Start()
     {
         maxVolumeShift = 0.001f * volumeShiftModifier; // Upper limit
     }
+
+    // void FixedUpdate()
+    // {
+    //     if (!pendingScale) return;
+
+    //     RecalculateMeasurements();
+    //     HandleDirectionalScale(pendingNormal, pendingVolumeShift);
+
+    //     pendingScale = false;
+    // }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -54,17 +68,30 @@ public class ScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
 
         // VELOCITY
+        float velocityMagnitude;
         // Rigidbody hammerRb = collision.rigidbody; // the hammer
         // float velocityMagnitude = hammerRb.linearVelocity.magnitude;
         // float velocityMagnitude = collision.impulse.magnitude;
-        float velocityMagnitude = collision.relativeVelocity.magnitude;
-        Debug.Log("Collision's velocity magnitude = " + velocityMagnitude);
+        Rigidbody hammerRb = collision.rigidbody;
+        if (hammerRb == null) return;
+        velocityMagnitude = hammerRb.linearVelocity.magnitude;
+        // Vector3 normal = contact.normal;
+        // velocityMagnitude = Mathf.Max(
+        //     0f,
+        //     Vector3.Dot(hammerRb.linearVelocity, -normal)
+        // );
+        // velocityMagnitude = collision.relativeVelocity.magnitude;
         if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) return;
+        Debug.Log("Collision's velocity magnitude = " + velocityMagnitude);
 
         // VOLUME SHIFT
         float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift;
 
         HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
+
+        // pendingNormal = normal;
+        // pendingVolumeShift = volumeShiftedOnHit;
+        // pendingScale = true;
     }
 
     void RecalculateMeasurements()
@@ -90,17 +117,18 @@ public class ScaleAwayOnHit : MonoBehaviour
 
         Vector3 oldScale = scaleTarget.localScale;
         Vector3 newScale = oldScale;
+        Debug.Log("New Scale: " + newScale);
 
-        Debug.Log("New Volume: " + volume);
+        Debug.Log("Volume After: " + volume);
         RecalculateMeasurements();
         float hitAxisSizeLost;
         float hitAxisShrinkFactor;
         float preservedFactor;
 
-        Debug.Log("Volume before: " + volume);
+        // Debug.Log("Volume before: " + volume);
         if (absNormal.x > absNormal.y && absNormal.x > absNormal.z)
         {
-            Debug.Log("Volume before: " + volume);
+            Debug.Log("Decreasing x");
             hitAxisSizeLost = volumeShiftedOnHit / area[0];
             hitAxisShrinkFactor = (scaledSize[0] - hitAxisSizeLost) / scaledSize[0];
             newScale.x *= hitAxisShrinkFactor;
@@ -109,13 +137,14 @@ public class ScaleAwayOnHit : MonoBehaviour
             // newScale.y *= preservedFactor;
             // newScale.z *= preservedFactor;
 
-            float yPreservedFactor = preservedFactor * yGrowthScale;
-            float nonYpreservedFactor = preservedFactor / yGrowthScale;
+            float yPreservedFactor = 1 + (preservedFactor - 1) / yGrowthScale;
+            float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
             newScale.y *= yPreservedFactor;
             newScale.z *= nonYpreservedFactor;
         }
         else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z)
         {
+            Debug.Log("Decreasing y");
             hitAxisSizeLost = volumeShiftedOnHit * yGrowthScale / area[1];
             hitAxisShrinkFactor = (scaledSize[1] - hitAxisSizeLost) / scaledSize[1];
             newScale.y *= hitAxisShrinkFactor;
@@ -126,13 +155,20 @@ public class ScaleAwayOnHit : MonoBehaviour
         }
         else
         {
+            Debug.Log("Decreasing z");
             hitAxisSizeLost = volumeShiftedOnHit / area[2];
             hitAxisShrinkFactor = (scaledSize[2] - hitAxisSizeLost) / scaledSize[2];
             newScale.z *= hitAxisShrinkFactor;
 
             preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
-            float yPreservedFactor = preservedFactor * yGrowthScale;
-            float nonYpreservedFactor = preservedFactor / yGrowthScale;
+            // float yFactor = 1 + (totalPreservedFactor - 1) * yGrowthScale;
+            // float nonYFactor = 1 + (totalPreservedFactor - 1) * (1 - yGrowthScale);
+            float yPreservedFactor = preservedFactor + (preservedFactor - 1) * yGrowthScale;
+            float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
+            Debug.Log("preservedFactor: " + preservedFactor);
+            Debug.Log("yPreservedFactor: " + yPreservedFactor);
+            Debug.Log("nonYpreservedFactor: " + nonYpreservedFactor);
+
             newScale.x *= nonYpreservedFactor;
             newScale.y *= yPreservedFactor;
         }
@@ -148,15 +184,15 @@ public class ScaleAwayOnHit : MonoBehaviour
         Debug.Log("Scale change rejected: newScale out of bounds");
     }
 
-    void OnJointBreak(float breakForce)
-    {
-        Rigidbody rb = GetComponentInParent<Rigidbody>();
+    // void OnJointBreak(float breakForce)
+    // {
+    //     Rigidbody rb = GetComponentInParent<Rigidbody>();
 
-        rb.mass = 1;
+    //     // rb.mass = 1;
 
-        rb.angularDamping = 0.05f;
-        rb.linearDamping = 0f;
-        // rb.constraints = RigidbodyConstraints.None;
-        isOnAnvil = false;
-    }
+    //     // rb.angularDamping = 0.05f;
+    //     // rb.linearDamping = 0f;
+    //     rb.constraints = RigidbodyConstraints.None;
+    //     isOnAnvil = false;
+    // }
 }

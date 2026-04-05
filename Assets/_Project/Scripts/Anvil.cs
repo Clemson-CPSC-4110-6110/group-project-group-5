@@ -25,17 +25,19 @@ public class StickySurface : MonoBehaviour
         // Debug.Log("Collision RigidBody found");
 
         // // Avoid duplicate joints of this type
-        if (collidingRb.TryGetComponent<FixedJoint>(out _)) return;
+        // if (collidingRb.TryGetComponent<FixedJoint>(out _)) return;
 
-        collidingRb.mass = 50;
+        // collidingRb.mass = 50;
         
-        // collidingRb.constraints = RigidbodyConstraints.FreezePositionX |
-        //                           RigidbodyConstraints.FreezePositionY |
-        //                           RigidbodyConstraints.FreezePositionZ;
-                                //   RigidbodyConstraints.FreezeRotationY ;
+        collidingRb.constraints = RigidbodyConstraints.FreezePositionX |
+                                  RigidbodyConstraints.FreezePositionY |
+                                  RigidbodyConstraints.FreezePositionZ |
+                                  RigidbodyConstraints.FreezeRotationX |
+                                  RigidbodyConstraints.FreezeRotationY |
+                                  RigidbodyConstraints.FreezeRotationZ ;
         // collidingRb.dra
-        collidingRb.angularDamping = 10;
-        collidingRb.linearDamping = 200;
+        // collidingRb.angularDamping = 0;
+        // collidingRb.linearDamping = 0.05f;
 
         // FixedJoint joint = collidingRb.gameObject.AddComponent<FixedJoint>();
 
@@ -54,18 +56,20 @@ public class StickySurface : MonoBehaviour
         }
     }
 
-    // void OnCollisionExit(Collision collision)
-    // {
-    //     if (!collision.gameObject.CompareTag("anvilSocketable")) return;
-    //     Rigidbody collidingRb = collision.rigidbody;
-    //     Debug.Log(collidingRb.gameObject.name + " is leaving anvil");
+    void OnCollisionExit(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("anvilSocketable")) return;
+        Rigidbody collidingRb = collision.rigidbody;
+        // Debug.Log(collidingRb.gameObject.name + " is leaving anvil");
 
-    //     collidingRb.isKinematic = false;
-    //     foreach (ScaleAwayOnHit script in scalingScripts)
-    //     {
-    //         script.isOnAnvil = false;
-    //     }
-    // }
+        // collidingRb.isKinematic = false;
+        collidingRb.constraints = RigidbodyConstraints.None;
+
+        foreach (ScaleAwayOnHit script in scalingScripts)
+        {
+            script.isOnAnvil = false;
+        }
+    }
     // void OnTriggerEnter(Collider other)
     // {
     //     if (!other.gameObject.CompareTag("anvilSocketable")) return;
