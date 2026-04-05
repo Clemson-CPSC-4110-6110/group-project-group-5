@@ -109,7 +109,7 @@ public class ScaleAwayOnHit : MonoBehaviour
     {
         Vector3 localNormal = scaleTarget.InverseTransformDirection(worldNormal);
 
-        Vector3 absNormal = new Vector3(
+        Vector3 absNormal = new(
             Mathf.Abs(localNormal.x),
             Mathf.Abs(localNormal.y),
             Mathf.Abs(localNormal.z)
@@ -119,7 +119,7 @@ public class ScaleAwayOnHit : MonoBehaviour
         Vector3 newScale = oldScale;
         Debug.Log("New Scale: " + newScale);
 
-        Debug.Log("Volume After: " + volume);
+        // Debug.Log("Volume After: " + volume);
         RecalculateMeasurements();
         float hitAxisSizeLost;
         float hitAxisShrinkFactor;
@@ -128,7 +128,7 @@ public class ScaleAwayOnHit : MonoBehaviour
         // Debug.Log("Volume before: " + volume);
         if (absNormal.x > absNormal.y && absNormal.x > absNormal.z)
         {
-            Debug.Log("Decreasing x");
+            // Debug.Log("Decreasing x");
             hitAxisSizeLost = volumeShiftedOnHit / area[0];
             hitAxisShrinkFactor = (scaledSize[0] - hitAxisSizeLost) / scaledSize[0];
             newScale.x *= hitAxisShrinkFactor;
@@ -137,14 +137,14 @@ public class ScaleAwayOnHit : MonoBehaviour
             // newScale.y *= preservedFactor;
             // newScale.z *= preservedFactor;
 
-            float yPreservedFactor = 1 + (preservedFactor - 1) / yGrowthScale;
+            float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
             float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
             newScale.y *= yPreservedFactor;
             newScale.z *= nonYpreservedFactor;
         }
         else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z)
         {
-            Debug.Log("Decreasing y");
+            // Debug.Log("Decreasing y");
             hitAxisSizeLost = volumeShiftedOnHit * yGrowthScale / area[1];
             hitAxisShrinkFactor = (scaledSize[1] - hitAxisSizeLost) / scaledSize[1];
             newScale.y *= hitAxisShrinkFactor;
@@ -155,7 +155,7 @@ public class ScaleAwayOnHit : MonoBehaviour
         }
         else
         {
-            Debug.Log("Decreasing z");
+            // Debug.Log("Decreasing z");
             hitAxisSizeLost = volumeShiftedOnHit / area[2];
             hitAxisShrinkFactor = (scaledSize[2] - hitAxisSizeLost) / scaledSize[2];
             newScale.z *= hitAxisShrinkFactor;
@@ -163,11 +163,11 @@ public class ScaleAwayOnHit : MonoBehaviour
             preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
             // float yFactor = 1 + (totalPreservedFactor - 1) * yGrowthScale;
             // float nonYFactor = 1 + (totalPreservedFactor - 1) * (1 - yGrowthScale);
-            float yPreservedFactor = preservedFactor + (preservedFactor - 1) * yGrowthScale;
+            float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
             float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
-            Debug.Log("preservedFactor: " + preservedFactor);
-            Debug.Log("yPreservedFactor: " + yPreservedFactor);
-            Debug.Log("nonYpreservedFactor: " + nonYpreservedFactor);
+            // Debug.Log("preservedFactor: " + preservedFactor);
+            // Debug.Log("yPreservedFactor: " + yPreservedFactor);
+            // Debug.Log("nonYpreservedFactor: " + nonYpreservedFactor);
 
             newScale.x *= nonYpreservedFactor;
             newScale.y *= yPreservedFactor;
