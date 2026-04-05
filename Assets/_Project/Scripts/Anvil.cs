@@ -1,25 +1,44 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class StickySurface : MonoBehaviour
 {
-    public float stickForce = 5000f;   // How strong the stick is
+    [SerializeField] private float stickForce = 5000f;
+    private Rigidbody rb;
+    private ScaleAwayOnHit[] scalingScripts;
+
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void OnCollisionEnter(Collision collision)
     {
-        Rigidbody otherRb = collision.rigidbody;
+        if (!collision.gameObject.CompareTag("anvilSocketable")) return;
 
-        if (otherRb != null && otherRb.gameObject.GetComponent<FixedJoint>() == null)
+        Rigidbody collidingRb = collision.rigidbody;
+        if (collidingRb == null) return;
+
+        // Avoid duplicate joints of this type
+        if (collidingRb.TryGetComponent<FixedJoint>(out _)) return;
+
+        FixedJoint joint = collidingRb.gameObject.AddComponent<FixedJoint>();
+        joint.connectedBody = rb;
+        joint.breakForce = stickForce;
+        joint.breakTorque = stickForce;
+
+        scalingScripts = collidingRb.gameObject.GetComponents<ScaleAwayOnHit>();
+        foreach (ScaleAwayOnHit script in scalingScripts)
         {
-            // Create a joint to "stick" the object to this surface
-            FixedJoint joint = otherRb.gameObject.AddComponent<FixedJoint>();
-            joint.connectedBody = GetComponent<Rigidbody>();
+            script.isOnAnvil = true;
+        }
+    }
 
-            // If surface has no rigidbody, connect to world
-            if (joint.connectedBody == null)
-                joint.connectedBody = null;
-
-            joint.breakForce = stickForce;
-            joint.breakTorque = stickForce;
+    void OnCollisionExit(Collision collision)
+    {
+        foreach (ScaleAwayOnHit script in scalingScripts)
+        {
+            script.isOnAnvil = true;
         }
     }
 }

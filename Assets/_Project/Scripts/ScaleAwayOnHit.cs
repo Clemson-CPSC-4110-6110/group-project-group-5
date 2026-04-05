@@ -12,54 +12,48 @@ public class ScaleAwayOnHit : MonoBehaviour
     [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
     [SerializeField] Vector3 maxScale = new(2f, 2f, 2f);
 
-    [Header("Scale Target")]
-
     [Header("Size")]
     [SerializeField] Vector3 unscaledSize;
 
-    [Header("Modifiers")]
+    [Header("Dials")]
     [SerializeField] float yGrowthScale = 0.7f; 
     [SerializeField] float volumeShiftModifier = 1f;
+    [SerializeField] float minVelocity = 0.01f;
+    [SerializeField] float maxVelocity = 1f;
 
 
     [Header("Events")]
     public UnityEvent<Vector3, Vector3> onScaleChanged;
-    float volume;
+
+    public bool isOnAnvil = false;
     Vector3 scaledSize;
     Vector3 area;
+    float volume;
+    float maxVolumeShift;
 
     void Start()
     {
-        
+        maxVolumeShift = 0.001f * volumeShiftModifier; // Upper limit
     }
 
     void OnCollisionEnter(Collision collision)
     {
+        if (!isOnAnvil) return;
         if (collision.contactCount == 0 || !collision.gameObject.CompareTag("hammer")) return;
-
+        
         ContactPoint contact = collision.GetContact(0);
-
-        // Only react if this specific collider was hit
-        // if (contact.thisCollider != targetCollider)
-        //     return;
-
-        // Rigidbody hammerRb = collision.rigidbody; // the hammer
-        // float velocityMagnitude = hammerRb.linearVelocity.magnitude;
-
         Vector3 worldNormal = contact.normal;
         RecalculateMeasurements();
 
-        // Map velocity to volume shift
-        float maxVolumeShift = 0.001f * volumeShiftModifier; // Upper limit
-        float velocityMagnitude = collision.relativeVelocity.magnitude;
+        // VELOCITY
+        // Rigidbody hammerRb = collision.rigidbody; // the hammer
+        // float velocityMagnitude = hammerRb.linearVelocity.magnitude;
         // float velocityMagnitude = collision.impulse.magnitude;
+        float velocityMagnitude = collision.relativeVelocity.magnitude;
         Debug.Log("Collision's velocity magnitude = " + velocityMagnitude);
+        if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) return;
 
-        float minVelocity = 0.01f;   // Ignore tiny impacts
-        float maxVelocity = 1f;    // Cap extreme values
-        if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) { return; }
-
-        // Adjust the scaling factor to your liking
+        // VOLUME SHIFT
         float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift;
 
         HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
@@ -89,11 +83,13 @@ public class ScaleAwayOnHit : MonoBehaviour
         Vector3 oldScale = scaleTarget.localScale;
         Vector3 newScale = oldScale;
 
+        Debug.Log("New Volume: " + volume);
         RecalculateMeasurements();
         float hitAxisSizeLost;
         float hitAxisShrinkFactor;
         float preservedFactor;
 
+        Debug.Log("Volume before: " + volume);
         if (absNormal.x > absNormal.y && absNormal.x > absNormal.z)
         {
             Debug.Log("Volume before: " + volume);
@@ -109,14 +105,9 @@ public class ScaleAwayOnHit : MonoBehaviour
             float nonYpreservedFactor = preservedFactor / yGrowthScale;
             newScale.y *= yPreservedFactor;
             newScale.z *= nonYpreservedFactor;
-
-            RecalculateMeasurements();
-            Debug.Log("New Volume: " + volume);
-
         }
         else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z)
         {
-            Debug.Log("Volume before: " + volume);
             hitAxisSizeLost = volumeShiftedOnHit * yGrowthScale / area[1];
             hitAxisShrinkFactor = (scaledSize[1] - hitAxisSizeLost) / scaledSize[1];
             newScale.y *= hitAxisShrinkFactor;
@@ -124,13 +115,9 @@ public class ScaleAwayOnHit : MonoBehaviour
             preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
             newScale.x *= preservedFactor;
             newScale.z *= preservedFactor;
-
-            RecalculateMeasurements();
-            Debug.Log("New Volume: " + volume);
         }
         else
         {
-            Debug.Log("Volume before: " + volume);
             hitAxisSizeLost = volumeShiftedOnHit / area[2];
             hitAxisShrinkFactor = (scaledSize[2] - hitAxisSizeLost) / scaledSize[2];
             newScale.z *= hitAxisShrinkFactor;
@@ -140,35 +127,16 @@ public class ScaleAwayOnHit : MonoBehaviour
             float nonYpreservedFactor = preservedFactor / yGrowthScale;
             newScale.x *= nonYpreservedFactor;
             newScale.y *= yPreservedFactor;
-
-            RecalculateMeasurements();
-            Debug.Log("New Volume: " + volume);
         }
 
-        // Clamp scale
-        
-        // newScale.x = Mathf.Clamp(newScale.x, minScale.x, maxScale.x);
-        // newScale.y = Mathf.Clamp(newScale.y, minScale.y, maxScale.y);
-        // newScale.z = Mathf.Clamp(newScale.z, minScale.z, maxScale.z);
-        // Apply scale
-        // scaleTarget.localScale = newScale;
-        // onScaleChanged.Invoke(oldScale, newScale);
-
-        // Check if all new scales are within limits
-        bool withinBounds = 
-            newScale.x >= minScale.x && newScale.x <= maxScale.x &&
+        if (newScale.x >= minScale.x && newScale.x <= maxScale.x &&
             newScale.y >= minScale.y && newScale.y <= maxScale.y &&
-            newScale.z >= minScale.z && newScale.z <= maxScale.z;
-
-        if (withinBounds)
+            newScale.z >= minScale.z && newScale.z <= maxScale.z)
         {
-            // Only apply scale if all axes are valid
             scaleTarget.localScale = newScale;
             onScaleChanged.Invoke(oldScale, newScale);
+            return;
         }
-        else
-        {
-            Debug.Log("Scale change rejected: newScale out of bounds");
-        }
+        Debug.Log("Scale change rejected: newScale out of bounds");
     }
 }
