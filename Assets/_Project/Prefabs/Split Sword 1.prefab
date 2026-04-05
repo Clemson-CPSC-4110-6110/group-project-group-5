@@ -14,10 +14,10 @@ GameObject:
   - component: {fileID: 454197866789515264}
   - component: {fileID: 3435554728844979649}
   - component: {fileID: 4036743557569182032}
-  - component: {fileID: 3753342775829530339}
+  - component: {fileID: 6399953491554939626}
   m_Layer: 0
   m_Name: Sword Blade Body
-  m_TagString: anvilSocketable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -753,7 +753,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6091
+  m_VersionIndex: 6106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -856,12 +856,12 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!65 &3753342775829530339
+--- !u!65 &6399953491554939626
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -878,10 +878,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.12401718, y: 0.6799901, z: 0.03773976}
-  m_Center: {x: -0.000000011175871, y: 0.00000002980233, z: 0.00000017881398}
+  m_Size: {x: 0.096761584, y: 0.6799901, z: 0.08287985}
+  m_Center: {x: -0.000000059604645, y: 0.00000004470347, z: -0.0000010859223}
 --- !u!1 &899518083940920841
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +961,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2582469074622645331}
   serializedVersion: 5
-  m_Mass: 1
+  m_Mass: 7
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -979,7 +979,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 3
+  m_CollisionDetection: 0
 --- !u!114 &1903613602436164208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,7 +995,7 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_Colliders:
   - {fileID: 4036743557569182032}
-  - {fileID: 0}
+  - {fileID: 4128099604750991296}
   - {fileID: 4261822959256422772}
   m_InteractionLayers:
     m_Bits: 1
@@ -1065,7 +1065,7 @@ MonoBehaviour:
   m_SnapToColliderVolume: 1
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
-  m_MovementType: 0
+  m_MovementType: 2
   m_PredictedVisualsTransform: {fileID: 0}
   m_VelocityDamping: 1
   m_VelocityScale: 1
@@ -1128,9 +1128,11 @@ MonoBehaviour:
   scaleTarget: {fileID: 5550971783894777169}
   minScale: {x: 0.4, y: 0.4, z: 0.4}
   maxScale: {x: 3, y: 3, z: 3}
-  unscaledSize: {x: 0.1240172, y: 0.6799901, z: 0.03773976}
+  unscaledSize: {x: 0.09676158, y: 0.6799901, z: 0.08287985}
   yGrowthScale: 1
   volumeShiftModifier: 1
+  minVelocity: 0.01
+  maxVelocity: 1
   onScaleChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1158,6 +1160,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  isOnAnvil: 0
 --- !u!114 &4758394493496410856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1191,9 +1194,12 @@ MonoBehaviour:
   unscaledSize: {x: 0.02399999, y: 0.203, z: 0.01999987}
   yGrowthScale: 1
   volumeShiftModifier: 0.001
+  minVelocity: 0.01
+  maxVelocity: 1
   onScaleChanged:
     m_PersistentCalls:
       m_Calls: []
+  isOnAnvil: 0
 --- !u!1 &4151210780088618988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1243,7 +1249,7 @@ GameObject:
   - component: {fileID: 73887065980721683}
   m_Layer: 0
   m_Name: Sword Handle
-  m_TagString: anvilSocketable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1675,7 +1681,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5109
+  m_VersionIndex: 5124
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1778,7 +1784,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -1818,10 +1824,10 @@ GameObject:
   - component: {fileID: 8521778300005331643}
   - component: {fileID: 811795274734697682}
   - component: {fileID: 4128099604750991296}
-  - component: {fileID: 2445231400065715587}
+  - component: {fileID: 9187962567014640079}
   m_Layer: 0
   m_Name: Sword Tip
-  m_TagString: anvilSocketable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2557,7 +2563,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6619
+  m_VersionIndex: 6634
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2660,12 +2666,12 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!65 &2445231400065715587
+--- !u!65 &9187962567014640079
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2682,7 +2688,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.12401718, y: 0.6799901, z: 0.03773976}
-  m_Center: {x: -0.000000011175871, y: 0.00000002980233, z: 0.00000017881398}
+  m_Size: {x: 0.096761584, y: 0.042939197, z: 0.08287934}
+  m_Center: {x: 0, y: 0.00000017881392, z: 0.00000016950075}

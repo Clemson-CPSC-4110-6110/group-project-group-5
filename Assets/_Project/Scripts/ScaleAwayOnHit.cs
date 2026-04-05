@@ -38,8 +38,16 @@ public class ScaleAwayOnHit : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (!isOnAnvil) return;
-        if (collision.contactCount == 0 || !collision.gameObject.CompareTag("hammer")) return;
+        if (!isOnAnvil) 
+        {
+            // Debug.Log("Weapon is not on anvil. Cannot modify weapon proportions.");
+            return;
+        }
+        if (collision.contactCount == 0 || !collision.gameObject.CompareTag("hammer")) 
+        {
+            // Debug.Log("No contact detected or collision is not with hammer");
+            return;
+        }
         
         ContactPoint contact = collision.GetContact(0);
         Vector3 worldNormal = contact.normal;
@@ -138,5 +146,17 @@ public class ScaleAwayOnHit : MonoBehaviour
             return;
         }
         Debug.Log("Scale change rejected: newScale out of bounds");
+    }
+
+    void OnJointBreak(float breakForce)
+    {
+        Rigidbody rb = GetComponentInParent<Rigidbody>();
+
+        rb.mass = 1;
+
+        rb.angularDamping = 0.05f;
+        rb.linearDamping = 0f;
+        // rb.constraints = RigidbodyConstraints.None;
+        isOnAnvil = false;
     }
 }
