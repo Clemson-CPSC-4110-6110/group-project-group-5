@@ -6,6 +6,7 @@ public class IngotToSword : MonoBehaviour
     [SerializeField] GameObject visualOfSwordInProgress;
     [SerializeField] GameObject visualOfIngot;
     [SerializeField] Vector3 swordBladeFinalScale;
+    [SerializeField] Vector3 ingotFinalScale = new(0.2f, 0.2f, 0.2f);
     [SerializeField] GameObject swordPrefab;
     [SerializeField] AnvilAttachable anvilAttachable;
     [SerializeField] float minHitVelocity = 0.01f;
@@ -64,7 +65,12 @@ public class IngotToSword : MonoBehaviour
     {
         currentHitValue += hitValue;
         float percentHits = Mathf.Max((float)currentHitValue / (float)requiredHitValue, 0.001f);
-        visualOfIngot.transform.localScale = new Vector3(1,1,1) * (1f - percentHits);
+        // visualOfIngot.transform.localScale = new Vector3(1,1,1) * (1f - percentHits);
+        visualOfIngot.transform.localScale = new(
+            1 - (1 - ingotFinalScale[0]) * percentHits,
+            1 - (1 - ingotFinalScale[1]) * percentHits,
+            1 - (1 - ingotFinalScale[2]) * percentHits
+        );
         // Debug.Log("Local scale: " + visualOfIngot.transform.localScale);
         Vector3 visualScale = swordBladeFinalScale * percentHits;
         // visualScale = new(visualScale[0] / transform.localScale[0], visualScale[1] / transform.localScale[1], visualScale[2] / transform.localScale[2]);
