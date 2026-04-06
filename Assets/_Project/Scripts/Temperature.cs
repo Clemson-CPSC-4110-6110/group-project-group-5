@@ -5,7 +5,7 @@ public class TemperatureScript : MonoBehaviour
     float temperature = 500;
     float minTemperature = 60;
     float maxTemperature = 500;
-    float temperatureLostPerSecond = 50;
+    float temperatureLostPerSecond = 10;
 
     [SerializeField] Renderer[] targetRenderers;
 
@@ -20,7 +20,7 @@ public class TemperatureScript : MonoBehaviour
         // Decrease temperature
         temperature -= temperatureLostPerSecond * Time.deltaTime;
         temperature = Mathf.Clamp(temperature, minTemperature, maxTemperature);
-        Debug.Log("Temperature: " + temperature);
+        // Debug.Log("Temperature: " + temperature);
         UpdateColor();
     }
 
@@ -51,5 +51,13 @@ public class TemperatureScript : MonoBehaviour
     public void AddTemperature(float amountAdded)
     {
         temperature += amountAdded;
+    }
+    public void SetTemperature(float newTemperature)
+    {
+        temperature = newTemperature;
+    }
+    public float GetTemperature()
+    {
+        return temperature;
     }
 }

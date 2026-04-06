@@ -80,6 +80,7 @@ public class IngotToSword : MonoBehaviour
         {
             GameObject newSword = Instantiate(swordPrefab, transform.position, transform.rotation);
             newSword.GetComponent<Sword>().SetBladeScale(swordBladeFinalScale);
+            newSword.GetComponent<TemperatureScript>().SetTemperature(GetComponent<TemperatureScript>().GetTemperature());
         }
         Debug.Log("DESTROYING GAME OBJECT");
         // Destroy the current object
