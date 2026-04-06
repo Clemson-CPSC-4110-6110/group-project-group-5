@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6614217186772579831}
-  m_Layer: 0
-  m_Name: GameObject
+  m_Layer: 29
+  m_Name: Hinge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,6 +32,37 @@ Transform:
   - {fileID: 5611100658424924338}
   m_Father: {fileID: 3491469537512004369}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1389598617162097278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4442645146651736986}
+  m_Layer: 29
+  m_Name: GrabPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4442645146651736986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389598617162097278}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3491469537512004369}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9201115148558986032
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +75,7 @@ GameObject:
   - component: {fileID: 3514306715181626808}
   - component: {fileID: 1937307155227850190}
   - component: {fileID: 2000341800062445073}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Tongs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -66,6 +97,7 @@ Transform:
   m_Children:
   - {fileID: 1452942563313975017}
   - {fileID: 6614217186772579831}
+  - {fileID: 4442645146651736986}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &3514306715181626808
@@ -242,6 +274,14 @@ MonoBehaviour:
   minAngle: 0
   minDistance: 0.1
   maxDistance: 0.2
+  grabPoint: {fileID: 4442645146651736986}
+  grabRadius: 0.03
+  grabbableLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  breakForce: 200
+  ignoreObjects:
+  - {fileID: 9201115148558986032}
 --- !u!1001 &1326180111244983326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -252,7 +292,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_VersionIndex
-      value: 9565
+      value: 9574
       objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
@@ -302,6 +342,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Right Tong
       objectReference: {fileID: 0}
+    - target: {fileID: 7556525783373278786, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_Layer
+      value: 29
+      objectReference: {fileID: 0}
     - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.08745256
@@ -330,6 +374,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.020794312
       objectReference: {fileID: 0}
+    - target: {fileID: 9088643893730174428, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_Layer
+      value: 29
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -355,7 +403,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1709096486999686137, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_VersionIndex
-      value: 8794
+      value: 8803
       objectReference: {fileID: 0}
     - target: {fileID: 5107739184504624576, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_ParentInteractableObject
@@ -405,6 +453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Left Tong
       objectReference: {fileID: 0}
+    - target: {fileID: 7556525783373278786, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_Layer
+      value: 29
+      objectReference: {fileID: 0}
     - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.08745256
@@ -432,6 +484,10 @@ PrefabInstance:
     - target: {fileID: 8172125356681047741, guid: 04641707246974d419cf6a49be17469f, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.020794312
+      objectReference: {fileID: 0}
+    - target: {fileID: 9088643893730174428, guid: 04641707246974d419cf6a49be17469f, type: 3}
+      propertyPath: m_Layer
+      value: 29
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -753,7 +753,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6172
+  m_VersionIndex: 6178
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1132,7 +1132,7 @@ MonoBehaviour:
   unscaledSize: {x: 0.09676158, y: 0.6799901, z: 0.08287985}
   yGrowthScale: 0.7
   volumeShiftModifier: 1
-  minVelocity: 0.05
+  minVelocity: 0.5
   maxVelocity: 1.4
   anvilAttachable: {fileID: 1649319245707210816}
   hitCooldown: 0.3
@@ -1685,7 +1685,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5190
+  m_VersionIndex: 5196
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2545,7 +2545,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6700
+  m_VersionIndex: 6706
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
