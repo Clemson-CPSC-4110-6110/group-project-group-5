@@ -753,7 +753,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6184
+  m_VersionIndex: 6196
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1137,6 +1137,7 @@ MonoBehaviour:
   maxVelocity: 1.4
   anvilAttachable: {fileID: 1649319245707210816}
   hitCooldown: 0.3
+  temperatureScript: {fileID: 3448363518256314398}
   onScaleChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1226,7 +1227,7 @@ MonoBehaviour:
   hotColor: {r: 1, g: 0.3, b: 0.3, a: 1}
   maxHotColor: {r: 1, g: 1, b: 1, a: 1}
   coldEmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  hotEmissionColor: {r: 1, g: 0, b: 0, a: 1}
+  hotEmissionColor: {r: 1, g: 0.7019608, b: 0.7019608, a: 1}
 --- !u!1 &4151210780088618988
 GameObject:
   m_ObjectHideFlags: 0
@@ -1707,7 +1708,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5202
+  m_VersionIndex: 5214
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2567,7 +2568,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6712
+  m_VersionIndex: 6724
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

@@ -22,6 +22,7 @@ public class ScaleAwayOnHit : MonoBehaviour
     [SerializeField] float maxVelocity = 1f;
     [SerializeField] AnvilAttachable anvilAttachable;
     [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
+    [SerializeField] TemperatureScript temperatureScript;
 
     [Header("Events")]
     public UnityEvent<Vector3, Vector3> onScaleChanged;
@@ -34,7 +35,7 @@ public class ScaleAwayOnHit : MonoBehaviour
 
     void Start()
     {
-        maxVolumeShift = 0.001f * volumeShiftModifier; // Upper limit
+        maxVolumeShift = 0.002f * volumeShiftModifier; // Upper limit
     }
 
     public void ScaleUpMaxScale(Vector3 modifier)
@@ -92,7 +93,7 @@ public class ScaleAwayOnHit : MonoBehaviour
         if (Time.time - lastHitTime < hitCooldown) return;
         lastHitTime = Time.time;
         // VOLUME SHIFT
-        float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift;
+        float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
 
         HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
 

@@ -245,11 +245,12 @@ MonoBehaviour:
   swordPrefab: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
   anvilAttachable: {fileID: 6653365586317619973}
   minHitVelocity: 1
-  maxHitVelocity: 3
+  maxHitVelocity: 6
   hitCooldown: 0.3
   defaultSwordBladeBodySize: {x: 0, y: 0, z: 0}
   defaultSwordHandleSize: {x: 0, y: 0, z: 0}
   defaultSwordTipSize: {x: 0, y: 0, z: 0}
+  temperatureScript: {fileID: 6672210973750949640}
 --- !u!114 &6653365586317619973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,7 +808,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2163
+  m_VersionIndex: 2175
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1668,7 +1669,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6736
+  m_VersionIndex: 6748
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2550,7 +2551,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6208
+  m_VersionIndex: 6220
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3127,7 +3128,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5226
+  m_VersionIndex: 5238
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

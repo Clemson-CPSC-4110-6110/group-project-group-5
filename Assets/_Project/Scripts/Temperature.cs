@@ -5,7 +5,7 @@ public class TemperatureScript : MonoBehaviour
     float temperature = 60;
     float minTemperature = 60;
     float maxTemperature = 500;
-    float temperatureLostPerSecond = 10;
+    float temperatureLostPerSecond = 2;
 
     [SerializeField] Renderer[] targetRenderers;
 

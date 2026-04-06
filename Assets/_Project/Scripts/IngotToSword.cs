@@ -14,6 +14,7 @@ public class IngotToSword : MonoBehaviour
     [SerializeField] Vector3 defaultSwordBladeBodySize;
     [SerializeField] Vector3 defaultSwordHandleSize;
     [SerializeField] Vector3 defaultSwordTipSize;
+    [SerializeField] TemperatureScript temperatureScript;
     private float currentHitValue = 0;
     private float lastHitTime = 0f;
 
@@ -50,10 +51,10 @@ public class IngotToSword : MonoBehaviour
         Rigidbody hammerRb = collision.rigidbody;
         if (hammerRb == null) return;
         float velocityMagnitude = hammerRb.linearVelocity.magnitude;
-        Debug.Log("Velocity Magnitude: " + velocityMagnitude);
+        // Debug.Log("Velocity Magnitude: " + velocityMagnitude);
         if (velocityMagnitude < minHitVelocity || velocityMagnitude > maxHitVelocity) return;
         if (Time.time - lastHitTime < hitCooldown) return;
-        float hitValue = Mathf.Clamp01( (velocityMagnitude - minHitVelocity) / (maxHitVelocity - minHitVelocity) ) * 2;
+        float hitValue = Mathf.Clamp01( (velocityMagnitude - minHitVelocity) / (maxHitVelocity - minHitVelocity) ) * 3 * temperatureScript.GetPercentMaxTemperature();
         Debug.Log("hitValue: " + hitValue);
         lastHitTime = Time.time;
         HandleHit(hitValue);
@@ -64,13 +65,13 @@ public class IngotToSword : MonoBehaviour
         currentHitValue += hitValue;
         float percentHits = Mathf.Max((float)currentHitValue / (float)requiredHitValue, 0.001f);
         visualOfIngot.transform.localScale = new Vector3(1,1,1) * (1f - percentHits);
-        Debug.Log("Local scale: " + visualOfIngot.transform.localScale);
+        // Debug.Log("Local scale: " + visualOfIngot.transform.localScale);
         Vector3 visualScale = swordBladeFinalScale * percentHits;
         // visualScale = new(visualScale[0] / transform.localScale[0], visualScale[1] / transform.localScale[1], visualScale[2] / transform.localScale[2]);
-        Debug.Log("Visual scale: " + visualScale);
+        // Debug.Log("Visual scale: " + visualScale);
         visualOfSwordInProgress.transform.localScale = visualScale;
 
-        Debug.Log("Hammer hit object. Current hit count: " + currentHitValue);
+        // Debug.Log("Hammer hit object. Current hit count: " + currentHitValue);
         if (currentHitValue >= requiredHitValue)
         {
             SpawnReplacementObject();
