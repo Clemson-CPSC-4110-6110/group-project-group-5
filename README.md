@@ -2,7 +2,7 @@
 A virtual reality blacksmithing simulator
 
 ## Current State
-This project is in active development of its environment and basic interactions. Currently, we have the basic assets and designs needed for the simulator to look nice. The core interaction system is implemented which allows players to use blacksmithing tools with semi-realistic physics. The project features:
+The primary feature of smithing a sword is mostly complete. Work has begun on some secondary features like varying smithing by material and incorporating temperature into workflow. Other secondary features like shop mechanics, sharpening, and weapon testing are yet to be started.
 
 - **Interactive Tongs**: Two-handed tong control that open and close based on hand distance and can grab any interactable
 - **Forging Billet Into Weapon**: When a billet is placed onto an anvil, it can be hit to slowly convert its shape into that of a weapon
