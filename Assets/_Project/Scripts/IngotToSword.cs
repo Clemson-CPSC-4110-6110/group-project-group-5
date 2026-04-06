@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class IngotToSword : MonoBehaviour
 {
-    [SerializeField] int requiredHitCount = 20;
+    [SerializeField] float requiredHitValue = 20f;
     [SerializeField] GameObject visualOfSwordInProgress;
     [SerializeField] GameObject visualOfIngot;
     [SerializeField] Vector3 swordBladeFinalScale;
@@ -14,12 +14,14 @@ public class IngotToSword : MonoBehaviour
     [SerializeField] Vector3 defaultSwordBladeBodySize;
     [SerializeField] Vector3 defaultSwordHandleSize;
     [SerializeField] Vector3 defaultSwordTipSize;
-    private int currentHitCount = 0;
+    private float currentHitValue = 0;
     private float lastHitTime = 0f;
 
     void Awake()
     {
         visualOfSwordInProgress.transform.localScale = new(0.01f,0.01f,0.01f);
+        // TEMPORARY
+        // SetVolume(0.00555075796059f * Random.Range(0.8f,1.2f));
     }
 
     void SetVolume(float volume)
@@ -51,14 +53,16 @@ public class IngotToSword : MonoBehaviour
         Debug.Log("Velocity Magnitude: " + velocityMagnitude);
         if (velocityMagnitude < minHitVelocity || velocityMagnitude > maxHitVelocity) return;
         if (Time.time - lastHitTime < hitCooldown) return;
+        float hitValue = Mathf.Clamp01( (velocityMagnitude - minHitVelocity) / (maxHitVelocity - minHitVelocity) ) * 2;
+        Debug.Log("hitValue: " + hitValue);
         lastHitTime = Time.time;
-        HandleHit();
+        HandleHit(hitValue);
     }
 
-    void HandleHit()
+    void HandleHit(float hitValue)
     {
-        currentHitCount++;
-        float percentHits = Mathf.Max((float)currentHitCount / (float)requiredHitCount, 0.001f);
+        currentHitValue += hitValue;
+        float percentHits = Mathf.Max((float)currentHitValue / (float)requiredHitValue, 0.001f);
         visualOfIngot.transform.localScale = new Vector3(1,1,1) * (1f - percentHits);
         Debug.Log("Local scale: " + visualOfIngot.transform.localScale);
         Vector3 visualScale = swordBladeFinalScale * percentHits;
@@ -66,8 +70,8 @@ public class IngotToSword : MonoBehaviour
         Debug.Log("Visual scale: " + visualScale);
         visualOfSwordInProgress.transform.localScale = visualScale;
 
-        Debug.Log("Hammer hit object. Current hit count: " + currentHitCount);
-        if (currentHitCount == requiredHitCount)
+        Debug.Log("Hammer hit object. Current hit count: " + currentHitValue);
+        if (currentHitValue >= requiredHitValue)
         {
             SpawnReplacementObject();
         }
@@ -81,6 +85,7 @@ public class IngotToSword : MonoBehaviour
             GameObject newSword = Instantiate(swordPrefab, transform.position, transform.rotation);
             newSword.GetComponent<Sword>().SetBladeScale(swordBladeFinalScale);
             newSword.GetComponent<TemperatureScript>().SetTemperature(GetComponent<TemperatureScript>().GetTemperature());
+            // 0.00555075796059
         }
         Debug.Log("DESTROYING GAME OBJECT");
         // Destroy the current object

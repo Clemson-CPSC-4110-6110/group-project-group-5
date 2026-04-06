@@ -238,14 +238,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499d777710a897b4a9422f4776483a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitToChangeObject
-  requiredHitCount: 10
+  requiredHitValue: 20
   visualOfSwordInProgress: {fileID: 1149742761662193146}
   visualOfIngot: {fileID: 3429059269904639320}
   swordBladeFinalScale: {x: 1, y: 1, z: 1}
   swordPrefab: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
   anvilAttachable: {fileID: 6653365586317619973}
-  minHitVelocity: 2
-  maxHitVelocity: 6
+  minHitVelocity: 1
+  maxHitVelocity: 3
   hitCooldown: 0.3
   defaultSwordBladeBodySize: {x: 0, y: 0, z: 0}
   defaultSwordHandleSize: {x: 0, y: 0, z: 0}
@@ -807,7 +807,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2148
+  m_VersionIndex: 2163
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1668,7 +1668,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6721
+  m_VersionIndex: 6736
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2550,7 +2550,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6193
+  m_VersionIndex: 6208
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3127,7 +3127,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5211
+  m_VersionIndex: 5226
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

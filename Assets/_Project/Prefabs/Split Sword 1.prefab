@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3435554728844979649}
   - component: {fileID: 4036743557569182032}
   - component: {fileID: 6399953491554939626}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Sword Blade Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,7 +753,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6178
+  m_VersionIndex: 6184
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -891,7 +891,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4603479426351239002}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Sword Handle Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -930,7 +930,7 @@ GameObject:
   - component: {fileID: 7936837250145609914}
   - component: {fileID: 1649319245707210816}
   - component: {fileID: 3448363518256314398}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Split Sword 1
   m_TagString: anvilSocketable
   m_Icon: {fileID: 0}
@@ -1236,7 +1236,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5550971783894777169}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Sword Blade Body Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1273,7 +1273,7 @@ GameObject:
   - component: {fileID: 2048638751682707988}
   - component: {fileID: 5028366579951615805}
   - component: {fileID: 73887065980721683}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Sword Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1707,7 +1707,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5196
+  m_VersionIndex: 5202
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1829,7 +1829,7 @@ GameObject:
   - component: {fileID: 811795274734697682}
   - component: {fileID: 4128099604750991296}
   - component: {fileID: 9187962567014640079}
-  m_Layer: 28
+  m_Layer: 0
   m_Name: Sword Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2567,7 +2567,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6706
+  m_VersionIndex: 6712
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

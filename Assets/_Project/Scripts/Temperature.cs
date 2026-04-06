@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class TemperatureScript : MonoBehaviour
 {
-    float temperature = 500;
+    float temperature = 60;
     float minTemperature = 60;
     float maxTemperature = 500;
     float temperatureLostPerSecond = 10;
@@ -13,7 +13,12 @@ public class TemperatureScript : MonoBehaviour
     [SerializeField] Color hotColor = new Color(1f, 0.3f, 0.3f);    // red
     [SerializeField] Color maxHotColor = Color.white;  
     [SerializeField] Color coldEmissionColor = Color.black; 
-    [SerializeField] Color hotEmissionColor = Color.red; 
+    [SerializeField] Color hotEmissionColor = Color.red;
+
+    void Awake()
+    {
+        temperature = minTemperature;
+    }
 
     void Update()
     {
@@ -59,5 +64,9 @@ public class TemperatureScript : MonoBehaviour
     public float GetTemperature()
     {
         return temperature;
+    }
+    public float GetPercentMaxTemperature()
+    {
+        return temperature / (maxTemperature - minTemperature);
     }
 }
