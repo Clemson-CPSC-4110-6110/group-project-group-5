@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 7730441808276640041}
   - component: {fileID: 4421392544440019836}
   - component: {fileID: 6653365586317619973}
+  - component: {fileID: 6672210973750949640}
   m_Layer: 0
   m_Name: Ingot
   m_TagString: anvilSocketable
@@ -262,6 +263,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   isOnAnvil: 0
+--- !u!114 &6672210973750949640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2362333114129222386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2a250f8105fce499a7fa44155a2c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  targetRenderers:
+  - {fileID: 7105184166445231692}
+  - {fileID: 3789059074603226236}
+  - {fileID: 8539330245502764308}
+  - {fileID: 4525590242208746621}
+  coldColor: {r: 0.4, g: 0.5, b: 0.6, a: 1}
+  hotColor: {r: 1, g: 0.3, b: 0.3, a: 1}
+  maxHotColor: {r: 1, g: 1, b: 1, a: 1}
+  coldEmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  hotEmissionColor: {r: 1, g: 0.7028302, b: 0.7028302, a: 1}
 --- !u!1 &2680507100421441040
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +807,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2127
+  m_VersionIndex: 2145
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1645,7 +1668,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6700
+  m_VersionIndex: 6718
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2527,7 +2550,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6172
+  m_VersionIndex: 6190
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3104,7 +3127,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5190
+  m_VersionIndex: 5208
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
