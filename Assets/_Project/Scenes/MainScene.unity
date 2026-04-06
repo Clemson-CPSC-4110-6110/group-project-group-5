@@ -769,6 +769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ingot (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 2362333114129222386, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4067056801362384488, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -1246,7 +1250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 943698594294854379, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.843484
+      value: 2.672
       objectReference: {fileID: 0}
     - target: {fileID: 943698594294854379, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1279,6 +1283,10 @@ PrefabInstance:
     - target: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_Name
       value: Split Sword 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3435554728844979649, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
       propertyPath: m_Mesh
@@ -1539,6 +1547,10 @@ PrefabInstance:
     - target: {fileID: 2362333114129222386, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
       propertyPath: m_Name
       value: Ingot (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362333114129222386, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4067056801362384488, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
       propertyPath: m_Mesh
@@ -21557,6 +21569,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ingot (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2362333114129222386, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4067056801362384488, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -21710,6 +21726,10 @@ PrefabInstance:
     - target: {fileID: 2362333114129222386, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
       propertyPath: m_Name
       value: Ingot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2362333114129222386, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4067056801362384488, guid: 25624c4dd8307784cb06f50b3bc25dd7, type: 3}
       propertyPath: m_Mesh
