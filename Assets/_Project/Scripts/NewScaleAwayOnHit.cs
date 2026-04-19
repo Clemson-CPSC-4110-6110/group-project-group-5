@@ -55,10 +55,11 @@ public class NewScaleAwayOnHit : MonoBehaviour
     void Start()
     {
         leftComponents = new() {top_left_corner, left_edge, bottom_left_corner};
-        middleXComponents = new() {left_edge, right_edge};
-        rightComponents = new() {top_right_corner, left_edge, bottom_right_corner};
+        middleXComponents = new() {top_edge, bottom_edge};
+        rightComponents = new() {top_right_corner, right_edge, bottom_right_corner};
+
         topComponents = new() {top_left_corner, top_edge, top_right_corner};
-        middleYComponents = new() {top_edge, bottom_edge};
+        middleYComponents = new() {left_edge, right_edge};
         bottomComponents = new() {bottom_left_corner, bottom_edge, bottom_right_corner};
         allComponents = leftComponents.Concat(middleXComponents).Concat(rightComponents).ToList();
 
@@ -130,9 +131,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
         rightEdgeSize = right_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
         topEdgeSize = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
         bottomEdgeSize = bottom_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-
-        // For box colliders, x = y, y = z, z = x
-
         scaledSize = new(
             leftEdgeSize[0] + topEdgeSize[0] + rightEdgeSize[0],
             leftEdgeSize[1],
@@ -149,6 +147,48 @@ public class NewScaleAwayOnHit : MonoBehaviour
     void FixComponentPositions()
     {
         top_left_corner.transform.localPosition = new Vector3(
+            top_edge.transform.localPosition[0] - topEdgeSize[0] / 2, 
+            top_edge.transform.localPosition[1], 
+            top_edge.transform.localPosition[2]
+        );
+        Debug.Log("top_edge.transform.localPosition: " + top_edge.transform.localPosition);
+        Debug.Log("topEdgeSize: " + topEdgeSize);
+        Debug.Log("top_left_corner.transform.localPosition: " + top_left_corner.transform.localPosition);
+        Debug.Log("top_edge.transform.localPosition[0]: " + top_edge.transform.localPosition[0] + "\n - topEdgeSize[0] / 2:" + topEdgeSize[0] / 2 + "\n = top_left_corner.transform.localPosition: " + top_left_corner.transform.localPosition);
+        left_edge.transform.localPosition = new Vector3(
+            top_left_corner.transform.localPosition[0],
+            top_left_corner.transform.localPosition[1],
+            top_left_corner.transform.localPosition[2] + leftEdgeSize.y / 2 // for some reason box colliders swap z and y
+        );
+        bottom_left_corner.transform.localPosition = new Vector3(
+            left_edge.transform.localPosition[0], 
+            left_edge.transform.localPosition[1], 
+            left_edge.transform.localPosition[2] - leftEdgeSize.y / 2 // for some reason box colliders swap z and y
+        );
+        bottom_left_corner.transform.localPosition = new Vector3(
+            left_edge.transform.localPosition[0], 
+            left_edge.transform.localPosition[1], 
+            left_edge.transform.localPosition[2] + leftEdgeSize.y / 2 // for some reason box colliders swap z and y
+        );
+
+        top_right_corner.transform.localPosition = new Vector3(
+            top_edge.transform.localPosition[0] + topEdgeSize[0] / 2, 
+            top_edge.transform.localPosition[1], 
+            top_edge.transform.localPosition[2]
+        );
+        right_edge.transform.localPosition = new Vector3(
+            top_right_corner.transform.localPosition[0],
+            top_right_corner.transform.localPosition[1],
+            top_right_corner.transform.localPosition[2] + leftEdgeSize.y / 2 // for some reason box colliders swap z and y
+        );
+        bottom_right_corner.transform.localPosition = new Vector3(
+            right_edge.transform.localPosition[0], 
+            right_edge.transform.localPosition[1], 
+            right_edge.transform.localPosition[2] + leftEdgeSize.y / 2 // for some reason box colliders swap z and y
+        );
+
+        /*
+                top_left_corner.transform.localPosition = new Vector3(
             top_edge.transform.localPosition[0] - topEdgeSize[1] / 2, 
             top_edge.transform.localPosition[1], 
             top_edge.transform.localPosition[2]
@@ -188,6 +228,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
             right_edge.transform.localPosition[1], 
             right_edge.transform.localPosition[2] + leftEdgeSize[1] / 2
         );
+        */
     }
 
     void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)
@@ -268,7 +309,19 @@ public class NewScaleAwayOnHit : MonoBehaviour
             newScale.z >= minScale.z && newScale.z <= maxScale.z)
         {
             // scaleTarget.localScale = newScale;
-            foreach (GameObject component in allComponents)
+            foreach (GameObject component in leftComponents)
+            {
+                Vector3 newComponentScale = component.transform.localScale;
+                newComponentScale = new(newComponentScale[0] * newScale.x, newComponentScale[1] * newScale.y, newComponentScale[2] * newScale.z);
+                component.transform.localScale = newComponentScale;
+            }
+            foreach (GameObject component in middleXComponents)
+            {
+                Vector3 newComponentScale = component.transform.localScale;
+                newComponentScale = new(newComponentScale[0] * newScale.x, newComponentScale[1] * newScale.y, newComponentScale[2] * newScale.z);
+                component.transform.localScale = newComponentScale;
+            }
+            foreach (GameObject component in rightComponents)
             {
                 Vector3 newComponentScale = component.transform.localScale;
                 newComponentScale = new(newComponentScale[0] * newScale.x, newComponentScale[1] * newScale.y, newComponentScale[2] * newScale.z);
