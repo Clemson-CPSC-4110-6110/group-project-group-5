@@ -67,24 +67,24 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
         maxVolumeShift = 0.002f * volumeShiftModifier; // Upper limit
         Debug.Log("Unscaled size: " + unscaledSize);
-        RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
     {
         yield return new WaitForSeconds(2);
+        RecalculateMeasurements();
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
 
-        // Vector3 newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
-        // if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'x', false); }
-
-        Vector3 newScale = CalculateNewScaleOnYHit(volumeShiftedOnHit);
-        if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'z', false); }
+        Vector3 newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
+        if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'x', false); }
 
         // Vector3 newScale = CalculateNewScaleOnZHit(volumeShiftedOnHit);
+        // if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'z', false); }
+
+        // Vector3 newScale = CalculateNewScaleOnYHit(volumeShiftedOnHit);
         // if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'y', false); }
 
         else { Debug.Log("Scale change rejected: newScale out of bounds"); }
@@ -136,8 +136,8 @@ public class NewScaleAwayOnHit : MonoBehaviour
             leftEdgeUnscaledSize[1] * left_edge.transform.localScale.z,
             topEdgeUnscaledSize[2] * left_edge.transform.localScale.y + leftEdgeUnscaledSize[2] * left_edge.transform.localScale.y + bottomEdgeUnscaledSize[2] * left_edge.transform.localScale.y
         );
-        Debug.Log("Volume = " + scaledSize[0] + " * " + scaledSize[1] + " * " + scaledSize[2] + " = " + volume);
         volume = scaledSize[0] * scaledSize[1] * scaledSize[2];
+        Debug.Log("Volume = " + scaledSize[0] + " * " + scaledSize[1] + " * " + scaledSize[2] + " = " + volume);
         area = new(scaledSize[1] * scaledSize[2], scaledSize[0] * scaledSize[2], scaledSize[0] * scaledSize[1]);
 
         unscaledSize = new Vector3(0,0,0);
@@ -243,45 +243,63 @@ public class NewScaleAwayOnHit : MonoBehaviour
         Vector3 oldScale = CalculateOldScale();
         if (hitAxis == 'x')
         {
-            float totalLengthBeforeScale = scaledSize[0];
-            float totalLengthAfterScale = totalLengthBeforeScale * newScale.x;
-            float percentScaleComponent1 = squashBias;
-            float percentScaleComponent23 = (1 - squashBias) / 2;
-            
+            foreach (GameObject component in allComponents)
+            {
+                Vector3 newComponentScale = component.transform.localScale;
+                component.transform.localScale = new(
+                    newComponentScale[0] * newScale.x, 
+                    newComponentScale[1] * newScale.y, 
+                    newComponentScale[2] * newScale.z
+                );
+            }
+            // List<GameObject> hitComponents = isNegativeAxis ? leftComponents : rightComponents;
+            // List<GameObject> oppositeHitComponents = isNegativeAxis ? rightComponents : leftComponents;
 
-            float scaleComponent1 = (newScale.x - 1) * squashBias + 1;
-            float scaleComponent2 = (newScale.x - 1) * percentScaleComponent23 + 1;
-            if (scaleComponent1 * scaleComponent2 * scaleComponent2 != newScale.x) { Debug.Log("Incorrect scale calculations"); }
-            List<GameObject> hitComponents = isNegativeAxis ? leftComponents : rightComponents;
-            List<GameObject> oppositeHitComponents = isNegativeAxis ? rightComponents : leftComponents;
+            // float component1Length = hitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * hitComponents[0].transform.localScale.x;
+            // float component2Length = middleXComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * middleXComponents[0].transform.localScale.x;
+            // float component3Length = oppositeHitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * oppositeHitComponents[0].transform.localScale.x;
 
-            foreach (GameObject component in hitComponents)
-            {
-                Vector3 newComponentScale = component.transform.localScale;
-                component.transform.localScale = new(
-                    newComponentScale[0] * scaleComponent1, 
-                    newComponentScale[1] * newScale.y, 
-                    newComponentScale[2] * newScale.z
-                );
-            }
-            foreach (GameObject component in middleXComponents)
-            {
-                Vector3 newComponentScale = component.transform.localScale;
-                component.transform.localScale = new(
-                    newComponentScale[0] * scaleComponent2, 
-                    newComponentScale[1] * newScale.y, 
-                    newComponentScale[2] * newScale.z
-                );
-            }
-            foreach (GameObject component in oppositeHitComponents)
-            {
-                Vector3 newComponentScale = component.transform.localScale;
-                component.transform.localScale = new(
-                    newComponentScale[0] * scaleComponent2, 
-                    newComponentScale[1] * newScale.y, 
-                    newComponentScale[2] * newScale.z
-                );
-            }
+            // float component1Area = hitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * hitComponents[0].transform.localScale.y * hitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * hitComponents[0].transform.localScale.z;
+            // float component2Area = hitComponents[1].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * hitComponents[1].transform.localScale.y * hitComponents[1].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * hitComponents[1].transform.localScale.z;
+            // float component3Area = hitComponents[2].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * hitComponents[2].transform.localScale.y * hitComponents[2].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * hitComponents[2].transform.localScale.z;
+
+            // float scaleComponent1 = newScale.x * squashBias;
+            // float scaleComponent2 = (newScale.x * 3 - scaleComponent1) / 2;
+
+            // Debug.Log("Volume Lost From Component 1: " + component1Area * component1Length * (1 - scaleComponent1));
+            // Debug.Log("Volume Lost From Component 2: " + component2Area * component2Length * (1 - scaleComponent1));
+            // Debug.Log("Volume Lost From Component 3: " + component3Area * component3Length * (1 - scaleComponent1));
+            // if (scaleComponent1 + scaleComponent2 + scaleComponent2 != newScale.x) { Debug.Log("Incorrect scale calculations"); }
+            // Debug.Log("newScale.x = " + newScale.x + " | scaleComponent1: " + scaleComponent1 + " | scaleComponent2: " + scaleComponent2);
+            // // if (scaleComponent1 * scaleComponent2 * scaleComponent2 != newScale.x) { Debug.Log("Incorrect scale calculations"); }
+
+            // foreach (GameObject component in hitComponents)
+            // {
+            //     Vector3 newComponentScale = component.transform.localScale;
+            //     component.transform.localScale = new(
+            //         newComponentScale[0] * scaleComponent1, 
+            //         newComponentScale[1] * newScale.y, 
+            //         newComponentScale[2] * newScale.z
+            //     );
+            // }
+            // foreach (GameObject component in middleXComponents)
+            // {
+            //     Vector3 newComponentScale = component.transform.localScale;
+            //     component.transform.localScale = new(
+            //         newComponentScale[0] * scaleComponent2, 
+            //         newComponentScale[1] * newScale.y, 
+            //         newComponentScale[2] * newScale.z
+            //     );
+            // }
+            // foreach (GameObject component in oppositeHitComponents)
+            // {
+            //     Vector3 newComponentScale = component.transform.localScale;
+            //     component.transform.localScale = new(
+            //         newComponentScale[0] * scaleComponent2, 
+            //         newComponentScale[1] * newScale.y, 
+            //         newComponentScale[2] * newScale.z
+            //     );
+            // }
         }
         else if (hitAxis == 'y')
         {
@@ -297,39 +315,49 @@ public class NewScaleAwayOnHit : MonoBehaviour
         }
         else
         {
-            float scaleComponent1 = (newScale.z - 1) * squashBias + 1;
-            float scaleComponent2 = Mathf.Sqrt(newScale.z / scaleComponent1);
-            if (scaleComponent1 * scaleComponent2 * scaleComponent2 != newScale.z) { Debug.Log("Incorrect scale calculations"); }
-            List<GameObject> hitComponents = isNegativeAxis ? bottomComponents : topComponents;
-            List<GameObject> oppositeHitComponents = isNegativeAxis ? topComponents : bottomComponents;
+            foreach (GameObject component in allComponents)
+            {
+                Vector3 newComponentScale = component.transform.localScale;
+                component.transform.localScale = new(
+                    newComponentScale[0] * newScale.x, 
+                    newComponentScale[1] * newScale.y, 
+                    newComponentScale[2] * newScale.z
+                );
+            }
+            // float scaleComponent1 = newScale.z * squashBias;
+            // float scaleComponent2 = (newScale.z * 3 - scaleComponent1) / 2;
+            // if (scaleComponent1 + scaleComponent2 + scaleComponent2 != newScale.z) { Debug.Log("Incorrect scale calculations"); }
+            // // if (scaleComponent1 * scaleComponent2 * scaleComponent2 != newScale.z) { Debug.Log("Incorrect scale calculations"); }
+            // List<GameObject> hitComponents = isNegativeAxis ? bottomComponents : topComponents;
+            // List<GameObject> oppositeHitComponents = isNegativeAxis ? topComponents : bottomComponents;
 
-            foreach (GameObject component in hitComponents)
-            {
-                Vector3 newComponentScale = component.transform.localScale;
-                component.transform.localScale = new(
-                    newComponentScale[0] * newScale.x, 
-                    newComponentScale[1] * scaleComponent1, 
-                    newComponentScale[2] * newScale.z
-                );
-            }
-            foreach (GameObject component in middleYComponents)
-            {
-                Vector3 newComponentScale = component.transform.localScale;
-                component.transform.localScale = new(
-                    newComponentScale[0] * newScale.x, 
-                    newComponentScale[1] * scaleComponent2, 
-                    newComponentScale[2] * newScale.z
-                );
-            }
-            foreach (GameObject component in oppositeHitComponents)
-            {
-                Vector3 newComponentScale = component.transform.localScale;
-                component.transform.localScale = new(
-                    newComponentScale[0] * newScale.x, 
-                    newComponentScale[1] * scaleComponent2, 
-                    newComponentScale[2] * newScale.z
-                );
-            }
+            // foreach (GameObject component in hitComponents)
+            // {
+            //     Vector3 newComponentScale = component.transform.localScale;
+            //     component.transform.localScale = new(
+            //         newComponentScale[0] * newScale.x, 
+            //         newComponentScale[1] * scaleComponent1, 
+            //         newComponentScale[2] * newScale.z
+            //     );
+            // }
+            // foreach (GameObject component in middleYComponents)
+            // {
+            //     Vector3 newComponentScale = component.transform.localScale;
+            //     component.transform.localScale = new(
+            //         newComponentScale[0] * newScale.x, 
+            //         newComponentScale[1] * scaleComponent2, 
+            //         newComponentScale[2] * newScale.z
+            //     );
+            // }
+            // foreach (GameObject component in oppositeHitComponents)
+            // {
+            //     Vector3 newComponentScale = component.transform.localScale;
+            //     component.transform.localScale = new(
+            //         newComponentScale[0] * newScale.x, 
+            //         newComponentScale[1] * scaleComponent2, 
+            //         newComponentScale[2] * newScale.z
+            //     );
+            // }
         }
         onScaleChanged.Invoke(oldScale, newScale);
         FixComponentPositions();
