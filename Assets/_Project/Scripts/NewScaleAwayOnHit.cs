@@ -18,6 +18,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
     [SerializeField] GameObject top_right_corner;
     [SerializeField] GameObject bottom_left_corner;
     [SerializeField] GameObject bottom_right_corner;
+    [SerializeField] GameObject hole_cover;
 
     [Header("Clamp Settings")]
     [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
@@ -67,6 +68,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
         maxVolumeShift = 0.002f * volumeShiftModifier; // Upper limit
         Debug.Log("Unscaled size: " + unscaledSize);
+        RecalculateMeasurements();
         FixComponentPositions();
 
         StartCoroutine(TestHit());
@@ -151,7 +153,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         // FOR SOME REASON POS Z = ROT Y
         float halfWidthOfTopEdge = topEdgeUnscaledSize[0] / 2;
         float halfHeightOfLeftEdge = leftEdgeUnscaledSize.y / 2; // for some reason box colliders swap z and y
-
+        Debug.Log("halfWidthOfTopEdge * top_edge.transform.localScale.x: " + halfWidthOfTopEdge * top_edge.transform.localScale.x);
         top_left_corner.transform.localPosition = new Vector3(
             top_edge.transform.localPosition[0] - halfWidthOfTopEdge * top_edge.transform.localScale.x, 
             top_edge.transform.localPosition[1], 
@@ -188,6 +190,11 @@ public class NewScaleAwayOnHit : MonoBehaviour
             right_edge.transform.localPosition[0], 
             right_edge.transform.localPosition[1], 
             right_edge.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale.y
+        );
+        hole_cover.transform.localPosition = new Vector3(
+            top_edge.transform.localPosition[0], 
+            0.0025f, 
+            top_edge.transform.localPosition[2] + halfHeightOfLeftEdge * hole_cover.transform.localScale.y
         );
     }
 
@@ -359,6 +366,11 @@ public class NewScaleAwayOnHit : MonoBehaviour
             //     );
             // }
         }
+        hole_cover.transform.localScale = new(
+            top_edge.transform.localScale.x,
+            left_edge.transform.localScale.y,
+            1
+        );
         onScaleChanged.Invoke(oldScale, newScale);
         FixComponentPositions();
     }
