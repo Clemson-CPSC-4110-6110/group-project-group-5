@@ -19,6 +19,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
     [SerializeField] GameObject bottom_left_corner;
     [SerializeField] GameObject bottom_right_corner;
     [SerializeField] GameObject hole_cover;
+    [SerializeField] BoxCollider swordBodyCollider;
 
     [Header("Clamp Settings")]
     [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
@@ -134,19 +135,24 @@ public class NewScaleAwayOnHit : MonoBehaviour
         rightEdgeUnscaledSize = right_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
         topEdgeUnscaledSize = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
         bottomEdgeUnscaledSize = bottom_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
+
+        unscaledSize = new Vector3(0,0,0);
+        unscaledSize[0] = leftEdgeUnscaledSize[0] + topEdgeUnscaledSize[0] + rightEdgeUnscaledSize[0];
+        unscaledSize[1] = leftEdgeUnscaledSize[1];
+        unscaledSize[2] = topEdgeUnscaledSize[2] + leftEdgeUnscaledSize[2] + bottomEdgeUnscaledSize[2];
+
         scaledSize = new(
-            leftEdgeUnscaledSize[0] * left_edge.transform.localScale.x + topEdgeUnscaledSize[0] * top_edge.transform.localScale.x + rightEdgeUnscaledSize[0] * right_edge.transform.localScale.x,
-            leftEdgeUnscaledSize[1] * left_edge.transform.localScale.z,
-            topEdgeUnscaledSize[2] * left_edge.transform.localScale.y + leftEdgeUnscaledSize[2] * left_edge.transform.localScale.y + bottomEdgeUnscaledSize[2] * left_edge.transform.localScale.y
+            leftEdgeUnscaledSize.x * left_edge.transform.localScale.x + topEdgeUnscaledSize.x * top_edge.transform.localScale.x + rightEdgeUnscaledSize.x * right_edge.transform.localScale.x,
+            topEdgeUnscaledSize.y * left_edge.transform.localScale.z + leftEdgeUnscaledSize.y * left_edge.transform.localScale.z + bottomEdgeUnscaledSize.y * left_edge.transform.localScale.z,
+            topEdgeUnscaledSize.z * left_edge.transform.localScale.y
         );
+        Debug.Log("leftEdgeUnscaledSize: " + leftEdgeUnscaledSize);
+        Debug.Log("UnscaledSize: " + unscaledSize);
+        Debug.Log("ScaledSize: " + scaledSize);
         volume = scaledSize[0] * scaledSize[1] * scaledSize[2];
         Debug.Log("Volume = " + scaledSize[0] + " * " + scaledSize[1] + " * " + scaledSize[2] + " = " + volume);
         area = new(scaledSize[1] * scaledSize[2], scaledSize[0] * scaledSize[2], scaledSize[0] * scaledSize[1]);
 
-        unscaledSize = new Vector3(0,0,0);
-        unscaledSize[0] += leftEdgeUnscaledSize[0] + topEdgeUnscaledSize[0] + rightEdgeUnscaledSize[0];
-        unscaledSize[1] += leftEdgeUnscaledSize[1];
-        unscaledSize[2] += topEdgeUnscaledSize[2] + leftEdgeUnscaledSize[2] + bottomEdgeUnscaledSize[2];
     }
 
     void FixComponentPositions()
@@ -197,6 +203,9 @@ public class NewScaleAwayOnHit : MonoBehaviour
             0.0025f, 
             top_edge.transform.localPosition[2] + halfHeightOfLeftEdge * hole_cover.transform.localScale.y
         );
+
+        swordBodyCollider.size = new Vector3(scaledSize.x, scaledSize.z, scaledSize.y);
+        swordBodyCollider.center = new Vector3(0, scaledSize.z / 2, 0);
     }
 
     void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)
@@ -476,6 +485,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
             1
         );
         // onScaleChanged.Invoke(oldScale, newScale);
+        RecalculateMeasurements();
         FixComponentPositions();
     }
 
