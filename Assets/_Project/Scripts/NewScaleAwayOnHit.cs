@@ -69,7 +69,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -78,8 +78,10 @@ public class NewScaleAwayOnHit : MonoBehaviour
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
         Vector3 newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
 
-        if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale); }
+        if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'x'); }
         else { Debug.Log("Scale change rejected: newScale out of bounds"); }
+
+        StartCoroutine(TestHit());
     }
 
     public void ScaleUpMaxScale(Vector3 modifier)
@@ -154,39 +156,41 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
 
         top_left_corner.transform.localPosition = new Vector3(
-            top_edge.transform.localPosition[0] - halfWidthOfTopEdge * top_left_corner.transform.localScale.x, 
+            top_edge.transform.localPosition[0] - halfWidthOfTopEdge * top_edge.transform.localScale.x, 
             top_edge.transform.localPosition[1], 
             top_edge.transform.localPosition[2]
         );
         left_edge.transform.localPosition = new Vector3(
             top_left_corner.transform.localPosition[0],
             top_left_corner.transform.localPosition[1],
-            top_left_corner.transform.localPosition[2] + halfHeightOfLeftEdge * left_edge.transform.localScale.y
+            top_left_corner.transform.localPosition[2] + halfHeightOfLeftEdge * top_left_corner.transform.localScale.y
         );
         bottom_left_corner.transform.localPosition = new Vector3(
             left_edge.transform.localPosition[0], 
             left_edge.transform.localPosition[1], 
-            left_edge.transform.localPosition[2] + halfHeightOfLeftEdge * bottom_left_corner.transform.localScale.y
+            left_edge.transform.localPosition[2] + halfHeightOfLeftEdge * left_edge.transform.localScale.y
         );
+
         bottom_edge.transform.localPosition = new Vector3(
             top_edge.transform.localPosition[0], 
             bottom_left_corner.transform.localPosition[1], 
             bottom_left_corner.transform.localPosition[2]
         );
+
         top_right_corner.transform.localPosition = new Vector3(
-            top_edge.transform.localPosition[0] + halfWidthOfTopEdge * top_right_corner.transform.localScale.x, 
+            top_edge.transform.localPosition[0] + halfWidthOfTopEdge * top_edge.transform.localScale.x, 
             top_edge.transform.localPosition[1], 
             top_edge.transform.localPosition[2]
         );
         right_edge.transform.localPosition = new Vector3(
             top_right_corner.transform.localPosition[0],
             top_right_corner.transform.localPosition[1],
-            top_right_corner.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale.y
+            top_right_corner.transform.localPosition[2] + halfHeightOfLeftEdge * top_right_corner.transform.localScale.y
         );
         bottom_right_corner.transform.localPosition = new Vector3(
             right_edge.transform.localPosition[0], 
             right_edge.transform.localPosition[1], 
-            right_edge.transform.localPosition[2] + halfHeightOfLeftEdge * bottom_right_corner.transform.localScale.y
+            right_edge.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale.y
         );
     }
 
@@ -203,14 +207,29 @@ public class NewScaleAwayOnHit : MonoBehaviour
         Vector3 newScale;
         Debug.Log("Volume After: " + volume);
         RecalculateMeasurements();
-        if (absNormal.x > absNormal.y && absNormal.x > absNormal.z)      { newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit); }
-        else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z) { newScale = CalculateNewScaleOnYHit(volumeShiftedOnHit); }
-        else                                                             { newScale = CalculateNewScaleOnZHit(volumeShiftedOnHit); }
-
-        if (IsNewScaleWithinBounds(newScale))
-        {
-            ChangeScales(newScale);
-            return;
+        if (absNormal.x > absNormal.y && absNormal.x > absNormal.z) { 
+            newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit); 
+            if (IsNewScaleWithinBounds(newScale))
+            {
+                ChangeScales(newScale, 'x');
+                return;
+            }
+        }
+        else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z) { 
+            newScale = CalculateNewScaleOnYHit(volumeShiftedOnHit); 
+            if (IsNewScaleWithinBounds(newScale))
+            {
+                ChangeScales(newScale, 'z');
+                return;
+            }
+        }
+        else { 
+            newScale = CalculateNewScaleOnZHit(volumeShiftedOnHit); 
+            if (IsNewScaleWithinBounds(newScale))
+            {
+                ChangeScales(newScale, 'y');
+                return;
+            }
         }
         Debug.Log("Scale change rejected: newScale out of bounds");
     }
@@ -222,15 +241,57 @@ public class NewScaleAwayOnHit : MonoBehaviour
                newScale.z >= minScale.z && newScale.z <= maxScale.z;
     }
 
-    void ChangeScales(Vector3 newScale)
+    void ChangeScales(Vector3 newScale, char hitAxis)
     {
         Vector3 oldScale = CalculateOldScale();
-        foreach (GameObject component in allComponents)
+        // foreach (GameObject component in allComponents)
+        // {
+        //     Vector3 newComponentScale = component.transform.localScale;
+        //     newComponentScale = new(
+        //         newComponentScale[0] * newScale.x, 
+        //         newComponentScale[1] * newScale.y, 
+        //         newComponentScale[2] * newScale.z
+        //     );
+        //     component.transform.localScale = newComponentScale;
+        // }
+        
+        if (hitAxis == 'x')
         {
-            Vector3 newComponentScale = component.transform.localScale;
-            newComponentScale = new(newComponentScale[0] * newScale.x, newComponentScale[1] * newScale.y, newComponentScale[2] * newScale.z);
-            component.transform.localScale = newComponentScale;
+            float scaleXComponent1 = (newScale.x - 1) * 0.95f + 1;
+            float scaleXComponent2 = Mathf.Sqrt(newScale.x / scaleXComponent1);
+            if (scaleXComponent1 * scaleXComponent2 * scaleXComponent2 != newScale.x) { Debug.Log("Incorrect scale calculations"); }
+            foreach (GameObject component in leftComponents)
+            {
+                Vector3 newComponentScale = component.transform.localScale;
+                newComponentScale = new(
+                    newComponentScale[0] * scaleXComponent1, 
+                    newComponentScale[1] * newScale.y, 
+                    newComponentScale[2] * newScale.z
+                );
+                component.transform.localScale = newComponentScale;
+            }
+            foreach (GameObject component in middleXComponents)
+            {
+                Vector3 newComponentScale = component.transform.localScale;
+                newComponentScale = new(
+                    newComponentScale[0] * scaleXComponent2, 
+                    newComponentScale[1] * newScale.y, 
+                    newComponentScale[2] * newScale.z
+                );
+                component.transform.localScale = newComponentScale;
+            }
+            foreach (GameObject component in rightComponents)
+            {
+                Vector3 newComponentScale = component.transform.localScale;
+                newComponentScale = new(
+                    newComponentScale[0] * scaleXComponent2, 
+                    newComponentScale[1] * newScale.y, 
+                    newComponentScale[2] * newScale.z
+                );
+                component.transform.localScale = newComponentScale;
+            }
         }
+
         onScaleChanged.Invoke(oldScale, newScale);
         FixComponentPositions();
     }
@@ -325,280 +386,3 @@ public class NewScaleAwayOnHit : MonoBehaviour
         return newScale;
     }
 }
-
-
-/*
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Events;
-
-public class NewScaleAwayOnHit : MonoBehaviour
-{
-    [Header("Target")]
-    [SerializeField] Transform centerPivot; // scales all parts
-
-    [SerializeField] GameObject left_edge;
-    [SerializeField] GameObject right_edge;
-    [SerializeField] GameObject top_edge;
-    [SerializeField] GameObject bottom_edge;
-    [SerializeField] GameObject top_left_corner;
-    [SerializeField] GameObject top_right_corner;
-    [SerializeField] GameObject bottom_left_corner;
-    [SerializeField] GameObject bottom_right_corner;
-
-    [Header("Clamp Settings")]
-    [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
-    public Vector3 maxScale = new(2f, 2f, 2f);
-
-    [Header("Dials")]
-    [SerializeField] float yGrowthScale = 0.7f; 
-    [SerializeField] float volumeShiftModifier = 1f;
-    [SerializeField] float minVelocity = 0.01f;
-    [SerializeField] float maxVelocity = 1f;
-    [SerializeField] AnvilAttachable anvilAttachable;
-    [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
-    [SerializeField] TemperatureScript temperatureScript;
-
-    [Header("Events")]
-    public UnityEvent<Vector3, Vector3> onScaleChanged;
-
-    Vector3 unscaledSize;
-    Vector3 scaledSize;
-    Vector3 area;
-    float volume;
-    float maxVolumeShift;
-    private float lastHitTime = 0f;
-
-    void Start()
-    {
-        maxVolumeShift = 0.002f * volumeShiftModifier; // Upper limit
-        Debug.Log("Unscaled size: " + unscaledSize);
-        RecalculateUnscaledSize();
-    }
-
-    void RecalculateUnscaledSize()
-    {
-        Vector3 leftEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        Vector3 rightEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        Vector3 topEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        Vector3 bottomEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-
-        unscaledSize = new Vector3(0,0,0);
-        unscaledSize[0] += leftEdgeSize[0] + topEdgeSize[0] + rightEdgeSize[0];
-        unscaledSize[0] /= centerPivot.localScale[0];
-        unscaledSize[1] += leftEdgeSize[1];
-        unscaledSize[1] /= centerPivot.localScale[1];
-        unscaledSize[2] += topEdgeSize[2] + leftEdgeSize[2] + bottomEdgeSize[2];
-        unscaledSize[2] /= centerPivot.localScale[2];
-    }
-
-    public void ScaleUpMaxScale(Vector3 modifier)
-    {
-        maxScale = new(
-            maxScale[0] * modifier[0], 
-            maxScale[1] * modifier[1], 
-            maxScale[2] * modifier[2]
-        );
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (!anvilAttachable.isOnAnvil) 
-        {
-            // Debug.Log("Weapon is not on anvil. Cannot modify weapon proportions.");
-            return;
-        }
-        if (collision.contactCount == 0 || !collision.gameObject.CompareTag("hammer")) 
-        {
-            // Debug.Log("No contact detected or collision is not with hammer");
-            return;
-        }
-        
-        ContactPoint contact = collision.GetContact(0);
-        Vector3 worldNormal = contact.normal;
-        RecalculateMeasurements();
-
-        // VELOCITY
-        float velocityMagnitude;
-        // Rigidbody hammerRb = collision.rigidbody; // the hammer
-        // float velocityMagnitude = hammerRb.linearVelocity.magnitude;
-        // float velocityMagnitude = collision.impulse.magnitude;
-        Rigidbody hammerRb = collision.rigidbody;
-        if (hammerRb == null) return;
-        velocityMagnitude = hammerRb.linearVelocity.magnitude;
-        // Vector3 normal = contact.normal;
-        // velocityMagnitude = Mathf.Max(
-        //     0f,
-        //     Vector3.Dot(hammerRb.linearVelocity, -normal)
-        // );
-        // velocityMagnitude = collision.relativeVelocity.magnitude;
-        if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) return;
-        Debug.Log("Collision's velocity magnitude = " + velocityMagnitude);
-        if (Time.time - lastHitTime < hitCooldown) return;
-        lastHitTime = Time.time;
-        // VOLUME SHIFT
-        float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
-
-        HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
-
-        // pendingNormal = normal;
-        // pendingVolumeShift = volumeShiftedOnHit;
-        // pendingScale = true;
-    }
-
-    void RecalculateMeasurements()
-    {
-        // scaledSize = new(unscaledSize[0] * scaleTarget.localScale[0], unscaledSize[1] * scaleTarget.localScale[1], unscaledSize[2] * scaleTarget.localScale[2]);
-        Vector3 leftEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        Vector3 rightEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        Vector3 topEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        Vector3 bottomEdgeSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        scaledSize = new(
-            leftEdgeSize[0] + topEdgeSize[0] + rightEdgeSize[0],
-            leftEdgeSize[1],
-            topEdgeSize[2] + leftEdgeSize[2] + bottomEdgeSize[2]
-        );
-        volume = scaledSize[0] * scaledSize[1] * scaledSize[2];
-        area = new(scaledSize[1] * scaledSize[2], scaledSize[0] * scaledSize[2], scaledSize[0] * scaledSize[1]);
-
-        // Debug.Log("\nunscaledSize[0] * scaleTarget.localScale[0]: " + unscaledSize[0] * scaleTarget.localScale[0] + 
-        //         "\nunscaledSize[1] * scaleTarget.localScale[1]: " + unscaledSize[1] * scaleTarget.localScale[1] + 
-        //         "\nunscaledSize[2] * scaleTarget.localScale[2]: " + unscaledSize[2] * scaleTarget.localScale[2]);
-    }
-
-    void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)
-    {
-        Vector3 localNormal = centerPivot.InverseTransformDirection(worldNormal);
-
-        Vector3 absNormal = new(
-            Mathf.Abs(localNormal.x),
-            Mathf.Abs(localNormal.y),
-            Mathf.Abs(localNormal.z)
-        );
-
-        // Vector3 oldScale = scaleTarget.localScale;
-        // Vector3 newScale = oldScale;
-        // Debug.Log("New Scale: " + newScale);
-
-        // Debug.Log("Volume After: " + volume);
-        RecalculateMeasurements();
-        // float hitAxisSizeLost;
-        // float hitAxisShrinkFactor;
-        // float preservedFactor;
-
-        if (absNormal.x > absNormal.y && absNormal.x > absNormal.z)
-        {
-            HandlePosXHit(volumeShiftedOnHit);
-        }
-
-        // // Debug.Log("Volume before: " + volume);
-        // if (absNormal.x > absNormal.y && absNormal.x > absNormal.z)
-        // {
-        //     // Debug.Log("Decreasing x");
-        //     hitAxisSizeLost = volumeShiftedOnHit / area[0];
-        //     hitAxisShrinkFactor = (scaledSize[0] - hitAxisSizeLost) / scaledSize[0];
-        //     newScale.x *= hitAxisShrinkFactor;
-
-        //     preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
-        //     // newScale.y *= preservedFactor;
-        //     // newScale.z *= preservedFactor;
-
-        //     float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
-        //     float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
-        //     newScale.y *= yPreservedFactor;
-        //     newScale.z *= nonYpreservedFactor;
-        // }
-        // else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z)
-        // {
-        //     // Debug.Log("Decreasing y");
-        //     hitAxisSizeLost = volumeShiftedOnHit * yGrowthScale / area[1];
-        //     hitAxisShrinkFactor = (scaledSize[1] - hitAxisSizeLost) / scaledSize[1];
-        //     newScale.y *= hitAxisShrinkFactor;
-
-        //     preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
-        //     newScale.x *= preservedFactor;
-        //     newScale.z *= preservedFactor;
-        // }
-        // else
-        // {
-        //     // Debug.Log("Decreasing z");
-        //     hitAxisSizeLost = volumeShiftedOnHit / area[2];
-        //     hitAxisShrinkFactor = (scaledSize[2] - hitAxisSizeLost) / scaledSize[2];
-        //     newScale.z *= hitAxisShrinkFactor;
-
-        //     preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * hitAxisShrinkFactor * scaledSize[2]));
-        //     // float yFactor = 1 + (totalPreservedFactor - 1) * yGrowthScale;
-        //     // float nonYFactor = 1 + (totalPreservedFactor - 1) * (1 - yGrowthScale);
-        //     float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
-        //     float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
-        //     // Debug.Log("preservedFactor: " + preservedFactor);
-        //     // Debug.Log("yPreservedFactor: " + yPreservedFactor);
-        //     // Debug.Log("nonYpreservedFactor: " + nonYpreservedFactor);
-
-        //     newScale.x *= nonYpreservedFactor;
-        //     newScale.y *= yPreservedFactor;
-        // }
-
-        // if (newScale.x >= minScale.x && newScale.x <= maxScale.x &&
-        //     newScale.y >= minScale.y && newScale.y <= maxScale.y &&
-        //     newScale.z >= minScale.z && newScale.z <= maxScale.z)
-        // {
-        //     scaleTarget.localScale = newScale;
-        //     onScaleChanged.Invoke(oldScale, newScale);
-        //     return;
-        // }
-        // Debug.Log("Scale change rejected: newScale out of bounds");
-    }
-
-    void HandlePosXHit(float volumeShiftedOnHit)
-    {
-        // Debug.Log("Decreasing x");
-        float change_in_hit_axis_length = volumeShiftedOnHit / area[0];
-        float mult_to_hit_axis_scale = (scaledSize[0] - change_in_hit_axis_length) / scaledSize[0];
-        ChangeScaleRight(mult_to_hit_axis_scale);
-
-        float mult_to_other_axis_scale = volume / (scaledSize[0] * scaledSize[1] * mult_to_hit_axis_scale * scaledSize[2]);
-        float mult_to_each_axis_scale = Mathf.Sqrt(mult_to_other_axis_scale);
-
-        float mult_to_y_axis_scale = 1 + (mult_to_each_axis_scale - 1) * yGrowthScale;
-        float mult_to_non_y_axis_scale = mult_to_each_axis_scale * mult_to_each_axis_scale / mult_to_y_axis_scale;
-        MultiplyScaleAxis(centerPivot, mult_to_y_axis_scale, 'y');
-        // ChangeSca
-    }
-
-    void MultiplyScaleAxis(Transform transform, float mult, char axis)
-    {
-        Vector3 newScale     = transform.localScale;
-        if (axis == 'x')       newScale.x *= mult; 
-        else if (axis == 'y')  newScale.y *= mult; 
-        else                   newScale.z *= mult;
-        transform.localScale = newScale;
-    }
-
-    void ChangeScaleRight(float mult)
-    {
-        MultiplyScaleAxis(top_right_corner.transform, mult, 'x');
-        MultiplyScaleAxis(right_edge.transform, mult, 'x');
-        MultiplyScaleAxis(bottom_right_corner.transform, mult, 'x');
-    }
-    void ChangeScaleLeft(float mult)
-    {
-        MultiplyScaleAxis(top_left_corner.transform, mult, 'x');
-        MultiplyScaleAxis(left_edge.transform, mult, 'x');
-        MultiplyScaleAxis(bottom_left_corner.transform, mult, 'x');
-    }
-    void ChangeScaleTop(float mult)
-    {
-        MultiplyScaleAxis(top_left_corner.transform, mult, 'z');
-        MultiplyScaleAxis(top_edge.transform, mult, 'z');
-        MultiplyScaleAxis(top_right_corner.transform, mult, 'z');
-    }
-    void ChangeScaleBottom(float mult)
-    {
-        MultiplyScaleAxis(bottom_left_corner.transform, mult, 'z');
-        MultiplyScaleAxis(bottom_edge.transform, mult, 'z');
-        MultiplyScaleAxis(bottom_right_corner.transform, mult, 'z');
-    }
-}
-*/
