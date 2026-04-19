@@ -223,45 +223,44 @@ public class NewScaleAwayOnHit : MonoBehaviour
         Debug.Log("Volume After: " + volume);
         RecalculateMeasurements();
         if (absNormal.x > absNormal.y && absNormal.x > absNormal.z) { 
-            newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
-            // newScale = oldScale;
-            // float change_in_hit_axis_length = volumeShiftedOnHit / area[0];
-            // float change_in_hit_axis_scale = (scaledSize[0] - change_in_hit_axis_length) / scaledSize[0];
-            // newScale.x *= change_in_hit_axis_scale;
+            newScale = CalculateOldScale();
+            float change_in_hit_axis_length = volumeShiftedOnHit / area[0];
+            float change_in_hit_axis_scale = (scaledSize[0] - change_in_hit_axis_length) / scaledSize[0];
+            newScale.x *= change_in_hit_axis_scale;
 
-            // // float c1_scaled_axis_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * left_edge.transform.localScale.x;
-            // // float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
-            // // float change_in_c1_vol = change_in_c1_axis_length * area[0];
+            // float c1_scaled_axis_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * left_edge.transform.localScale.x;
+            // float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
+            // float change_in_c1_vol = change_in_c1_axis_length * area[0];
 
-            // // float c2_scaled_axis_length = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * top_edge.transform.localScale.x;
-            // // float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
-            // // float change_in_c2_vol = change_in_c2_axis_length * area[0];
+            // float c2_scaled_axis_length = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * top_edge.transform.localScale.x;
+            // float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
+            // float change_in_c2_vol = change_in_c2_axis_length * area[0];
 
-            // // float c3_scaled_axis_length = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * top_edge.transform.localScale.x;
-            // // float change_in_c3_axis_length = c3_scaled_axis_length * change_in_hit_axis_scale - c3_scaled_axis_length;
-            // // float change_in_c3_vol = change_in_c3_axis_length * area[0];
+            // float c3_scaled_axis_length = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * top_edge.transform.localScale.x;
+            // float change_in_c3_axis_length = c3_scaled_axis_length * change_in_hit_axis_scale - c3_scaled_axis_length;
+            // float change_in_c3_vol = change_in_c3_axis_length * area[0];
 
-            // // float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
-            // // float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area[0];
+            // float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
+            // float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area[0];
 
-            // // float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
+            // float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
 
-            // // float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
-            // // float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area[0];
+            // float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
+            // float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area[0];
 
-            // // float biased_change_in_c3_vol = change_in_c3_vol + remaining_volume / 2;
-            // // float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area[0];
+            // float biased_change_in_c3_vol = change_in_c3_vol + remaining_volume / 2;
+            // float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area[0];
 
-            // // float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
-            // // float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
-            // // float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
+            // float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
+            // float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
+            // float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
 
-            // float preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * change_in_hit_axis_scale * scaledSize[2]));
-            // float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
-            // float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
+            float preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * change_in_hit_axis_scale * scaledSize[2]));
+            float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
+            float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
 
-            // newScale.y *= yPreservedFactor;
-            // newScale.z *= nonYpreservedFactor;
+            newScale.y *= yPreservedFactor;
+            newScale.z *= nonYpreservedFactor;
 
             // Debug.Log(
             //     "\nX Hit--------------------------------" + 
@@ -271,19 +270,12 @@ public class NewScaleAwayOnHit : MonoBehaviour
             //     "\ny axis scale mult: " + yPreservedFactor +
             //     "\nnon y axis scale mult: " + nonYpreservedFactor
             // );
+            // newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
+
             if (IsNewScaleWithinBounds(newScale))
             {
-                ChangeScales(newScale, 'x', localNormal.x < 0);
-                // foreach (GameObject component in allComponents)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * newScale.x, 
-                //         newComponentScale[1] * newScale.y, 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
-                return;
+                // ChangeScales(newScale, 'x', localNormal.x < 0);
+                // return;
                 // if (localNormal.x > 0)
                 // foreach (GameObject component in leftComponents)
                 // {
@@ -313,6 +305,24 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 //     );
                 // }
                 // return;
+                foreach (GameObject component in allComponents)
+                {
+                    Vector3 newComponentScale = component.transform.localScale;
+                    component.transform.localScale = new(
+                        newComponentScale[0] * newScale.x, 
+                        newComponentScale[1] * newScale.y, 
+                        newComponentScale[2] * newScale.z
+                    );
+                }
+                hole_cover.transform.localScale = new(
+                    top_edge.transform.localScale.x,
+                    left_edge.transform.localScale.y,
+                    1
+                );
+                // onScaleChanged.Invoke(oldScale, newScale);
+                RecalculateMeasurements();
+                FixComponentPositions();
+                return;
             }
         }
         else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z) { 
@@ -372,54 +382,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     newComponentScale[2] * newScale.z
                 );
             }
-            // List<GameObject> hitComponents = isNegativeAxis ? leftComponents : rightComponents;
-            // List<GameObject> oppositeHitComponents = isNegativeAxis ? rightComponents : leftComponents;
-
-            // float component1Length = hitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * hitComponents[0].transform.localScale.x;
-            // float component2Length = middleXComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * middleXComponents[0].transform.localScale.x;
-            // float component3Length = oppositeHitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * oppositeHitComponents[0].transform.localScale.x;
-
-            // float component1Area = hitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * hitComponents[0].transform.localScale.y * hitComponents[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * hitComponents[0].transform.localScale.z;
-            // float component2Area = hitComponents[1].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * hitComponents[1].transform.localScale.y * hitComponents[1].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * hitComponents[1].transform.localScale.z;
-            // float component3Area = hitComponents[2].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * hitComponents[2].transform.localScale.y * hitComponents[2].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * hitComponents[2].transform.localScale.z;
-
-            // float scaleComponent1 = newScale.x * squashBias;
-            // float scaleComponent2 = (newScale.x * 3 - scaleComponent1) / 2;
-
-            // Debug.Log("Volume Lost From Component 1: " + component1Area * component1Length * (1 - scaleComponent1));
-            // Debug.Log("Volume Lost From Component 2: " + component2Area * component2Length * (1 - scaleComponent1));
-            // Debug.Log("Volume Lost From Component 3: " + component3Area * component3Length * (1 - scaleComponent1));
-            // if (scaleComponent1 + scaleComponent2 + scaleComponent2 != newScale.x) { Debug.Log("Incorrect scale calculations"); }
-            // Debug.Log("newScale.x = " + newScale.x + " | scaleComponent1: " + scaleComponent1 + " | scaleComponent2: " + scaleComponent2);
-            // // if (scaleComponent1 * scaleComponent2 * scaleComponent2 != newScale.x) { Debug.Log("Incorrect scale calculations"); }
-
-            // foreach (GameObject component in hitComponents)
-            // {
-            //     Vector3 newComponentScale = component.transform.localScale;
-            //     component.transform.localScale = new(
-            //         newComponentScale[0] * scaleComponent1, 
-            //         newComponentScale[1] * newScale.y, 
-            //         newComponentScale[2] * newScale.z
-            //     );
-            // }
-            // foreach (GameObject component in middleXComponents)
-            // {
-            //     Vector3 newComponentScale = component.transform.localScale;
-            //     component.transform.localScale = new(
-            //         newComponentScale[0] * scaleComponent2, 
-            //         newComponentScale[1] * newScale.y, 
-            //         newComponentScale[2] * newScale.z
-            //     );
-            // }
-            // foreach (GameObject component in oppositeHitComponents)
-            // {
-            //     Vector3 newComponentScale = component.transform.localScale;
-            //     component.transform.localScale = new(
-            //         newComponentScale[0] * scaleComponent2, 
-            //         newComponentScale[1] * newScale.y, 
-            //         newComponentScale[2] * newScale.z
-            //     );
-            // }
         }
         else if (hitAxis == 'y')
         {
