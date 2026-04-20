@@ -242,107 +242,118 @@ public class NewScaleAwayOnHit : MonoBehaviour
         // Debug.Log("Volume After: " + volume);
         RecalculateMeasurements();
         if (absNormal.x > absNormal.y && absNormal.x > absNormal.z) { 
-            newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit); 
-            // newScale = CalculateOldScale();
+            // newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit); 
 
-            // double change_in_hit_axis_length = volumeShiftedOnHit / area[0];
-            // double change_in_hit_axis_scale = (scaledSize[0] - change_in_hit_axis_length) / scaledSize[0];
-            // newScale.x *= (float)change_in_hit_axis_scale;
-            // // double hitAxisVolumeChange = change_in_hit_axis_length * area[0];
+            newScale = CalculateOldScale();
 
-            // double c1_scaled_axis_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * left_edge.transform.localScale.x;
-            // double change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
-            // double change_in_c1_vol = change_in_c1_axis_length * area[0];
+            double change_in_hit_axis_length = volumeShiftedOnHit / area[0];
+            double change_in_hit_axis_scale = (scaledSize[0] - change_in_hit_axis_length) / scaledSize[0];
+            newScale.x *= (float)change_in_hit_axis_scale;
+            Debug.Log("Volume after x change: " + unscaledSize[0] * newScale.x + unscaledSize[1] * newScale.y * unscaledSize[2] * newScale.z);
 
-            // double c2_scaled_axis_length = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * top_edge.transform.localScale.x;
-            // double change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
-            // double change_in_c2_vol = change_in_c2_axis_length * area[0];
+            // double hitAxisVolumeChange = change_in_hit_axis_length * area[0];
 
-            // double c3_scaled_axis_length = right_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * right_edge.transform.localScale.x;
-            // // double change_in_c3_axis_length = c3_scaled_axis_length * change_in_hit_axis_scale - c3_scaled_axis_length;
-            // // double change_in_c3_vol = change_in_c3_axis_length * area[0];
+            double c1_scaled_axis_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * left_edge.transform.localScale.x;
+            double change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
+            double change_in_c1_vol = change_in_c1_axis_length * area[0];
 
-            // double biased_change_in_c1_vol = change_in_c1_vol * squashBias;
-            // double biased_change_in_c1_axis_length = biased_change_in_c1_vol / area[0];
+            double c2_scaled_axis_length = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * top_edge.transform.localScale.x;
+            double change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
+            double change_in_c2_vol = change_in_c2_axis_length * area[0];
 
-            // double remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
+            double c3_scaled_axis_length = right_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * right_edge.transform.localScale.x;
+            // double change_in_c3_axis_length = c3_scaled_axis_length * change_in_hit_axis_scale - c3_scaled_axis_length;
+            // double change_in_c3_vol = change_in_c3_axis_length * area[0];
 
-            // double biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
-            // double biased_change_in_c2_axis_length = biased_change_in_c2_vol / area[0];
+            double biased_change_in_c1_vol = change_in_c1_vol * squashBias;
+            double biased_change_in_c1_axis_length = biased_change_in_c1_vol / area[0];
 
-            // // double biased_change_in_c3_vol = change_in_c3_vol + remaining_volume / 2;
-            // double biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
-            // double biased_change_in_c3_axis_length = biased_change_in_c3_vol / area[0];
+            double remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
 
-            // double biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
-            // double biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
-            // double biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
+            double biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
+            double biased_change_in_c2_axis_length = biased_change_in_c2_vol / area[0];
 
-            // // double preservedFactor = Mathf.Sqrt(volume / (scaledSize[0] * scaledSize[1] * (float)change_in_hit_axis_scale * scaledSize[2]));
-            // // double yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
-            // // double nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
+            // double biased_change_in_c3_vol = change_in_c3_vol + remaining_volume / 2;
+            double biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
+            double biased_change_in_c3_axis_length = biased_change_in_c3_vol / area[0];
+
+            double biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
+            double biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
+            double biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
+
+            // double preservedFactor = Math.Sqrt(volume / (scaledSize[0] * scaledSize[1] * (float)change_in_hit_axis_scale * scaledSize[2]));
+            // double yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
+            // double nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
+            // newScale.y *= (float)yPreservedFactor;
+            // Debug.Log("Volume after y change: " + scaledSize[0] * change_in_hit_axis_scale * scaledSize[1] * yPreservedFactor * scaledSize[2]);
+            // newScale.z *= (float)nonYpreservedFactor;
+            // Debug.Log("Volume after z change: " + scaledSize[0] * change_in_hit_axis_scale + scaledSize[1] * yPreservedFactor * scaledSize[2] * nonYpreservedFactor);
 
 
-            // // newScale.y *= (float)yPreservedFactor;
-            // // newScale.z *= (float)nonYpreservedFactor;
-            // // double preservedFactor = Math.Sqrt(volume / (
-            // //     (
-            // //         leftEdgeUnscaledSize.x * left_edge.transform.localScale.x * biased_change_in_c1_axis_scale + 
-            // //         topEdgeUnscaledSize.x * top_edge.transform.localScale.x * biased_change_in_c2_axis_scale + 
-            // //         rightEdgeUnscaledSize.x * right_edge.transform.localScale.x * biased_change_in_c3_axis_scale
-            // //     ) * 
-            // //     topEdgeUnscaledSize.y * left_edge.transform.localScale.z + leftEdgeUnscaledSize.y * left_edge.transform.localScale.z + bottomEdgeUnscaledSize.y * left_edge.transform.localScale.z *
-            // //     topEdgeUnscaledSize.z * left_edge.transform.localScale.y
-            // // ));
-            // // double preservedFactor = Math.Sqrt(volume / (
-            // //     (
-            // //         leftEdgeUnscaledSize.x * left_edge.transform.localScale.x * biased_change_in_c1_axis_scale + 
-            // //         topEdgeUnscaledSize.x * top_edge.transform.localScale.x * biased_change_in_c2_axis_scale + 
-            // //         rightEdgeUnscaledSize.x * right_edge.transform.localScale.x * biased_change_in_c3_axis_scale
-            // //     ) * 
-            // //     scaledSize[1] *
-            // //     scaledSize[2]
-            // // ));
-            // // double preservedFactor = Math.Sqrt(volume / (
-            // //     scaledSize[0] * change_in_hit_axis_scale * 
-            // //     scaledSize[1] *
-            // //     scaledSize[2]
-            // // ));
+            // double preservedFactor = Math.Sqrt(volume / (
+            //     (
+            //         leftEdgeUnscaledSize.x * left_edge.transform.localScale.x * biased_change_in_c1_axis_scale + 
+            //         topEdgeUnscaledSize.x * top_edge.transform.localScale.x * biased_change_in_c2_axis_scale + 
+            //         rightEdgeUnscaledSize.x * right_edge.transform.localScale.x * biased_change_in_c3_axis_scale
+            //     ) * 
+            //     topEdgeUnscaledSize.y * left_edge.transform.localScale.z + leftEdgeUnscaledSize.y * left_edge.transform.localScale.z + bottomEdgeUnscaledSize.y * left_edge.transform.localScale.z *
+            //     topEdgeUnscaledSize.z * left_edge.transform.localScale.y
+            // ));
+            // double preservedFactor = Math.Sqrt(volume / (
+            //     (
+            //         leftEdgeUnscaledSize.x * left_edge.transform.localScale.x * biased_change_in_c1_axis_scale + 
+            //         topEdgeUnscaledSize.x * top_edge.transform.localScale.x * biased_change_in_c2_axis_scale + 
+            //         rightEdgeUnscaledSize.x * right_edge.transform.localScale.x * biased_change_in_c3_axis_scale
+            //     ) * 
+            //     scaledSize[1] *
+            //     scaledSize[2]
+            // ));
+            double preservedFactor = Math.Sqrt(volume / (
+                scaledSize[0] * change_in_hit_axis_scale * 
+                scaledSize[1] *
+                scaledSize[2]
+            ));
+            newScale.y *= (float)preservedFactor;
+            Debug.Log("Volume after y change: " + unscaledSize[0] * newScale.x + unscaledSize[1] * newScale.y * unscaledSize[2] * newScale.z);
 
-            // // newScale.y *= (float)preservedFactor;
+            newScale.z *= (float)preservedFactor;
+            Debug.Log("Volume after z change: " + unscaledSize[0] * newScale.x + unscaledSize[1] * newScale.y * unscaledSize[2] * newScale.z);
 
-            // // preservedFactor = Math.Sqrt(volume / (
-            // //     scaledSize[0] * change_in_hit_axis_scale * 
-            // //     scaledSize[1] * preservedFactor *
-            // //     scaledSize[2]
-            // // ));
-            // // newScale.z *= (float)preservedFactor;
+            // newScale.y *= (float)preservedFactor;
+
+            // preservedFactor = Math.Sqrt(volume / (
+            //     scaledSize[0] * change_in_hit_axis_scale * 
+            //     scaledSize[1] * preservedFactor *
+            //     scaledSize[2]
+            // ));
+            // newScale.z *= (float)preservedFactor;
 
             // float area_1 = scaledSize[0] * (float)change_in_hit_axis_scale * scaledSize[2];
             // float change_to_y_axis_length = volumeShiftedOnHit / 2 / area_1;
-            // float change_to_y_axis_scale = (scaledSize[1] - change_to_y_axis_length) / scaledSize[1];
+            // float change_to_y_axis_scale = (scaledSize[1] + change_to_y_axis_length) / scaledSize[1];
 
             // float area_2 = scaledSize[0] * (float)change_in_hit_axis_scale * scaledSize[1] * change_to_y_axis_scale;
             // float change_to_z_axis_length = volumeShiftedOnHit / 2 / area_2;
-            // float change_to_z_axis_scale = (scaledSize[1] - change_to_z_axis_length) / scaledSize[1];
+            // float change_to_z_axis_scale = (scaledSize[2] + change_to_z_axis_length) / scaledSize[2];
 
             // newScale.y *= change_to_y_axis_scale;
             // newScale.z *= change_to_z_axis_scale;
 
             Debug.Log(
+                // "\nX Hit--------------------------------" + 
                 "\nvolume: " + volume +
                 "\nvolume shifted: " + volumeShiftedOnHit +
-                // "\nx1 volume shifted: " + biased_change_in_c1_vol +
-                // "\nx2 volume shifted: " + biased_change_in_c2_vol +
-                // "\nx3 volume shifted: " + biased_change_in_c3_vol +
-                // "\nremaining volume" + remaining_volume +
-                // // "\nhit axis volume change: " + volumeShiftedOnHit +
-                // "\ncalculated x scaled size: " + (
-                //     leftEdgeUnscaledSize.x * left_edge.transform.localScale.x * biased_change_in_c1_axis_scale + 
-                //     topEdgeUnscaledSize.x * top_edge.transform.localScale.x * biased_change_in_c2_axis_scale + 
-                //     rightEdgeUnscaledSize.x * right_edge.transform.localScale.x * biased_change_in_c3_axis_scale
-                // ) +
-                // "\neasy calculated x scaled size: " + scaledSize[0] * change_in_hit_axis_scale + 
+                "\nx1 volume shifted: " + biased_change_in_c1_vol +
+                "\nx2 volume shifted: " + biased_change_in_c2_vol +
+                "\nx3 volume shifted: " + biased_change_in_c3_vol +
+                "\nremaining volume" + remaining_volume +
+                // "\nhit axis volume change: " + volumeShiftedOnHit +
+                "\ncalculated x scaled size: " + (
+                    leftEdgeUnscaledSize.x * left_edge.transform.localScale.x * biased_change_in_c1_axis_scale + 
+                    topEdgeUnscaledSize.x * top_edge.transform.localScale.x * biased_change_in_c2_axis_scale + 
+                    rightEdgeUnscaledSize.x * right_edge.transform.localScale.x * biased_change_in_c3_axis_scale
+                ) +
+                "\neasy calculated x scaled size: " + scaledSize[0] * change_in_hit_axis_scale + 
                 // "\ny volume shifted: " + biased_change_in_c3_vol +
                 // "\nz volume shifted: " + biased_change_in_c3_vol +
                 // "\npreserved factor: " + preservedFactor +
@@ -352,62 +363,62 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 // "\nnon y axis scale mult: " + nonYpreservedFactor
             );
 
-            // // Debug.Log(
-            // //     "\nX Hit--------------------------------" + 
-            // //     "\nvolume shifted: " + volumeShiftedOnHit +
-            // //     "\nhit axis length change: " + change_in_hit_axis_length +
-            // //     "\nhit axis scale mult: " + change_in_hit_axis_scale +
-            // //     "\ny axis scale mult: " + yPreservedFactor +
-            // //     "\nnon y axis scale mult: " + nonYpreservedFactor
-            // // );
-            // // newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
+            // Debug.Log(
+            //     "\nX Hit--------------------------------" + 
+            //     "\nvolume shifted: " + volumeShiftedOnHit +
+            //     "\nhit axis length change: " + change_in_hit_axis_length +
+            //     "\nhit axis scale mult: " + change_in_hit_axis_scale +
+            //     "\ny axis scale mult: " + yPreservedFactor +
+            //     "\nnon y axis scale mult: " + nonYpreservedFactor
+            // );
+            // newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
 
-            // double totalDelta =
-            //     biased_change_in_c1_vol +
-            //     biased_change_in_c2_vol +
-            //     biased_change_in_c3_vol +
-            //     volumeShiftedOnHit;
+            double totalDelta =
+                biased_change_in_c1_vol +
+                biased_change_in_c2_vol +
+                biased_change_in_c3_vol +
+                volumeShiftedOnHit;
 
-            // if (Mathf.Abs((float)totalDelta) > 1e-6f)
-            // {
-            //     Debug.LogWarning("Volume not conserved: " + totalDelta);
-            // }
+            if (Mathf.Abs((float)totalDelta) > 1e-6f)
+            {
+                Debug.LogWarning("Volume not conserved: " + totalDelta);
+            }
 
             if (IsNewScaleWithinBounds(newScale))
             {
-                ChangeScales(newScale, 'x', localNormal.x < 0);
+                // ChangeScales(newScale, 'x', localNormal.x < 0);
                 // return;
                 // if (localNormal.x > 0)
 
 
-
-                // foreach (GameObject component in leftComponents)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * (float)biased_change_in_c1_axis_scale, 
-                //         newComponentScale[1] * newScale.y, 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
-                // foreach (GameObject component in middleXComponents)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * (float)biased_change_in_c2_axis_scale, 
-                //         newComponentScale[1] * newScale.y, 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
-                // foreach (GameObject component in rightComponents)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * (float)biased_change_in_c3_axis_scale, 
-                //         newComponentScale[1] * newScale.y, 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
+                
+                foreach (GameObject component in leftComponents)
+                {
+                    Vector3 newComponentScale = component.transform.localScale;
+                    component.transform.localScale = new(
+                        newComponentScale[0] * (float)biased_change_in_c1_axis_scale, 
+                        newComponentScale[1] * newScale.y, 
+                        newComponentScale[2] * newScale.z
+                    );
+                }
+                foreach (GameObject component in middleXComponents)
+                {
+                    Vector3 newComponentScale = component.transform.localScale;
+                    component.transform.localScale = new(
+                        newComponentScale[0] * (float)biased_change_in_c2_axis_scale, 
+                        newComponentScale[1] * newScale.y, 
+                        newComponentScale[2] * newScale.z
+                    );
+                }
+                foreach (GameObject component in rightComponents)
+                {
+                    Vector3 newComponentScale = component.transform.localScale;
+                    component.transform.localScale = new(
+                        newComponentScale[0] * (float)biased_change_in_c3_axis_scale, 
+                        newComponentScale[1] * newScale.y, 
+                        newComponentScale[2] * newScale.z
+                    );
+                }
 
 
 
@@ -564,11 +575,12 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
     Vector3 CalculateOldScale()
     {
-        return new(
-            (left_edge.transform.localScale[0] + top_edge.transform.localScale[0] + right_edge.transform.localScale[0]) / 3,
-            left_edge.transform.localScale[1],
-            (top_edge.transform.localScale[2] + left_edge.transform.localScale[2] + bottom_edge.transform.localScale[2]) / 3
-        );
+        // return new(
+        //     (left_edge.transform.localScale[0] + top_edge.transform.localScale[0] + right_edge.transform.localScale[0]) / 3,
+        //     left_edge.transform.localScale[1],
+        //     (top_edge.transform.localScale[2] + left_edge.transform.localScale[2] + bottom_edge.transform.localScale[2]) / 3
+        // );
+        return new(1,1,1);
     }
 
     /// <summary>
@@ -589,14 +601,14 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
         newScale.y *= yPreservedFactor;
         newScale.z *= nonYpreservedFactor;
-        // Debug.Log(
-        //     "\nX Hit--------------------------------" + 
-        //     "\nvolume shifted: " + volumeShiftedOnHit +
-        //     "\nhit axis length change: " + change_in_hit_axis_length +
-        //     "\nhit axis scale mult: " + change_in_hit_axis_scale +
-        //     "\ny axis scale mult: " + yPreservedFactor +
-        //     "\nnon y axis scale mult: " + nonYpreservedFactor
-        // );
+        Debug.Log(
+            "\nX Hit--------------------------------" + 
+            "\nvolume shifted: " + volumeShiftedOnHit +
+            "\nhit axis length change: " + change_in_hit_axis_length +
+            "\nhit axis scale mult: " + change_in_hit_axis_scale +
+            "\ny axis scale mult: " + yPreservedFactor +
+            "\nnon y axis scale mult: " + nonYpreservedFactor
+        );
         return newScale;
     }
 
