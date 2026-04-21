@@ -5,6 +5,11 @@ public class SellTable : MonoBehaviour
     public SellTableUI tableUI;
     private SellableItem currentItem;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip sellSound;
+    public AudioClip itemDetectedSound;
+
     void OnTriggerEnter(Collider other)
     {
         SellableItem item = other.GetComponent<SellableItem>();
@@ -12,6 +17,10 @@ public class SellTable : MonoBehaviour
         {
             currentItem = item;
             tableUI.ShowItem(item);
+
+            if (audioSource != null && itemDetectedSound != null)
+                audioSource.PlayOneShot(itemDetectedSound);
+
             Debug.Log($"[SellTable] Detected item: {item.itemName} at ${item.GetSellPrice()}");
         }
     }
@@ -39,7 +48,23 @@ public class SellTable : MonoBehaviour
         QuotaManager.Instance.AddMoney(price);
 
         Debug.Log($"[SellTable] Sold {currentItem.itemName} for ${price}");
+
+        if (audioSource != null && sellSound != null)
+            audioSource.PlayOneShot(sellSound);
+
+        if (audioSource != null && sellSound != null)
+        {
+            Debug.Log("[SellTable] Playing sell sound.");
+            audioSource.PlayOneShot(sellSound);
+        }
+        else
+        {
+            Debug.LogWarning($"[SellTable] Audio missing — source: {audioSource}, clip: {sellSound}");
+        }
+
         Destroy(currentItem.gameObject);
         tableUI.HideUI();
+
+
     }
 }

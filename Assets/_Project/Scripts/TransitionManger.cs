@@ -20,6 +20,11 @@ public class TransitionManager : MonoBehaviour
     [Header("Follow Target")]
     public Transform cameraTarget;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip dayTransitionSound;
+    public AudioClip loseSound;
+
     Material sphereMat;
     bool isTransitioning = false;
 
@@ -59,24 +64,21 @@ public class TransitionManager : MonoBehaviour
     {
         isTransitioning = true;
 
-        // Fade in
         dayText.text = $"Day {day}";
         subtitleText.text = subtitle;
         restartButton.SetActive(false);
         transitionCanvas.SetActive(true);
 
+        if (audioSource != null && dayTransitionSound != null)
+            audioSource.PlayOneShot(dayTransitionSound);
+
         yield return StartCoroutine(FadeSphere(0f, 1f));
-
-        // Hold
         yield return new WaitForSeconds(holdSeconds);
-
-        // Fade out
         yield return StartCoroutine(FadeSphere(1f, 0f));
 
         transitionCanvas.SetActive(false);
         isTransitioning = false;
 
-        // Tell QuotaManager the transition is done and day can start
         QuotaManager.Instance.OnTransitionComplete();
     }
 
@@ -89,9 +91,10 @@ public class TransitionManager : MonoBehaviour
         restartButton.SetActive(true);
         transitionCanvas.SetActive(true);
 
-        yield return StartCoroutine(FadeSphere(0f, 1f));
+        if (audioSource != null && loseSound != null)
+            audioSource.PlayOneShot(loseSound);
 
-        // Stay on screen — player has to press restart
+        yield return StartCoroutine(FadeSphere(0f, 1f));
     }
 
     IEnumerator FadeSphere(float from, float to)
