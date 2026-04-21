@@ -12,6 +12,22 @@ public class NewScaleAwayOnHit : MonoBehaviour
     [SerializeField] Transform scaleTarget;
     [SerializeField] string targetName = "Center Pivot";
 
+    [SerializeField] int colliderLeftRightAxisIndex = 0;
+    [SerializeField] int colliderBackForthAxisIndex = 1;
+    [SerializeField] int colliderUpDownAxisIndex = 2;
+
+    [SerializeField] int bodyLeftRightPosAxisIndex = 0;
+    [SerializeField] int bodyBackForthPosAxisIndex = 1;
+    [SerializeField] int bodyUpDownPosAxisIndex = 2;
+
+    [SerializeField] int bodyLeftRightScaleAxisIndex = 0;
+    [SerializeField] int bodyBackForthScaleAxisIndex = 2;
+    [SerializeField] int bodyUpDownScaleAxisIndex = 1;
+
+    [SerializeField] int bodyLeftRightBoundsAxisIndex = 0;
+    [SerializeField] int bodyBackForthBoundsAxisIndex = 2;
+    [SerializeField] int bodyUpDownBoundsAxisIndex = 1;
+
     [SerializeField] GameObject left_edge;
     [SerializeField] GameObject right_edge;
     [SerializeField] GameObject top_edge;
@@ -53,7 +69,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
     List<GameObject> topComponents;
     List<GameObject> middleYComponents;
     List<GameObject> bottomComponents;
-    List<GameObject> allComponents;
     Vector3 leftEdgeUnscaledSize;
     Vector3 rightEdgeUnscaledSize;
     Vector3 topEdgeUnscaledSize;
@@ -68,14 +83,13 @@ public class NewScaleAwayOnHit : MonoBehaviour
         topComponents = new() {top_left_corner, top_edge, top_right_corner};
         middleYComponents = new() {left_edge, right_edge};
         bottomComponents = new() {bottom_left_corner, bottom_edge, bottom_right_corner};
-        allComponents = leftComponents.Concat(middleXComponents).Concat(rightComponents).ToList();
 
         maxVolumeShift = 0.002f * volumeShiftModifier; // Upper limit
         // Debug.Log("Unscaled size: " + unscaledSize);
         RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -127,16 +141,31 @@ public class NewScaleAwayOnHit : MonoBehaviour
         topEdgeUnscaledSize = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
         bottomEdgeUnscaledSize = bottom_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
 
+        // Debug.Log("left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size: " + left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size);
+
         unscaledSize = new Vector3(0,0,0);
-        unscaledSize[0] = leftEdgeUnscaledSize[0] + topEdgeUnscaledSize[0] + rightEdgeUnscaledSize[0];
-        unscaledSize[1] = leftEdgeUnscaledSize[1];
-        unscaledSize[2] = topEdgeUnscaledSize[2] + leftEdgeUnscaledSize[2] + bottomEdgeUnscaledSize[2];
+        unscaledSize[0] = leftEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex]
+                         + topEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex]
+                         + rightEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex];
+        unscaledSize[1] = topEdgeUnscaledSize[bodyUpDownBoundsAxisIndex]
+                         + leftEdgeUnscaledSize[bodyUpDownBoundsAxisIndex]
+                         + bottomEdgeUnscaledSize[bodyUpDownBoundsAxisIndex];
+        unscaledSize[2] = leftEdgeUnscaledSize[bodyBackForthBoundsAxisIndex];
+        Debug.Log("Unscaled Size: " + unscaledSize);
 
         scaledSize = new(
-            leftEdgeUnscaledSize.x * left_edge.transform.localScale.x + topEdgeUnscaledSize.x * top_edge.transform.localScale.x + rightEdgeUnscaledSize.x * right_edge.transform.localScale.x,
-            topEdgeUnscaledSize.y * left_edge.transform.localScale.z + leftEdgeUnscaledSize.y * left_edge.transform.localScale.z + bottomEdgeUnscaledSize.y * left_edge.transform.localScale.z,
-            topEdgeUnscaledSize.z * left_edge.transform.localScale.y
+            leftEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] * left_edge.transform.localScale[bodyLeftRightScaleAxisIndex]
+             + topEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] * top_edge.transform.localScale[bodyLeftRightScaleAxisIndex]
+             + rightEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] * right_edge.transform.localScale[bodyLeftRightScaleAxisIndex],
+             
+            topEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex]
+             + leftEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex]
+             + bottomEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex],
+
+            topEdgeUnscaledSize[bodyBackForthBoundsAxisIndex] * left_edge.transform.localScale[bodyBackForthScaleAxisIndex]
         );
+        Debug.Log("Scaled Size: " + scaledSize);
+
         volume = scaledSize[0] * scaledSize[1] * scaledSize[2];
         if (originalVolume == 0f) { originalVolume = volume; }
         area = new(scaledSize[1] * scaledSize[2], scaledSize[0] * scaledSize[2], scaledSize[0] * scaledSize[1]);
@@ -145,22 +174,23 @@ public class NewScaleAwayOnHit : MonoBehaviour
     void FixComponentPositions()
     {
         // FOR SOME REASON POS Z = ROT Y
-        float halfWidthOfTopEdge = topEdgeUnscaledSize[0] / 2;
-        float halfHeightOfLeftEdge = leftEdgeUnscaledSize.y / 2; // for some reason box colliders swap z and y
+        float halfWidthOfTopEdge = topEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] / 2;
+        float halfHeightOfLeftEdge = leftEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] / 2; // for some reason box colliders swap z and y
+        
         top_left_corner.transform.localPosition = new Vector3(
-            top_edge.transform.localPosition[0] - halfWidthOfTopEdge * top_edge.transform.localScale.x, 
+            top_edge.transform.localPosition[0] - halfWidthOfTopEdge * top_edge.transform.localScale[bodyLeftRightScaleAxisIndex], 
             top_edge.transform.localPosition[1], 
             top_edge.transform.localPosition[2]
         );
         left_edge.transform.localPosition = new Vector3(
             top_left_corner.transform.localPosition[0],
             top_left_corner.transform.localPosition[1],
-            top_left_corner.transform.localPosition[2] + halfHeightOfLeftEdge * left_edge.transform.localScale.y
+            top_left_corner.transform.localPosition[2] + halfHeightOfLeftEdge * left_edge.transform.localScale[bodyUpDownScaleAxisIndex]
         );
         bottom_left_corner.transform.localPosition = new Vector3(
             left_edge.transform.localPosition[0], 
             left_edge.transform.localPosition[1], 
-            left_edge.transform.localPosition[2] + halfHeightOfLeftEdge * left_edge.transform.localScale.y
+            left_edge.transform.localPosition[2] + halfHeightOfLeftEdge * left_edge.transform.localScale[bodyUpDownScaleAxisIndex]
         );
 
         bottom_edge.transform.localPosition = new Vector3(
@@ -170,35 +200,42 @@ public class NewScaleAwayOnHit : MonoBehaviour
         );
 
         top_right_corner.transform.localPosition = new Vector3(
-            top_edge.transform.localPosition[0] + halfWidthOfTopEdge * top_edge.transform.localScale.x, 
+            top_edge.transform.localPosition[0] + halfWidthOfTopEdge * top_edge.transform.localScale[bodyLeftRightScaleAxisIndex], 
             top_edge.transform.localPosition[1], 
             top_edge.transform.localPosition[2]
         );
         right_edge.transform.localPosition = new Vector3(
             top_right_corner.transform.localPosition[0],
             top_right_corner.transform.localPosition[1],
-            top_right_corner.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale.y
+            top_right_corner.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale[bodyUpDownScaleAxisIndex]
         );
         bottom_right_corner.transform.localPosition = new Vector3(
             right_edge.transform.localPosition[0], 
             right_edge.transform.localPosition[1], 
-            right_edge.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale.y
+            right_edge.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale[bodyUpDownScaleAxisIndex]
         );
 
-        // TODO: VERY CONFUSING THAT THE SWORD AND COVER HAVE DIFFERENT AXISES
+        // TODO: x = left right, y = top down, z = back forth
         hole_cover.transform.localScale = new Vector3(
-            top_edge.transform.localScale.x, 
-            left_edge.transform.localScale.z,
+            top_edge.transform.localScale[bodyLeftRightScaleAxisIndex], 
+            left_edge.transform.localScale[bodyUpDownScaleAxisIndex],
             1
         );
         hole_cover.transform.localPosition = new Vector3(
-            top_edge.transform.localPosition.x, 
+            top_edge.transform.localPosition[bodyLeftRightPosAxisIndex], 
             0, 
-            left_edge.transform.localPosition.z
+            left_edge.transform.localPosition[bodyUpDownPosAxisIndex]
         );
 
-        swordBodyCollider.size = new Vector3(scaledSize.x, scaledSize.z, scaledSize.y);
-        swordBodyCollider.center = new Vector3(0, scaledSize.z / 2, 0);
+        Vector3 newColliderSize = new();
+        newColliderSize[colliderLeftRightAxisIndex] = scaledSize[bodyLeftRightScaleAxisIndex];
+        newColliderSize[colliderUpDownAxisIndex] = scaledSize[bodyUpDownScaleAxisIndex];
+        newColliderSize[colliderBackForthAxisIndex] = scaledSize[bodyBackForthScaleAxisIndex];
+        swordBodyCollider.size = newColliderSize;
+        // swordBodyCollider.size = new Vector3(scaledSize.x, scaledSize.z, scaledSize.y);
+        Vector3 newColliderPos = new(0,0,0);
+        newColliderPos[colliderBackForthAxisIndex] = scaledSize[bodyBackForthScaleAxisIndex];
+        // swordBodyCollider.center = new Vector3(0, scaledSize.z / 2, 0);
 
         onScaleChanged.Invoke();
 
@@ -261,36 +298,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
             newScale.y *= preservedFactor;
             newScale.z *= preservedFactor;
 
-
-
-            // List<GameObject> k1Objects = middleYComponents;
-            // List<GameObject> k2Objects = topComponents;
-            // List<GameObject> k3Objects = bottomComponents;
-            // GameObject k1Object = k1Objects[0];
-            // GameObject k2Object = k2Objects[0];
-            // GameObject k3Object = k3Objects[0];
-
-            // Debug.Log("(1 - preservedFactor) * area[axis_index] * k1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index]: " + (1 - preservedFactor) * area[axis_index] * k1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index]);
-            // axis_index = 1;
-
-            // change_in_hit_axis_length = volumeShiftedOnHit / area[axis_index];
-            // change_in_hit_axis_scale = (scaledSize[axis_index] - change_in_hit_axis_length) / scaledSize[axis_index];
-            // biasedScales = GetBiasedScales(
-            //     k1Object,
-            //     k2Object,
-            //     k3Object,
-            //     axis_index,
-            //     (1 - preservedFactor) * area[axis_index] * k1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index],
-            //     // volumeShiftedOnHit,
-            //     change_in_hit_axis_scale,
-            //     1,
-            //     0.5f
-            // );
-
-            // float biased_change_in_k1_axis_scale = biasedScales[0];
-            // float biased_change_in_k2_axis_scale = biasedScales[1];
-            // float biased_change_in_k3_axis_scale = biasedScales[2];
-
             if (
                 IsNewScaleWithinBounds(
                     newScale, 
@@ -327,63 +334,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
                         newComponentScale[2] * newScale.z
                     );
                 }
-
-
-                // foreach (GameObject component in c1Objects)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * biased_change_in_c1_axis_scale, 
-                //         newComponentScale[1], 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
-                // foreach (GameObject component in c2Objects)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * biased_change_in_c2_axis_scale, 
-                //         newComponentScale[1], 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
-                // foreach (GameObject component in c3Objects)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * biased_change_in_c3_axis_scale, 
-                //         newComponentScale[1], 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
-
-                // foreach (GameObject component in k1Objects)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0], 
-                //         newComponentScale[1] * biased_change_in_k1_axis_scale, 
-                //         newComponentScale[2]
-                //     );
-                // }
-                // foreach (GameObject component in k2Objects)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0], 
-                //         newComponentScale[1] * biased_change_in_k2_axis_scale, 
-                //         newComponentScale[2]
-                //     );
-                // }
-                // foreach (GameObject component in k3Objects)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0], 
-                //         newComponentScale[1] * biased_change_in_k3_axis_scale, 
-                //         newComponentScale[2]
-                //     );
-                // }
 
                 RecalculateMeasurements();
                 FixComponentPositions();
