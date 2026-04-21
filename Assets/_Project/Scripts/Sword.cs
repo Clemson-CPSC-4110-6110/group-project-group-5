@@ -3,16 +3,18 @@ using UnityEngine;
 public class Sword : MonoBehaviour
 {
     [SerializeField] GameObject swordBladeScaleTarget;
-    [SerializeField] SwordTipScaleHandler swordTipScaleHandler;
-    [SerializeField] ScaleAwayOnHit scaleAwayOnHit;
+    [SerializeField] NewScaleAwayOnHit swordBodyScaleHandler;
+    // [SerializeField] SwordTipScaleHandler swordTipScaleHandler;
+    // [SerializeField] ScaleAwayOnHit scaleAwayOnHit;
 
     public void SetBladeScale(Vector3 newScale)
     {
-        Vector3 oldScale = swordBladeScaleTarget.transform.localScale;
+        // Vector3 oldScale = swordBladeScaleTarget.transform.localScale;
         swordBladeScaleTarget.transform.localScale = newScale;
-        swordTipScaleHandler.MoveTipWhenSwordScales(oldScale, newScale);
-        swordTipScaleHandler.ScaleXZToMatchSwordScale(oldScale, newScale);
+        swordBodyScaleHandler.onScaleChanged.Invoke();
 
-        scaleAwayOnHit.ScaleUpMaxScale(newScale);
+        // swordTipScaleHandler.MoveTipWhenSwordScales(oldScale, newScale);
+        // swordTipScaleHandler.ScaleXZToMatchSwordScale(oldScale, newScale);
+        // scaleAwayOnHit.ScaleUpMaxScale(newScale);
     }
 }

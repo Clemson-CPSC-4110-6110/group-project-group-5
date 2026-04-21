@@ -6,11 +6,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NewSwordTipScaleHandler : MonoBehaviour
+public class handleScaleHandler : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] Transform scaleTarget;
-    [SerializeField] string targetName = "Tip Pivot";
+    [SerializeField] string targetName = "Handle Pivot";
 
     // [SerializeField] GameObject tipLeftEdge;
     // [SerializeField] GameObject tipRightEdge;
@@ -20,13 +20,16 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     // [SerializeField] GameObject tipTopRightCorner;
     // [SerializeField] GameObject tipBottomLeftCorner;
     // [SerializeField] GameObject tipBottomRightCorner;
-    [SerializeField] GameObject tip;
-    [SerializeField] BoxCollider tipCollider;
-    [SerializeField] GameObject tipTopLeftCorner;
-    [SerializeField] GameObject tipTopRightCorner;
-    [SerializeField] GameObject tipBottomRightCorner;
+    // [SerializeField] GameObject tip;
+    // [SerializeField] BoxCollider tipCollider;
+    // [SerializeField] GameObject tipTopLeftCorner;
+    // [SerializeField] GameObject tipTopRightCorner;
+    // [SerializeField] GameObject tipBottomRightCorner;
 
-    [SerializeField] List<GameObject> tipObjects;
+    // [SerializeField] List<GameObject> tipObjects;
+    [SerializeField] GameObject handleObject;
+    // [SerializeField] BoxCollider handleCollider;
+
     [SerializeField] List<GameObject> bodyObjects;
 
 
@@ -34,7 +37,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
     public Vector3 maxScale = new(2f, 2f, 2f);
 
-    [SerializeField] double minTipScale = 0.001f;
+    [SerializeField] double minHandleScale = 0.001f;
     [SerializeField] double minBodyScale = 0.001f;
 
 
@@ -46,16 +49,12 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     [SerializeField] AnvilAttachable anvilAttachable;
     [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
     [SerializeField] TemperatureScript temperatureScript;
-    [SerializeField] float squashBias = 0.33f;
 
     [Header("Events")]
     public UnityEvent onLengthScaleChanged;
-    Vector3 scaledTipSize;
-    float tipScaledLength;
-    float tipUnscaledLength;
+    Vector3 scaledHandleSize;
     float bodyScaledLength;
-    // Vector3 area;
-    float tipArea;
+    float handleArea;
     float bodyArea;
     float maxVolumeShift;
     private float lastHitTime = 0f;
@@ -68,7 +67,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -115,24 +114,14 @@ public class NewSwordTipScaleHandler : MonoBehaviour
 
     void RecalculateMeasurements()
     {
-        Vector3 unscaledTipSize = new (
-            tipTopLeftCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.x +
-                tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.x + 
-                tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.x,
-            tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.y +
-                tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.y + 
-                tipBottomRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.y,
-            tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z + tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.z
+        Vector3 unscaledHandleSize = handleObject.GetComponent<MeshFilter>().sharedMesh.bounds.size;
+        scaledHandleSize = new (
+            unscaledHandleSize.x * handleObject.transform.localScale.x,
+            unscaledHandleSize.y * handleObject.transform.localScale.z,
+            unscaledHandleSize.z * handleObject.transform.localScale.y
         );
-        scaledTipSize = new (
-            unscaledTipSize.x * tipObjects[0].transform.localScale.x,
-            unscaledTipSize.y * tipObjects[0].transform.localScale.z,
-            unscaledTipSize.z * tipObjects[0].transform.localScale.y
-        );
-        tipUnscaledLength = tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z + tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.z;
-        tipScaledLength = tipUnscaledLength * tipObjects[0].transform.localScale.z; 
         bodyScaledLength = bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * bodyObjects[0].transform.localScale.z;
-        tipArea = scaledTipSize[0] * scaledTipSize[1];
+        handleArea = scaledHandleSize[0] * scaledHandleSize[1];
         bodyArea = bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * bodyObjects[0].transform.localScale.x * 
                    bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * bodyObjects[0].transform.localScale.z;
 
@@ -142,13 +131,13 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     void FixComponentPositions()
     {
         onLengthScaleChanged.Invoke();
-        tip.transform.localPosition = new (
-            tip.transform.localPosition.x,
-            tipObjects[0].transform.localPosition.y + tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * tipObjects[0].transform.localScale.z,
-            tip.transform.localPosition.z
-        );
-        tipCollider.size = new Vector3(scaledTipSize.x * 0.6f, scaledTipSize.z, scaledTipSize.y * 0.6f);
-        tipCollider.center = new Vector3(0, scaledTipSize.z / 2, 0);
+        // tip.transform.localPosition = new (
+        //     tip.transform.localPosition.x,
+        //     tipObjects[0].transform.localPosition.y + tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * tipObjects[0].transform.localScale.z,
+        //     tip.transform.localPosition.z
+        // );
+        // handleCollider.size = new Vector3(scaledHandleSize.x * 0.6f, scaledHandleSize.z, scaledHandleSize.y * 0.6f);
+        // handleCollider.center = new Vector3(0, scaledHandleSize.z / 2, 0);
     }
 
     void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)
@@ -165,8 +154,8 @@ public class NewSwordTipScaleHandler : MonoBehaviour
             (absNormal.x >= absNormal.y && absNormal.x >= absNormal.z) || 
             (absNormal.z >= absNormal.x && absNormal.z >= absNormal.y)
         ) { 
-            double change_in_tip_length = volumeShiftedOnHit / tipArea;
-            double change_in_tip_length_scale = (tipScaledLength + change_in_tip_length) / tipScaledLength;
+            double change_in_handle_length = volumeShiftedOnHit / handleArea;
+            double change_in_handle_length_scale = (scaledHandleSize.y + change_in_handle_length) / scaledHandleSize.y;
 
             double change_in_body_length = volumeShiftedOnHit / bodyArea;
             double change_in_body_length_scale = (bodyScaledLength - change_in_body_length) / bodyScaledLength;
@@ -174,33 +163,34 @@ public class NewSwordTipScaleHandler : MonoBehaviour
             Debug.Log(
                 "XZ HIT" + 
                 "\nvolume shifted: " + volumeShiftedOnHit +
-                "\ntipArea: " + tipArea +
+                "\nhandleArea: " + handleArea +
                 "\nbodyArea: " + bodyArea +
-                "\nchange_in_tip_length: " + change_in_tip_length + 
-                "\nchange_in_tip_length_scale: " + change_in_tip_length_scale + 
+                "\nchange_in_handle_length: " + change_in_handle_length + 
+                "\nchange_in_handle_length_scale: " + change_in_handle_length_scale + 
                 "\nchange_in_body_length: " + change_in_body_length + 
                 "\nchange_in_body_length_scale: " + change_in_body_length_scale
             );
 
+            // TODO: VERY CONFUSING THAT THE SCALE AXISES ARE DIFFERENT
             if (IsNewScaleWithinBounds(
-                tipObjects[0].transform.localScale.z * change_in_tip_length_scale, 
+                handleObject.transform.localScale.y * change_in_handle_length_scale, 
                 bodyObjects[0].transform.localScale.z * change_in_body_length_scale
             ))
             {
-                foreach (GameObject component in tipObjects)
-                {
-                    Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0], 
-                        newComponentScale[1], 
-                        newComponentScale[2] * (float)change_in_tip_length_scale
-                    );
-                }
-                Vector3 tipComponentScale = tip.transform.localScale;
-                tip.transform.localScale = new(
+                // foreach (GameObject component in tipObjects)
+                // {
+                //     Vector3 newComponentScale = component.transform.localScale;
+                //     component.transform.localScale = new(
+                //         newComponentScale[0], 
+                //         newComponentScale[1], 
+                //         newComponentScale[2] * (float)change_in_tip_length_scale
+                //     );
+                // }
+                Vector3 tipComponentScale = handleObject.transform.localScale;
+                handleObject.transform.localScale = new(
                     tipComponentScale[0], 
-                    tipComponentScale[1], 
-                    tipComponentScale[2] * (float)change_in_tip_length_scale
+                    tipComponentScale[1] * (float)change_in_handle_length_scale, 
+                    tipComponentScale[2]
                 );
                 foreach (GameObject component in bodyObjects)
                 {
@@ -217,55 +207,55 @@ public class NewSwordTipScaleHandler : MonoBehaviour
         }
         else
         {
-            double change_in_tip_length = volumeShiftedOnHit / tipArea;
-            double change_in_tip_length_scale = (tipScaledLength - change_in_tip_length) / tipScaledLength;
+            // double change_in_tip_length = volumeShiftedOnHit / tipArea;
+            // double change_in_tip_length_scale = (tipScaledLength - change_in_tip_length) / tipScaledLength;
 
-            double change_in_body_length = volumeShiftedOnHit / bodyArea;
-            double change_in_body_length_scale = (bodyScaledLength + change_in_body_length) / bodyScaledLength;
+            // double change_in_body_length = volumeShiftedOnHit / bodyArea;
+            // double change_in_body_length_scale = (bodyScaledLength + change_in_body_length) / bodyScaledLength;
 
-            Debug.Log(
-                "Y HIT" + 
-                "\nvolume shifted: " + volumeShiftedOnHit +
-                "\ntipArea: " + tipArea +
-                "\nbodyArea: " + bodyArea +
-                "\nchange_in_tip_length: " + change_in_tip_length + 
-                "\nchange_in_tip_length_scale: " + change_in_tip_length_scale + 
-                "\nchange_in_body_length: " + change_in_body_length + 
-                "\nchange_in_body_length_scale: " + change_in_body_length_scale
-            );
+            // Debug.Log(
+            //     "Y HIT" + 
+            //     "\nvolume shifted: " + volumeShiftedOnHit +
+            //     "\ntipArea: " + tipArea +
+            //     "\nbodyArea: " + bodyArea +
+            //     "\nchange_in_tip_length: " + change_in_tip_length + 
+            //     "\nchange_in_tip_length_scale: " + change_in_tip_length_scale + 
+            //     "\nchange_in_body_length: " + change_in_body_length + 
+            //     "\nchange_in_body_length_scale: " + change_in_body_length_scale
+            // );
 
-            if (IsNewScaleWithinBounds(
-                tipObjects[0].transform.localScale.z * change_in_tip_length_scale, 
-                bodyObjects[0].transform.localScale.z * change_in_body_length_scale
-            ))
-            {
-                foreach (GameObject component in tipObjects)
-                {
-                    Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0], 
-                        newComponentScale[1], 
-                        newComponentScale[2] * (float)change_in_tip_length_scale
-                    );
-                }
-                Vector3 tipComponentScale = tip.transform.localScale;
-                tip.transform.localScale = new(
-                    tipComponentScale[0], 
-                    tipComponentScale[1], 
-                    tipComponentScale[2] * (float)change_in_tip_length_scale
-                );
-                foreach (GameObject component in bodyObjects)
-                {
-                    Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0], 
-                        newComponentScale[1], 
-                        newComponentScale[2] * (float)change_in_body_length_scale
-                    );
-                }
-            }
-            RecalculateMeasurements();
-            FixComponentPositions();
+            // if (IsNewScaleWithinBounds(
+            //     tipObjects[0].transform.localScale.z * change_in_tip_length_scale, 
+            //     bodyObjects[0].transform.localScale.z * change_in_tip_length_scale
+            // ))
+            // {
+            //     foreach (GameObject component in tipObjects)
+            //     {
+            //         Vector3 newComponentScale = component.transform.localScale;
+            //         component.transform.localScale = new(
+            //             newComponentScale[0], 
+            //             newComponentScale[1], 
+            //             newComponentScale[2] * (float)change_in_tip_length_scale
+            //         );
+            //     }
+            //     Vector3 tipComponentScale = tip.transform.localScale;
+            //     tip.transform.localScale = new(
+            //         tipComponentScale[0], 
+            //         tipComponentScale[1], 
+            //         tipComponentScale[2] * (float)change_in_tip_length_scale
+            //     );
+            //     foreach (GameObject component in bodyObjects)
+            //     {
+            //         Vector3 newComponentScale = component.transform.localScale;
+            //         component.transform.localScale = new(
+            //             newComponentScale[0], 
+            //             newComponentScale[1], 
+            //             newComponentScale[2] * (float)change_in_body_length_scale
+            //         );
+            //     }
+            // }
+            // RecalculateMeasurements();
+            // FixComponentPositions();
         }
         
         Debug.Log("Scale change rejected: newScale out of bounds");

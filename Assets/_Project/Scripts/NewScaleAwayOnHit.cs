@@ -75,7 +75,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        StartCoroutine(TestHit());
+        // StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
