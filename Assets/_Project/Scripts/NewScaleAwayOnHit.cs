@@ -37,7 +37,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
     [SerializeField] float squashBias = 0.33f;
 
     [Header("Events")]
-    public UnityEvent<Vector3, Vector3> onScaleChanged;
+    public UnityEvent onScaleChanged;
 
     Vector3 unscaledSize;
     Vector3 scaledSize;
@@ -183,14 +183,24 @@ public class NewScaleAwayOnHit : MonoBehaviour
             right_edge.transform.localPosition[1], 
             right_edge.transform.localPosition[2] + halfHeightOfLeftEdge * right_edge.transform.localScale.y
         );
+
+        // TODO: VERY CONFUSING THAT THE SWORD AND COVER HAVE DIFFERENT AXISES
+        hole_cover.transform.localScale = new Vector3(
+            top_edge.transform.localScale.x, 
+            left_edge.transform.localScale.z,
+            1
+        );
         hole_cover.transform.localPosition = new Vector3(
-            top_edge.transform.localPosition[0], 
-            0.0025f, 
-            top_edge.transform.localPosition[2] + halfHeightOfLeftEdge * hole_cover.transform.localScale.y
+            top_edge.transform.localPosition.x, 
+            0, 
+            left_edge.transform.localPosition.z
         );
 
         swordBodyCollider.size = new Vector3(scaledSize.x, scaledSize.z, scaledSize.y);
         swordBodyCollider.center = new Vector3(0, scaledSize.z / 2, 0);
+
+        onScaleChanged.Invoke();
+
     }
 
     void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)
@@ -219,11 +229,18 @@ public class NewScaleAwayOnHit : MonoBehaviour
             Mathf.Abs(localNormal.y),
             Mathf.Abs(localNormal.z)
         );
+        Debug.Log(
+            "\nabsNormal: " + absNormal + 
+            "\nabsNormal.x: " + absNormal.x + 
+            "\nabsNormal.y: " + absNormal.y + 
+            "\nabsNormal.z: " + absNormal.z
+
+        );
 
         Vector3 newScale;
         // Debug.Log("Volume After: " + volume);
         RecalculateMeasurements();
-        if (absNormal.x > absNormal.y && absNormal.x > absNormal.z) { 
+        if (absNormal.x >= absNormal.y && absNormal.x >= absNormal.z) { 
             // newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit); 
             Debug.Log("X HIT");
             newScale = CalculateOldScale();
@@ -238,6 +255,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
             GameObject c1Object;
             GameObject c3Object;
             List<GameObject> c1Objects;
+            List<GameObject> c2Objects = middleXComponents;
             List<GameObject> c3Objects;
             if (localNormal.x > 0)
             {
@@ -286,7 +304,14 @@ public class NewScaleAwayOnHit : MonoBehaviour
             newScale.y *= (float)preservedFactor;
             newScale.z *= (float)preservedFactor;
 
-            if (IsNewScaleWithinBounds(newScale))
+            if (
+                IsNewScaleWithinBounds(
+                    newScale, 
+                    c1Objects[0].transform.localScale[0] * (float)biased_change_in_c1_axis_scale, 
+                    c2Objects[0].transform.localScale[0] * (float)biased_change_in_c2_axis_scale, 
+                    c3Objects[0].transform.localScale[0] * (float)biased_change_in_c3_axis_scale
+                )
+            )
             {
                 foreach (GameObject component in c1Objects)
                 {
@@ -316,31 +341,32 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     );
                 }
 
-                // onScaleChanged.Invoke(oldScale, newScale);
                 RecalculateMeasurements();
                 FixComponentPositions();
                 return;
             }
         }
-        else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z) { 
-            Debug.Log("Y HIT");
-            newScale = CalculateNewScaleOnYHit(volumeShiftedOnHit); 
-            if (IsNewScaleWithinBounds(newScale))
-            {
-                ChangeScales(newScale, 'y', localNormal.y < 0);
-                // foreach (GameObject component in allComponents)
-                // {
-                //     Vector3 newComponentScale = component.transform.localScale;
-                //     component.transform.localScale = new(
-                //         newComponentScale[0] * newScale.x, 
-                //         newComponentScale[1] * newScale.y, 
-                //         newComponentScale[2] * newScale.z
-                //     );
-                // }
-                return;
-            }
-        }
-        else { 
+        // else if (absNormal.y > absNormal.x && absNormal.y > absNormal.z) { 
+        //     Debug.Log("Y HIT");
+        //     newScale = CalculateNewScaleOnYHit(volumeShiftedOnHit); 
+        //     if (IsNewScaleWithinBounds(newScale))
+        //     {
+        //         ChangeScales(newScale, 'y', localNormal.y < 0);
+        //         // foreach (GameObject component in allComponents)
+        //         // {
+        //         //     Vector3 newComponentScale = component.transform.localScale;
+        //         //     component.transform.localScale = new(
+        //         //         newComponentScale[0] * newScale.x, 
+        //         //         newComponentScale[1] * newScale.y, 
+        //         //         newComponentScale[2] * newScale.z
+        //         //     );
+        //         // }
+        //         return;
+        //     }
+        // }
+        // else { 
+        // else if (!(absNormal.y > absNormal.x && absNormal.y > absNormal.z)) {
+        else if (absNormal.z >= absNormal.x && absNormal.z >= absNormal.y) { 
             newScale = CalculateOldScale();
 
             double change_in_hit_axis_length = volumeShiftedOnHit / area[1]; // TODO: MAKE SURE THIS IS RIGHT
@@ -353,6 +379,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
             GameObject c1Object;
             GameObject c3Object;
             List<GameObject> c1Objects;
+            List<GameObject> c2Objects = middleYComponents;
             List<GameObject> c3Objects;
 
             // TODO: I GOT NO IDEA WHY THIS HAS TO BE FLIPPED
@@ -403,7 +430,14 @@ public class NewScaleAwayOnHit : MonoBehaviour
             newScale.x *= (float)preservedFactor;
             newScale.z *= (float)preservedFactor;
 
-            if (IsNewScaleWithinBounds(newScale))
+            if (
+                IsNewScaleWithinBounds(
+                    newScale, 
+                    c1Objects[0].transform.localScale[1] * (float)biased_change_in_c1_axis_scale, 
+                    c2Objects[0].transform.localScale[1] * (float)biased_change_in_c2_axis_scale, 
+                    c3Objects[0].transform.localScale[1] * (float)biased_change_in_c3_axis_scale
+                )
+            )
             {
                 foreach (GameObject component in c1Objects)
                 {
@@ -414,7 +448,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                         newComponentScale[2] * newScale.z
                     );
                 }
-                foreach (GameObject component in middleYComponents)
+                foreach (GameObject component in c2Objects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
                     component.transform.localScale = new(
@@ -433,7 +467,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     );
                 }
 
-                // onScaleChanged.Invoke(oldScale, newScale);
                 RecalculateMeasurements();
                 Debug.Log(
                     "Z HIT - Volume: " + volume + 
@@ -451,7 +484,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
                     "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
                 );
-                onScaleChanged.Invoke(oldScale, newScale);
                 // Debug.Log("c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size: " + c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size);
                 FixComponentPositions();
                 return;
@@ -472,15 +504,24 @@ public class NewScaleAwayOnHit : MonoBehaviour
             //     return;
             // }
         }
+        else
+        {
+            Debug.Log("Y Hit Detected");
+        }
         
         Debug.Log("Scale change rejected: newScale out of bounds");
     }
 
-    bool IsNewScaleWithinBounds(Vector3 newScale)
+    bool IsNewScaleWithinBounds(Vector3 newScale, double c1Scale, double c2Scale, double c3Scale)
     {
         return newScale.x >= minScale.x && newScale.x <= maxScale.x &&
-               newScale.y >= minScale.y && newScale.y <= maxScale.y &&
-               newScale.z >= minScale.z && newScale.z <= maxScale.z;
+            newScale.y >= minScale.y && newScale.y <= maxScale.y &&
+            newScale.z >= minScale.z && newScale.z <= maxScale.z &&
+
+            // TODO: MAKE A CUSTOM MIN MAX FOR COMPONENTS
+            c1Scale >= minScale.x / 10 && c1Scale <= maxScale.x * 10 && 
+            c2Scale >= minScale.x / 10 && c2Scale <= maxScale.x * 10 && 
+            c3Scale >= minScale.x / 10 && c3Scale <= maxScale.x * 10;
     }
 
     void ChangeScales(Vector3 newScale, char hitAxis, bool isNegativeAxis)
@@ -560,7 +601,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
             left_edge.transform.localScale.y,
             1
         );
-        // onScaleChanged.Invoke(oldScale, newScale);
         RecalculateMeasurements();
         FixComponentPositions();
     }
