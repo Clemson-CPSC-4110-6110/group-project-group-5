@@ -75,7 +75,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -83,7 +83,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         yield return new WaitForSeconds(2);
         RecalculateMeasurements();
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
-        HandleDirectionalScale(new Vector3(0,1,0), volumeShiftedOnHit);
+        HandleDirectionalScale(new Vector3(1,0,0), volumeShiftedOnHit);
         StartCoroutine(TestHit());
     }
 
@@ -216,12 +216,12 @@ public class NewScaleAwayOnHit : MonoBehaviour
             Mathf.Abs(localNormal.y),
             Mathf.Abs(localNormal.z)
         );
-        Debug.Log(
-            "\nabsNormal: " + absNormal + 
-            "\nabsNormal.x: " + absNormal.x + 
-            "\nabsNormal.y: " + absNormal.y + 
-            "\nabsNormal.z: " + absNormal.z
-        );
+        // Debug.Log(
+        //     "\nabsNormal: " + absNormal + 
+        //     "\nabsNormal.x: " + absNormal.x + 
+        //     "\nabsNormal.y: " + absNormal.y + 
+        //     "\nabsNormal.z: " + absNormal.z
+        // );
 
         RecalculateMeasurements();
         if (absNormal.x >= absNormal.y && absNormal.x >= absNormal.z) { 
@@ -230,37 +230,41 @@ public class NewScaleAwayOnHit : MonoBehaviour
             float change_in_hit_axis_scale = (scaledSize[0] - change_in_hit_axis_length) / scaledSize[0];
             newScale.x *= change_in_hit_axis_scale;
 
-            GameObject c1Object;
-            GameObject c2Object = top_edge;
-            GameObject c3Object;
+            // GameObject c1Object;
+            // GameObject c2Object = top_edge;
+            // GameObject c3Object;
             List<GameObject> c1Objects;
             List<GameObject> c2Objects = middleXComponents;
             List<GameObject> c3Objects;
             if (localNormal.x > 0)
             {
-                c1Object = left_edge;
-                c3Object = right_edge;
+                // c1Object = left_edge;
+                // c3Object = right_edge;
                 c1Objects = leftComponents;
                 c3Objects = rightComponents;
             }
             else
             {
-                c1Object = right_edge;
-                c3Object = left_edge;
+                // c1Object = right_edge;
+                // c3Object = left_edge;
                 c1Objects = rightComponents;
                 c3Objects = leftComponents;
             }
-            float area_in_axis = area[0];
+            GameObject c1Object = c1Objects[0];
+            GameObject c2Object = c2Objects[0];
+            GameObject c3Object = c3Objects[0];
+            // float area_in_axis = area[0];
             int axis_index = 0;
 
             Vector3 biasedScales = GetBiasedScales(
                 c1Object,
                 c2Object,
                 c3Object,
-                area_in_axis,
                 axis_index,
                 volumeShiftedOnHit,
-                change_in_hit_axis_scale
+                change_in_hit_axis_scale,
+                squashBias,
+                0.5f
             );
 
             float biased_change_in_c1_axis_scale = biasedScales[0];
@@ -274,6 +278,31 @@ public class NewScaleAwayOnHit : MonoBehaviour
             ));
             newScale.y *= preservedFactor;
             newScale.z *= preservedFactor;
+
+            // GameObject k1Object = left_edge;
+            // GameObject k2Object = top_edge;
+            // GameObject k3Object = bottom_edge;
+
+            // List<GameObject> k1Objects = middleYComponents;
+            // List<GameObject> k2Objects = topComponents;
+            // List<GameObject> k3Objects = bottomComponents;
+
+            // axis_index = 1;
+
+            // biasedScales = GetBiasedScales(
+            //     k1Object,
+            //     k2Object,
+            //     k3Object,
+            //     axis_index,
+            //     volumeShiftedOnHit,
+            //     change_in_hit_axis_scale,
+            //     squashBias,
+            //     0.5f
+            // );
+
+            // float biased_change_in_k1_axis_scale = biasedScales[0];
+            // float biased_change_in_k2_axis_scale = biasedScales[1];
+            // float biased_change_in_k3_axis_scale = biasedScales[2];
 
             if (
                 IsNewScaleWithinBounds(
@@ -312,24 +341,81 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     );
                 }
 
+
+                // foreach (GameObject component in c1Objects)
+                // {
+                //     Vector3 newComponentScale = component.transform.localScale;
+                //     component.transform.localScale = new(
+                //         newComponentScale[0] * biased_change_in_c1_axis_scale, 
+                //         newComponentScale[1], 
+                //         newComponentScale[2] * newScale.z
+                //     );
+                // }
+                // foreach (GameObject component in c2Objects)
+                // {
+                //     Vector3 newComponentScale = component.transform.localScale;
+                //     component.transform.localScale = new(
+                //         newComponentScale[0] * biased_change_in_c2_axis_scale, 
+                //         newComponentScale[1], 
+                //         newComponentScale[2] * newScale.z
+                //     );
+                // }
+                // foreach (GameObject component in c3Objects)
+                // {
+                //     Vector3 newComponentScale = component.transform.localScale;
+                //     component.transform.localScale = new(
+                //         newComponentScale[0] * biased_change_in_c3_axis_scale, 
+                //         newComponentScale[1], 
+                //         newComponentScale[2] * newScale.z
+                //     );
+                // }
+
+                // foreach (GameObject component in k1Objects)
+                // {
+                //     Vector3 newComponentScale = component.transform.localScale;
+                //     component.transform.localScale = new(
+                //         newComponentScale[0], 
+                //         newComponentScale[1] * biased_change_in_k1_axis_scale, 
+                //         newComponentScale[2]
+                //     );
+                // }
+                // foreach (GameObject component in k2Objects)
+                // {
+                //     Vector3 newComponentScale = component.transform.localScale;
+                //     component.transform.localScale = new(
+                //         newComponentScale[0], 
+                //         newComponentScale[1] * biased_change_in_k2_axis_scale, 
+                //         newComponentScale[2]
+                //     );
+                // }
+                // foreach (GameObject component in k3Objects)
+                // {
+                //     Vector3 newComponentScale = component.transform.localScale;
+                //     component.transform.localScale = new(
+                //         newComponentScale[0], 
+                //         newComponentScale[1] * biased_change_in_k3_axis_scale, 
+                //         newComponentScale[2]
+                //     );
+                // }
+
                 RecalculateMeasurements();
                 FixComponentPositions();
-                // Debug.Log(
-                //     "X HIT - Volume: " + volume + 
-                //     "\nvolume shifted: " + volumeShiftedOnHit +
-                //     "\narea: " + area +
-                //     "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
-                //     "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
-                //     "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
+                Debug.Log(
+                    "X HIT - Volume: " + volume + 
+                    "\nvolume shifted: " + volumeShiftedOnHit +
+                    "\narea: " + area +
+                    "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
+                    // "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
+                    // "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
 
-                //     "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
-                //     "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
-                //     "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
+                    "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
+                    // "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
+                    // "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
 
-                //     "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale +
-                //     "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
-                //     "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
-                // );
+                    "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale
+                    // "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
+                    // "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
+                );
                 return;
             }
         }
@@ -339,9 +425,9 @@ public class NewScaleAwayOnHit : MonoBehaviour
             float change_in_hit_axis_scale = (scaledSize[2] - change_in_hit_axis_length) / scaledSize[2];
             newScale.y *= change_in_hit_axis_scale;
 
-            GameObject c1Object;
-            GameObject c2Object = top_edge;
-            GameObject c3Object;
+            // GameObject c1Object;
+            // GameObject c2Object = left_edge;
+            // GameObject c3Object;
             List<GameObject> c1Objects;
             List<GameObject> c2Objects = middleYComponents;
             List<GameObject> c3Objects;
@@ -349,29 +435,32 @@ public class NewScaleAwayOnHit : MonoBehaviour
             // TODO: I GOT NO IDEA WHY THIS HAS TO BE FLIPPED
             if (localNormal.z < 0)
             {
-                c1Object = top_edge;
-                c3Object = bottom_edge;
+                // c1Object = top_edge;
+                // c3Object = bottom_edge;
                 c1Objects = topComponents;
                 c3Objects = bottomComponents;
             }
             else
             {
-                c1Object = bottom_edge;
-                c3Object = top_edge;
+                // c1Object = bottom_edge;
+                // c3Object = top_edge;
                 c1Objects = bottomComponents;
                 c3Objects = topComponents;
             }
-            float area_in_axis = area[1];
+            GameObject c1Object = c1Objects[0];
+            GameObject c2Object = c2Objects[0];
+            GameObject c3Object = c3Objects[0];
             int axis_index = 1;
 
             Vector3 biasedScales = GetBiasedScales(
                 c1Object,
                 c2Object,
                 c3Object,
-                area_in_axis,
                 axis_index,
                 volumeShiftedOnHit,
-                change_in_hit_axis_scale
+                change_in_hit_axis_scale,
+                squashBias,
+                0.1f
             );
 
             float biased_change_in_c1_axis_scale = biasedScales[0];
@@ -425,22 +514,22 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
                 RecalculateMeasurements();
                 FixComponentPositions();
-                // Debug.Log(
-                //     "Z HIT - Volume: " + volume + 
-                //     "\nvolume shifted: " + volumeShiftedOnHit +
-                //     "\narea: " + area +
-                //     "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
-                //     "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
-                //     "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
+                Debug.Log(
+                    "Z HIT - Volume: " + volume + 
+                    "\nvolume shifted: " + volumeShiftedOnHit +
+                    "\narea: " + area +
+                    "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
+                    // "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
+                    // "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
 
-                //     "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
-                //     "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
-                //     "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
+                    "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
+                    // "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
+                    // "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
 
-                //     "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale +
-                //     "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
-                //     "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
-                // );
+                    "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale
+                    // "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
+                    // "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
+                );
                 return;
             }
         }
@@ -468,12 +557,15 @@ public class NewScaleAwayOnHit : MonoBehaviour
         GameObject c1Object,
         GameObject c2Object,
         GameObject c3Object,
-        float area_in_axis,
         int axis_index,
         float volumeShiftedOnHit,
-        float change_in_hit_axis_scale
+        float change_in_hit_axis_scale,
+        float bonusPercentVolumeLostToC1, // should be >1 to represent more volume lost
+        float percentRemainingVolumeLostToC2 // should be <1. 0.5 for perfectly split between c2 and c3. >0.5 for larger c2.
     )
     {
+        float area_in_axis = area[axis_index];
+
         float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c1Object.transform.localScale[axis_index];
         float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
         float change_in_c1_vol = change_in_c1_axis_length * area_in_axis;
@@ -483,22 +575,36 @@ public class NewScaleAwayOnHit : MonoBehaviour
         float change_in_c2_vol = change_in_c2_axis_length * area_in_axis;
 
         float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c3Object.transform.localScale[axis_index];
+        // float change_in_c3_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
+        // float change_in_c3_vol = change_in_c2_axis_length * area_in_axis;
 
-        float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
+        float biased_change_in_c1_vol = change_in_c1_vol * bonusPercentVolumeLostToC1;
         float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area_in_axis;
-
+        
+        // THIS WILL BE POSITIVE
         float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
 
-        float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
+        float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume * percentRemainingVolumeLostToC2;
+        Debug.Log(
+            "POObiased_change_in_c1_vol " + biased_change_in_c1_vol + 
+            "\n = change_in_c2_vol: " + change_in_c2_vol + 
+            "\n + remaining_volume: " + remaining_volume + 
+            "\n * percentRemainingVolumeLostToC2: " + percentRemainingVolumeLostToC2
+        );
         float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area_in_axis;
 
         float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
+        // float biased_change_in_c3_vol = change_in_c3_vol + remaining_volume * (1 - percentRemainingVolumeLostToC2);
         float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area_in_axis;
 
         float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
         float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
         float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
-
+        Debug.Log(
+            "\nbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
+            "\nbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
+            "\nbiased_change_in_c3_vol: " + biased_change_in_c3_vol
+        );
         return new (
             biased_change_in_c1_axis_scale,
             biased_change_in_c2_axis_scale,
