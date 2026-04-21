@@ -84,7 +84,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        StartCoroutine(TestHit());
+        // StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
