@@ -97,7 +97,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         yield return new WaitForSeconds(2);
         RecalculateMeasurements();
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
-        HandleDirectionalScale(new Vector3(1,0,0), volumeShiftedOnHit);
+        HandleDirectionalScale(new Vector3(0,1,0), volumeShiftedOnHit);
         StartCoroutine(TestHit());
     }
 
@@ -366,8 +366,8 @@ public class NewScaleAwayOnHit : MonoBehaviour
         else if (absNormal.z >= absNormal.x && absNormal.z >= absNormal.y) { 
 
             float change_in_hit_axis_length = volumeShiftedOnHit / area[1];
-            float change_in_hit_axis_scale = (scaledSize[2] - change_in_hit_axis_length) / scaledSize[2];
-            newScale.y *= change_in_hit_axis_scale;
+            float change_in_hit_axis_scale = (scaledSize[bodyBackForthScaleAxisIndex] - change_in_hit_axis_length) / scaledSize[bodyBackForthScaleAxisIndex];
+            newScale[bodyBackForthScaleAxisIndex] *= change_in_hit_axis_scale;
 
             List<GameObject> c1Objects;
             List<GameObject> c2Objects = middleYComponents;
@@ -408,44 +408,59 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 scaledSize[1] *
                 scaledSize[2]
             ));
-            newScale.x *= preservedFactor;
-            newScale.z *= preservedFactor;
+            newScale[bodyLeftRightScaleAxisIndex] *= preservedFactor;
+            newScale[bodyBackForthScaleAxisIndex] *= preservedFactor;
 
             if (
                 IsNewScaleWithinBounds(
                     newScale, 
-                    c1Objects[0].transform.localScale[1] * biased_change_in_c1_axis_scale, 
-                    c2Objects[0].transform.localScale[1] * biased_change_in_c2_axis_scale, 
-                    c3Objects[0].transform.localScale[1] * biased_change_in_c3_axis_scale
+                    c1Objects[0].transform.localScale[bodyUpDownScaleAxisIndex] * biased_change_in_c1_axis_scale, 
+                    c2Objects[0].transform.localScale[bodyUpDownScaleAxisIndex] * biased_change_in_c2_axis_scale, 
+                    c3Objects[0].transform.localScale[bodyUpDownScaleAxisIndex] * biased_change_in_c3_axis_scale
                 )
             )
             {
                 foreach (GameObject component in c1Objects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0] * newScale.x, 
-                        newComponentScale[1] * biased_change_in_c1_axis_scale, 
-                        newComponentScale[2] * newScale.z
-                    );
+                    newComponentScale[bodyLeftRightScaleAxisIndex] *= newScale[bodyLeftRightScaleAxisIndex];
+                    newComponentScale[bodyUpDownScaleAxisIndex] *= biased_change_in_c1_axis_scale; 
+                    newComponentScale[bodyBackForthScaleAxisIndex] *= newScale[bodyBackForthScaleAxisIndex];
+                    component.transform.localScale = newComponentScale;
+
+                    // component.transform.localScale = new(
+                    //     newComponentScale[0] * newScale.x, 
+                    //     newComponentScale[1] * biased_change_in_c1_axis_scale, 
+                    //     newComponentScale[2] * newScale.z
+                    // );
                 }
                 foreach (GameObject component in c2Objects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0] * newScale.x, 
-                        newComponentScale[1] * biased_change_in_c2_axis_scale, 
-                        newComponentScale[2] * newScale.z
-                    );
+                    newComponentScale[bodyLeftRightScaleAxisIndex] *= newScale[bodyLeftRightScaleAxisIndex];
+                    newComponentScale[bodyUpDownScaleAxisIndex] *= biased_change_in_c2_axis_scale; 
+                    newComponentScale[bodyBackForthScaleAxisIndex] *= newScale[bodyBackForthScaleAxisIndex];
+                    component.transform.localScale = newComponentScale;
+
+                    // component.transform.localScale = new(
+                    //     newComponentScale[0] * newScale.x, 
+                    //     newComponentScale[1] * biased_change_in_c2_axis_scale, 
+                    //     newComponentScale[2] * newScale.z
+                    // );
                 }
                 foreach (GameObject component in c3Objects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0] * newScale.x, 
-                        newComponentScale[1] * biased_change_in_c3_axis_scale, 
-                        newComponentScale[2] * newScale.z
-                    );
+                    newComponentScale[bodyLeftRightScaleAxisIndex] *= newScale[bodyLeftRightScaleAxisIndex];
+                    newComponentScale[bodyUpDownScaleAxisIndex] *= biased_change_in_c3_axis_scale; 
+                    newComponentScale[bodyBackForthScaleAxisIndex] *= newScale[bodyBackForthScaleAxisIndex];
+                    component.transform.localScale = newComponentScale;
+
+                    // component.transform.localScale = new(
+                    //     newComponentScale[0] * newScale.x, 
+                    //     newComponentScale[1] * biased_change_in_c3_axis_scale, 
+                    //     newComponentScale[2] * newScale.z
+                    // );
                 }
 
                 RecalculateMeasurements();
