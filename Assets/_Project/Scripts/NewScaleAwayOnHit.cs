@@ -257,7 +257,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
             float change_in_hit_axis_length = volumeShiftedOnHit / area[axis_index];
             float change_in_hit_axis_scale = (scaledSize[axis_index] - change_in_hit_axis_length) / scaledSize[axis_index];
-            newScale.x *= change_in_hit_axis_scale;
+            newScale[bodyLeftRightScaleAxisIndex] *= change_in_hit_axis_scale;
 
             List<GameObject> c1Objects;
             List<GameObject> c2Objects = middleXComponents;
@@ -295,8 +295,8 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 scaledSize[1] *
                 scaledSize[2]
             ));
-            newScale.y *= preservedFactor;
-            newScale.z *= preservedFactor;
+            newScale[bodyUpDownScaleAxisIndex] *= preservedFactor;
+            newScale[bodyBackForthScaleAxisIndex] *= preservedFactor;
 
             if (
                 IsNewScaleWithinBounds(
@@ -310,29 +310,44 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 foreach (GameObject component in c1Objects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0] * biased_change_in_c1_axis_scale, 
-                        newComponentScale[1] * newScale.y, 
-                        newComponentScale[2] * newScale.z
-                    );
+                    newComponentScale[bodyLeftRightScaleAxisIndex] *= biased_change_in_c1_axis_scale;
+                    newComponentScale[bodyUpDownScaleAxisIndex] *= newScale[bodyUpDownScaleAxisIndex]; 
+                    newComponentScale[bodyBackForthScaleAxisIndex] *= newScale[bodyBackForthScaleAxisIndex];
+                    component.transform.localScale = newComponentScale;
+
+                    // component.transform.localScale = new(
+                    //     newComponentScale[0] * biased_change_in_c1_axis_scale, 
+                    //     newComponentScale[1] * newScale[bodyUpDownScaleAxisIndex], 
+                    //     newComponentScale[2] * newScale[bodyBackForthScaleAxisIndex]
+                    // );
                 }
                 foreach (GameObject component in c2Objects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0] * biased_change_in_c2_axis_scale, 
-                        newComponentScale[1] * newScale.y, 
-                        newComponentScale[2] * newScale.z
-                    );
+                    newComponentScale[bodyLeftRightScaleAxisIndex] *= biased_change_in_c2_axis_scale;
+                    newComponentScale[bodyUpDownScaleAxisIndex] *= newScale[bodyUpDownScaleAxisIndex]; 
+                    newComponentScale[bodyBackForthScaleAxisIndex] *= newScale[bodyBackForthScaleAxisIndex];
+                    component.transform.localScale = newComponentScale;
+
+                    // component.transform.localScale = new(
+                    //     newComponentScale[0] * biased_change_in_c2_axis_scale, 
+                    //     newComponentScale[1] * newScale[bodyUpDownScaleAxisIndex], 
+                    //     newComponentScale[2] * newScale[bodyBackForthScaleAxisIndex]
+                    // );
                 }
                 foreach (GameObject component in c3Objects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0] * biased_change_in_c3_axis_scale, 
-                        newComponentScale[1] * newScale.y, 
-                        newComponentScale[2] * newScale.z
-                    );
+                    newComponentScale[bodyLeftRightScaleAxisIndex] *= biased_change_in_c3_axis_scale;
+                    newComponentScale[bodyUpDownScaleAxisIndex] *= newScale[bodyUpDownScaleAxisIndex]; 
+                    newComponentScale[bodyBackForthScaleAxisIndex] *= newScale[bodyBackForthScaleAxisIndex];
+                    component.transform.localScale = newComponentScale;
+
+                    // component.transform.localScale = new(
+                    //     newComponentScale[0] * biased_change_in_c3_axis_scale, 
+                    //     newComponentScale[1] * newScale.y, 
+                    //     newComponentScale[2] * newScale.z
+                    // );
                 }
 
                 RecalculateMeasurements();
