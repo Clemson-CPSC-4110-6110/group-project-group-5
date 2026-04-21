@@ -12,7 +12,7 @@ public class QuotaManager : MonoBehaviour
 
     [Header("Item Count Settings")]
     public int minItemsPerDay = 2;
-    public int maxItemsPerDay = 4;
+    public int maxItemsPerDay = 3;
 
     [Header("UI")]
     public TMP_Text moneyText;
