@@ -141,8 +141,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
         topEdgeUnscaledSize = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
         bottomEdgeUnscaledSize = bottom_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
 
-        // Debug.Log("left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size: " + left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size);
-
         unscaledSize = new Vector3(0,0,0);
         unscaledSize[0] = leftEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex]
                          + topEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex]
@@ -153,16 +151,17 @@ public class NewScaleAwayOnHit : MonoBehaviour
         unscaledSize[2] = leftEdgeUnscaledSize[bodyBackForthBoundsAxisIndex];
         Debug.Log("Unscaled Size: " + unscaledSize);
 
+        // x = leftright y = topdown z = backforth
         scaledSize = new(
             leftEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] * left_edge.transform.localScale[bodyLeftRightScaleAxisIndex]
              + topEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] * top_edge.transform.localScale[bodyLeftRightScaleAxisIndex]
              + rightEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] * right_edge.transform.localScale[bodyLeftRightScaleAxisIndex],
              
-            topEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex]
+            topEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * top_edge.transform.localScale[bodyUpDownScaleAxisIndex]
              + leftEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex]
-             + bottomEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex],
+             + bottomEdgeUnscaledSize[bodyUpDownBoundsAxisIndex] * bottom_edge.transform.localScale[bodyUpDownScaleAxisIndex],
 
-            topEdgeUnscaledSize[bodyBackForthBoundsAxisIndex] * left_edge.transform.localScale[bodyBackForthScaleAxisIndex]
+            topEdgeUnscaledSize[bodyBackForthBoundsAxisIndex] * top_edge.transform.localScale[bodyBackForthScaleAxisIndex]
         );
         Debug.Log("Scaled Size: " + scaledSize);
 
@@ -253,10 +252,10 @@ public class NewScaleAwayOnHit : MonoBehaviour
         );
 
         if (absNormal.x >= absNormal.y && absNormal.x >= absNormal.z) { 
-            int axis_index = 0;
+            int area_index = 0;
 
-            float change_in_hit_axis_length = volumeShiftedOnHit / area[axis_index];
-            float change_in_hit_axis_scale = (scaledSize[axis_index] - change_in_hit_axis_length) / scaledSize[axis_index];
+            float change_in_hit_axis_length = volumeShiftedOnHit / area[area_index];
+            float change_in_hit_axis_scale = (scaledSize[area_index] - change_in_hit_axis_length) / scaledSize[area_index];
             newScale[bodyLeftRightScaleAxisIndex] *= change_in_hit_axis_scale;
 
             List<GameObject> c1Objects;
@@ -280,7 +279,9 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 c1Object,
                 c2Object,
                 c3Object,
-                axis_index,
+                area_index,
+                bodyLeftRightBoundsAxisIndex,
+                bodyLeftRightScaleAxisIndex,
                 volumeShiftedOnHit,
                 squashBias,
                 0.1f
@@ -364,10 +365,11 @@ public class NewScaleAwayOnHit : MonoBehaviour
             }
         }
         else if (absNormal.z >= absNormal.x && absNormal.z >= absNormal.y) { 
+            int area_index = 1;
 
-            float change_in_hit_axis_length = volumeShiftedOnHit / area[1];
-            float change_in_hit_axis_scale = (scaledSize[bodyBackForthScaleAxisIndex] - change_in_hit_axis_length) / scaledSize[bodyBackForthScaleAxisIndex];
-            newScale[bodyBackForthScaleAxisIndex] *= change_in_hit_axis_scale;
+            float change_in_hit_axis_length = volumeShiftedOnHit / area[area_index];
+            float change_in_hit_axis_scale = (scaledSize[area_index] - change_in_hit_axis_length) / scaledSize[area_index];
+            newScale[bodyUpDownScaleAxisIndex] *= change_in_hit_axis_scale;
 
             List<GameObject> c1Objects;
             List<GameObject> c2Objects = middleYComponents;
@@ -387,13 +389,14 @@ public class NewScaleAwayOnHit : MonoBehaviour
             GameObject c1Object = c1Objects[0];
             GameObject c2Object = c2Objects[0];
             GameObject c3Object = c3Objects[0];
-            int axis_index = 1;
 
             Vector3 biasedScales = GetBiasedScales(
                 c1Object,
                 c2Object,
                 c3Object,
-                axis_index,
+                area_index,
+                bodyUpDownBoundsAxisIndex,
+                bodyUpDownScaleAxisIndex,
                 volumeShiftedOnHit,
                 squashBias,
                 0.1f
@@ -500,25 +503,27 @@ public class NewScaleAwayOnHit : MonoBehaviour
         GameObject c1Object,
         GameObject c2Object,
         GameObject c3Object,
-        int axis_index,
+        int area_index,
+        int bounds_axis_index,
+        int scale_axis_index,
         float volumeShiftedOnHit,
         float bonusPercentVolumeLostToC1, // should be >1 to represent more volume lost
         float percentRemainingVolumeLostToC2 // should be <1. 0.5 for perfectly split between c2 and c3. >0.5 for larger c2.
     )
     {
-        float area_in_axis = area[axis_index];
-        float change_in_hit_axis_length = volumeShiftedOnHit / area[axis_index];
-        float change_in_hit_axis_scale = (scaledSize[axis_index] - change_in_hit_axis_length) / scaledSize[axis_index];
+        float area_in_axis = area[area_index];
+        float change_in_hit_axis_length = volumeShiftedOnHit / area[area_index];
+        float change_in_hit_axis_scale = (scaledSize[area_index] - change_in_hit_axis_length) / scaledSize[area_index];
 
-        float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c1Object.transform.localScale[axis_index];
+        float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[bounds_axis_index] * c1Object.transform.localScale[scale_axis_index];
         float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
         float change_in_c1_vol = change_in_c1_axis_length * area_in_axis;
 
-        float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c2Object.transform.localScale[axis_index];
+        float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[bounds_axis_index] * c2Object.transform.localScale[scale_axis_index];
         float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
         float change_in_c2_vol = change_in_c2_axis_length * area_in_axis;
 
-        float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c3Object.transform.localScale[axis_index];
+        float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[bounds_axis_index] * c3Object.transform.localScale[scale_axis_index];
 
         float biased_change_in_c1_vol = change_in_c1_vol * bonusPercentVolumeLostToC1;
         float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area_in_axis;
@@ -527,12 +532,12 @@ public class NewScaleAwayOnHit : MonoBehaviour
         float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
 
         float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume * percentRemainingVolumeLostToC2;
-        Debug.Log(
-            "POObiased_change_in_c1_vol " + biased_change_in_c1_vol + 
-            "\n = change_in_c2_vol: " + change_in_c2_vol + 
-            "\n + remaining_volume: " + remaining_volume + 
-            "\n * percentRemainingVolumeLostToC2: " + percentRemainingVolumeLostToC2
-        );
+        // Debug.Log(
+        //     "POObiased_change_in_c1_vol " + biased_change_in_c1_vol + 
+        //     "\n = change_in_c2_vol: " + change_in_c2_vol + 
+        //     "\n + remaining_volume: " + remaining_volume + 
+        //     "\n * percentRemainingVolumeLostToC2: " + percentRemainingVolumeLostToC2
+        // );
         float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area_in_axis;
 
         float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
