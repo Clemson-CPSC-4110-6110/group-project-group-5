@@ -38622,8 +38622,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
-  m_Center: {x: 0, y: 0.05, z: 0}
+  m_Size: {x: 0.07, y: 0.0765605, z: 0.07}
+  m_Center: {x: 0, y: 0.03828024, z: 9.990584e-17}
 --- !u!43 &1477702760
 Mesh:
   m_ObjectHideFlags: 0
@@ -56887,6 +56887,9 @@ MonoBehaviour:
   targetName: Tip Pivot
   tip: {fileID: 430530599}
   tipCollider: {fileID: 1461191783}
+  tipTopLeftCorner: {fileID: 1410669854}
+  tipTopRightCorner: {fileID: 1174818174}
+  tipBottomRightCorner: {fileID: 1436744163}
   tipObjects:
   - {fileID: 138429419}
   - {fileID: 2090755768}
