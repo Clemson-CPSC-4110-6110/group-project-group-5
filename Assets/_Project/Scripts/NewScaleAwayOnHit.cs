@@ -228,7 +228,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
             float change_in_hit_axis_length = volumeShiftedOnHit / area[0];
             float change_in_hit_axis_scale = (scaledSize[0] - change_in_hit_axis_length) / scaledSize[0];
-            newScale.x *= (float)change_in_hit_axis_scale;
+            newScale.x *= change_in_hit_axis_scale;
 
             GameObject c1Object;
             GameObject c2Object = top_edge;
@@ -267,45 +267,20 @@ public class NewScaleAwayOnHit : MonoBehaviour
             float biased_change_in_c2_axis_scale = biasedScales[1];
             float biased_change_in_c3_axis_scale = biasedScales[2];
             
-            // float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c1Object.transform.localScale[axis_index];
-            // float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
-            // float change_in_c1_vol = change_in_c1_axis_length * area_in_axis;
-
-            // float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c2Object.transform.localScale[axis_index];
-            // float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
-            // float change_in_c2_vol = change_in_c2_axis_length * area_in_axis;
-
-            // float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c3Object.transform.localScale[axis_index];
-
-            // float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
-            // float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area_in_axis;
-
-            // float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
-
-            // float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
-            // float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area_in_axis;
-
-            // float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
-            // float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area_in_axis;
-
-            // float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
-            // float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
-            // float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
-
             float preservedFactor = Mathf.Sqrt(volume / (
                 scaledSize[0] * change_in_hit_axis_scale * 
                 scaledSize[1] *
                 scaledSize[2]
             ));
-            newScale.y *= (float)preservedFactor;
-            newScale.z *= (float)preservedFactor;
+            newScale.y *= preservedFactor;
+            newScale.z *= preservedFactor;
 
             if (
                 IsNewScaleWithinBounds(
                     newScale, 
-                    c1Objects[0].transform.localScale[0] * (float)biased_change_in_c1_axis_scale, 
-                    c2Objects[0].transform.localScale[0] * (float)biased_change_in_c2_axis_scale, 
-                    c3Objects[0].transform.localScale[0] * (float)biased_change_in_c3_axis_scale
+                    c1Objects[0].transform.localScale[0] * biased_change_in_c1_axis_scale, 
+                    c2Objects[0].transform.localScale[0] * biased_change_in_c2_axis_scale, 
+                    c3Objects[0].transform.localScale[0] * biased_change_in_c3_axis_scale
                 )
             )
             {
@@ -313,7 +288,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 {
                     Vector3 newComponentScale = component.transform.localScale;
                     component.transform.localScale = new(
-                        newComponentScale[0] * (float)biased_change_in_c1_axis_scale, 
+                        newComponentScale[0] * biased_change_in_c1_axis_scale, 
                         newComponentScale[1] * newScale.y, 
                         newComponentScale[2] * newScale.z
                     );
@@ -322,7 +297,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 {
                     Vector3 newComponentScale = component.transform.localScale;
                     component.transform.localScale = new(
-                        newComponentScale[0] * (float)biased_change_in_c2_axis_scale, 
+                        newComponentScale[0] * biased_change_in_c2_axis_scale, 
                         newComponentScale[1] * newScale.y, 
                         newComponentScale[2] * newScale.z
                     );
@@ -331,7 +306,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 {
                     Vector3 newComponentScale = component.transform.localScale;
                     component.transform.localScale = new(
-                        newComponentScale[0] * (float)biased_change_in_c3_axis_scale, 
+                        newComponentScale[0] * biased_change_in_c3_axis_scale, 
                         newComponentScale[1] * newScale.y, 
                         newComponentScale[2] * newScale.z
                     );
@@ -362,7 +337,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
             float change_in_hit_axis_length = volumeShiftedOnHit / area[1];
             float change_in_hit_axis_scale = (scaledSize[2] - change_in_hit_axis_length) / scaledSize[2];
-            newScale.y *= (float)change_in_hit_axis_scale;
+            newScale.y *= change_in_hit_axis_scale;
 
             GameObject c1Object;
             GameObject c2Object = top_edge;
@@ -399,31 +374,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 change_in_hit_axis_scale
             );
 
-            // float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c1Object.transform.localScale[axis_index];
-            // float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
-            // float change_in_c1_vol = change_in_c1_axis_length * area_in_axis;
-
-            // float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c2Object.transform.localScale[axis_index];
-            // float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
-            // float change_in_c2_vol = change_in_c2_axis_length * area_in_axis;
-
-            // float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c3Object.transform.localScale[axis_index];
-
-            // float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
-            // float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area_in_axis;
-
-            // float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
-
-            // float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
-            // float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area_in_axis;
-
-            // float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
-            // float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area_in_axis;
-
-            // float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
-            // float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
-            // float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
-
             float biased_change_in_c1_axis_scale = biasedScales[0];
             float biased_change_in_c2_axis_scale = biasedScales[1];
             float biased_change_in_c3_axis_scale = biasedScales[2];
@@ -433,15 +383,15 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 scaledSize[1] *
                 scaledSize[2]
             ));
-            newScale.x *= (float)preservedFactor;
-            newScale.z *= (float)preservedFactor;
+            newScale.x *= preservedFactor;
+            newScale.z *= preservedFactor;
 
             if (
                 IsNewScaleWithinBounds(
                     newScale, 
-                    c1Objects[0].transform.localScale[1] * (float)biased_change_in_c1_axis_scale, 
-                    c2Objects[0].transform.localScale[1] * (float)biased_change_in_c2_axis_scale, 
-                    c3Objects[0].transform.localScale[1] * (float)biased_change_in_c3_axis_scale
+                    c1Objects[0].transform.localScale[1] * biased_change_in_c1_axis_scale, 
+                    c2Objects[0].transform.localScale[1] * biased_change_in_c2_axis_scale, 
+                    c3Objects[0].transform.localScale[1] * biased_change_in_c3_axis_scale
                 )
             )
             {
@@ -450,7 +400,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     Vector3 newComponentScale = component.transform.localScale;
                     component.transform.localScale = new(
                         newComponentScale[0] * newScale.x, 
-                        newComponentScale[1] * (float)biased_change_in_c1_axis_scale, 
+                        newComponentScale[1] * biased_change_in_c1_axis_scale, 
                         newComponentScale[2] * newScale.z
                     );
                 }
@@ -459,7 +409,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     Vector3 newComponentScale = component.transform.localScale;
                     component.transform.localScale = new(
                         newComponentScale[0] * newScale.x, 
-                        newComponentScale[1] * (float)biased_change_in_c2_axis_scale, 
+                        newComponentScale[1] * biased_change_in_c2_axis_scale, 
                         newComponentScale[2] * newScale.z
                     );
                 }
@@ -468,7 +418,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     Vector3 newComponentScale = component.transform.localScale;
                     component.transform.localScale = new(
                         newComponentScale[0] * newScale.x, 
-                        newComponentScale[1] * (float)biased_change_in_c3_axis_scale, 
+                        newComponentScale[1] * biased_change_in_c3_axis_scale, 
                         newComponentScale[2] * newScale.z
                     );
                 }
