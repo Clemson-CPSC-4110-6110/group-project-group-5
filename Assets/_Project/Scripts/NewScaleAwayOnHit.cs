@@ -74,7 +74,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -83,18 +83,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
         HandleDirectionalScale(new Vector3(0,1,0), volumeShiftedOnHit);
-
-        // Vector3 newScale = CalculateNewScaleOnXHit(volumeShiftedOnHit);
-        // if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'x', false); }
-
-        // Vector3 newScale = CalculateNewScaleOnZHit(volumeShiftedOnHit);
-        // if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'z', false); }
-
-        // Vector3 newScale = CalculateNewScaleOnYHit(volumeShiftedOnHit);
-        // if   (IsNewScaleWithinBounds(newScale)) { ChangeScales(newScale, 'y', false); }
-
-        // else { Debug.Log("Scale change rejected: newScale out of bounds"); }
-
         StartCoroutine(TestHit());
     }
 
@@ -148,14 +136,9 @@ public class NewScaleAwayOnHit : MonoBehaviour
             topEdgeUnscaledSize.y * left_edge.transform.localScale.z + leftEdgeUnscaledSize.y * left_edge.transform.localScale.z + bottomEdgeUnscaledSize.y * left_edge.transform.localScale.z,
             topEdgeUnscaledSize.z * left_edge.transform.localScale.y
         );
-        // Debug.Log("leftEdgeUnscaledSize: " + leftEdgeUnscaledSize);
-        // Debug.Log("UnscaledSize: " + unscaledSize);
-        // Debug.Log("ScaledSize: " + scaledSize);
         volume = scaledSize[0] * scaledSize[1] * scaledSize[2];
         if (originalVolume == 0f) { originalVolume = volume; }
-        // Debug.Log("Volume = " + scaledSize[0] + " * " + scaledSize[1] + " * " + scaledSize[2] + " = " + volume);
         area = new(scaledSize[1] * scaledSize[2], scaledSize[0] * scaledSize[2], scaledSize[0] * scaledSize[1]);
-
     }
 
     void FixComponentPositions()
@@ -163,7 +146,6 @@ public class NewScaleAwayOnHit : MonoBehaviour
         // FOR SOME REASON POS Z = ROT Y
         float halfWidthOfTopEdge = topEdgeUnscaledSize[0] / 2;
         float halfHeightOfLeftEdge = leftEdgeUnscaledSize.y / 2; // for some reason box colliders swap z and y
-        // Debug.Log("halfWidthOfTopEdge * top_edge.transform.localScale.x: " + halfWidthOfTopEdge * top_edge.transform.localScale.x);
         top_left_corner.transform.localPosition = new Vector3(
             top_edge.transform.localPosition[0] - halfWidthOfTopEdge * top_edge.transform.localScale.x, 
             top_edge.transform.localPosition[1], 
@@ -469,6 +451,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                     "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
                     "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
                 );
+                onScaleChanged.Invoke(oldScale, newScale);
                 // Debug.Log("c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size: " + c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size);
                 FixComponentPositions();
                 return;
@@ -489,6 +472,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
             //     return;
             // }
         }
+        
         Debug.Log("Scale change rejected: newScale out of bounds");
     }
 
