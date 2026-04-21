@@ -10,6 +10,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] Transform scaleTarget;
+    [SerializeField] string targetName = "Center Pivot";
 
     [SerializeField] GameObject left_edge;
     [SerializeField] GameObject right_edge;
@@ -74,7 +75,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        StartCoroutine(TestHit());
+        // StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -97,10 +98,12 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        // Debug.Log("Sword Body Collision Detected");
         if (!anvilAttachable.isOnAnvil) { return; }
         if (collision.contactCount == 0 || !collision.gameObject.CompareTag("hammer")) { return; }
-        
         ContactPoint contact = collision.GetContact(0);
+        if (contact.thisCollider.name != targetName) { return; }
+        // Debug.Log("contact name: " + contact.thisCollider.name);
         Vector3 worldNormal = contact.normal;
         RecalculateMeasurements();
 
