@@ -250,31 +250,47 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 c1Objects = rightComponents;
                 c3Objects = leftComponents;
             }
+            float area_in_axis = area[0];
+            int axis_index = 0;
+
+            Vector3 biasedScales = GetBiasedScales(
+                c1Object,
+                c2Object,
+                c3Object,
+                area_in_axis,
+                axis_index,
+                volumeShiftedOnHit,
+                change_in_hit_axis_scale
+            );
+
+            float biased_change_in_c1_axis_scale = biasedScales[0];
+            float biased_change_in_c2_axis_scale = biasedScales[1];
+            float biased_change_in_c3_axis_scale = biasedScales[2];
             
-            float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * c1Object.transform.localScale.x;
-            float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
-            float change_in_c1_vol = change_in_c1_axis_length * area[0];
+            // float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c1Object.transform.localScale[axis_index];
+            // float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
+            // float change_in_c1_vol = change_in_c1_axis_length * area_in_axis;
 
-            float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * c2Object.transform.localScale.x;
-            float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
-            float change_in_c2_vol = change_in_c2_axis_length * area[0];
+            // float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c2Object.transform.localScale[axis_index];
+            // float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
+            // float change_in_c2_vol = change_in_c2_axis_length * area_in_axis;
 
-            float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size.x * c3Object.transform.localScale.x;
+            // float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c3Object.transform.localScale[axis_index];
 
-            float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
-            float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area[0];
+            // float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
+            // float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area_in_axis;
 
-            float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
+            // float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
 
-            float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
-            float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area[0];
+            // float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
+            // float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area_in_axis;
 
-            float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
-            float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area[0];
+            // float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
+            // float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area_in_axis;
 
-            float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
-            float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
-            float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
+            // float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
+            // float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
+            // float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
 
             float preservedFactor = Mathf.Sqrt(volume / (
                 scaledSize[0] * change_in_hit_axis_scale * 
@@ -323,22 +339,22 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
                 RecalculateMeasurements();
                 FixComponentPositions();
-                Debug.Log(
-                    "X HIT - Volume: " + volume + 
-                    "\nvolume shifted: " + volumeShiftedOnHit +
-                    "\narea: " + area +
-                    "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
-                    "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
-                    "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
+                // Debug.Log(
+                //     "X HIT - Volume: " + volume + 
+                //     "\nvolume shifted: " + volumeShiftedOnHit +
+                //     "\narea: " + area +
+                //     "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
+                //     "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
+                //     "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
 
-                    "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
-                    "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
-                    "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
+                //     "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
+                //     "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
+                //     "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
 
-                    "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale +
-                    "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
-                    "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
-                );
+                //     "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale +
+                //     "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
+                //     "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
+                // );
                 return;
             }
         }
@@ -370,30 +386,47 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 c1Objects = bottomComponents;
                 c3Objects = topComponents;
             }
-            float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size.y * c1Object.transform.localScale.y;
-            float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
-            float change_in_c1_vol = change_in_c1_axis_length * area[1];
+            float area_in_axis = area[1];
+            int axis_index = 1;
 
-            float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size.y * c2Object.transform.localScale.y;
-            float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
-            float change_in_c2_vol = change_in_c2_axis_length * area[1];
+            Vector3 biasedScales = GetBiasedScales(
+                c1Object,
+                c2Object,
+                c3Object,
+                area_in_axis,
+                axis_index,
+                volumeShiftedOnHit,
+                change_in_hit_axis_scale
+            );
 
-            float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size.y * c3Object.transform.localScale.y;
+            // float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c1Object.transform.localScale[axis_index];
+            // float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
+            // float change_in_c1_vol = change_in_c1_axis_length * area_in_axis;
 
-            float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
-            float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area[1];
+            // float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c2Object.transform.localScale[axis_index];
+            // float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
+            // float change_in_c2_vol = change_in_c2_axis_length * area_in_axis;
 
-            float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
+            // float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c3Object.transform.localScale[axis_index];
 
-            float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
-            float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area[1];
+            // float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
+            // float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area_in_axis;
 
-            float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
-            float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area[1];
+            // float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
 
-            float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
-            float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
-            float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
+            // float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
+            // float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area_in_axis;
+
+            // float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
+            // float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area_in_axis;
+
+            // float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
+            // float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
+            // float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
+
+            float biased_change_in_c1_axis_scale = biasedScales[0];
+            float biased_change_in_c2_axis_scale = biasedScales[1];
+            float biased_change_in_c3_axis_scale = biasedScales[2];
 
             float preservedFactor = Mathf.Sqrt(volume / (
                 scaledSize[0] * change_in_hit_axis_scale * 
@@ -442,22 +475,22 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
                 RecalculateMeasurements();
                 FixComponentPositions();
-                Debug.Log(
-                    "Z HIT - Volume: " + volume + 
-                    "\nvolume shifted: " + volumeShiftedOnHit +
-                    "\narea: " + area +
-                    "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
-                    "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
-                    "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
+                // Debug.Log(
+                //     "Z HIT - Volume: " + volume + 
+                //     "\nvolume shifted: " + volumeShiftedOnHit +
+                //     "\narea: " + area +
+                //     "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
+                //     "\n\tc1_scaled_axis_length: " + c1_scaled_axis_length + 
+                //     "\n\tbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
 
-                    "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
-                    "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
-                    "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
+                //     "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
+                //     "\n\tc2_scaled_axis_length: " + c2_scaled_axis_length + 
+                //     "\n\tbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
 
-                    "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale +
-                    "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
-                    "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
-                );
+                //     "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale +
+                //     "\n\tc3_scaled_axis_length: " + c3_scaled_axis_length +
+                //     "\n\tbiased_change_in_c3_vol: " + biased_change_in_c3_vol
+                // );
                 return;
             }
         }
@@ -479,5 +512,47 @@ public class NewScaleAwayOnHit : MonoBehaviour
             c1Scale >= minScale.x / 10 && c1Scale <= maxScale.x * 10 && 
             c2Scale >= minScale.x / 10 && c2Scale <= maxScale.x * 10 && 
             c3Scale >= minScale.x / 10 && c3Scale <= maxScale.x * 10;
+    }
+
+    Vector3 GetBiasedScales(
+        GameObject c1Object,
+        GameObject c2Object,
+        GameObject c3Object,
+        float area_in_axis,
+        int axis_index,
+        float volumeShiftedOnHit,
+        float change_in_hit_axis_scale
+    )
+    {
+        float c1_scaled_axis_length = c1Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c1Object.transform.localScale[axis_index];
+        float change_in_c1_axis_length = c1_scaled_axis_length * change_in_hit_axis_scale - c1_scaled_axis_length;
+        float change_in_c1_vol = change_in_c1_axis_length * area_in_axis;
+
+        float c2_scaled_axis_length = c2Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c2Object.transform.localScale[axis_index];
+        float change_in_c2_axis_length = c2_scaled_axis_length * change_in_hit_axis_scale - c2_scaled_axis_length;
+        float change_in_c2_vol = change_in_c2_axis_length * area_in_axis;
+
+        float c3_scaled_axis_length = c3Object.GetComponent<MeshFilter>().sharedMesh.bounds.size[axis_index] * c3Object.transform.localScale[axis_index];
+
+        float biased_change_in_c1_vol = change_in_c1_vol * squashBias;
+        float biased_change_in_c1_axis_length = biased_change_in_c1_vol / area_in_axis;
+
+        float remaining_volume = change_in_c1_vol - biased_change_in_c1_vol;
+
+        float biased_change_in_c2_vol = change_in_c2_vol + remaining_volume / 2;
+        float biased_change_in_c2_axis_length = biased_change_in_c2_vol / area_in_axis;
+
+        float biased_change_in_c3_vol = -volumeShiftedOnHit - biased_change_in_c1_vol - biased_change_in_c2_vol;
+        float biased_change_in_c3_axis_length = biased_change_in_c3_vol / area_in_axis;
+
+        float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
+        float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
+        float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
+
+        return new (
+            biased_change_in_c1_axis_scale,
+            biased_change_in_c2_axis_scale,
+            biased_change_in_c3_axis_scale
+        );
     }
 }
