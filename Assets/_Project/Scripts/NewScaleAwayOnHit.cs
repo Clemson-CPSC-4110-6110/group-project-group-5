@@ -134,7 +134,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
     }
 
-    void RecalculateMeasurements()
+    public void RecalculateMeasurements()
     {
         leftEdgeUnscaledSize = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
         rightEdgeUnscaledSize = right_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size;
@@ -149,7 +149,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
                          + leftEdgeUnscaledSize[bodyUpDownBoundsAxisIndex]
                          + bottomEdgeUnscaledSize[bodyUpDownBoundsAxisIndex];
         unscaledSize[2] = leftEdgeUnscaledSize[bodyBackForthBoundsAxisIndex];
-        Debug.Log("Unscaled Size: " + unscaledSize);
+        // Debug.Log("Unscaled Size: " + unscaledSize);
 
         // x = leftright y = topdown z = backforth
         scaledSize = new(
@@ -170,7 +170,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         area = new(scaledSize[1] * scaledSize[2], scaledSize[0] * scaledSize[2], scaledSize[0] * scaledSize[1]);
     }
 
-    void FixComponentPositions()
+    public void FixComponentPositions()
     {
         // FOR SOME REASON POS Z = ROT Y
         float halfWidthOfTopEdge = topEdgeUnscaledSize[bodyLeftRightBoundsAxisIndex] / 2;

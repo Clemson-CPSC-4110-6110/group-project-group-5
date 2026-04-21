@@ -86,7 +86,7 @@ public class HandleScaleHandler : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        StartCoroutine(TestHit());
+        // StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
