@@ -12,21 +12,21 @@ public class NewScaleAwayOnHit : MonoBehaviour
     [SerializeField] Transform scaleTarget;
     [SerializeField] string targetName = "Center Pivot";
 
-    [SerializeField] int colliderLeftRightAxisIndex = 0;
-    [SerializeField] int colliderBackForthAxisIndex = 1;
-    [SerializeField] int colliderUpDownAxisIndex = 2;
+    readonly int colliderLeftRightAxisIndex = 0;
+    readonly int colliderBackForthAxisIndex = 1;
+    readonly int colliderUpDownAxisIndex = 2;
 
-    [SerializeField] int bodyLeftRightPosAxisIndex = 0;
-    [SerializeField] int bodyBackForthPosAxisIndex = 1;
-    [SerializeField] int bodyUpDownPosAxisIndex = 2;
+    readonly int bodyLeftRightPosAxisIndex = 0;
+    readonly int bodyBackForthPosAxisIndex = 1;
+    readonly int bodyUpDownPosAxisIndex = 2;
 
-    [SerializeField] int bodyLeftRightScaleAxisIndex = 0;
-    [SerializeField] int bodyBackForthScaleAxisIndex = 2;
-    [SerializeField] int bodyUpDownScaleAxisIndex = 1;
+    readonly int bodyLeftRightScaleAxisIndex = 0;
+    readonly int bodyBackForthScaleAxisIndex = 2;
+    readonly int bodyUpDownScaleAxisIndex = 1;
 
-    [SerializeField] int bodyLeftRightBoundsAxisIndex = 0;
-    [SerializeField] int bodyBackForthBoundsAxisIndex = 2;
-    [SerializeField] int bodyUpDownBoundsAxisIndex = 1;
+    readonly int bodyLeftRightBoundsAxisIndex = 0;
+    readonly int bodyBackForthBoundsAxisIndex = 2;
+    readonly int bodyUpDownBoundsAxisIndex = 1;
 
     [SerializeField] GameObject left_edge;
     [SerializeField] GameObject right_edge;
@@ -89,7 +89,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        StartCoroutine(TestHit());
+        // StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()

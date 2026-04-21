@@ -20,7 +20,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     // [SerializeField] GameObject tipTopRightCorner;
     // [SerializeField] GameObject tipBottomLeftCorner;
     // [SerializeField] GameObject tipBottomRightCorner;
-    [SerializeField] GameObject tip;
+    [SerializeField] GameObject tipTip;
     [SerializeField] BoxCollider tipCollider;
     [SerializeField] GameObject tipTopLeftCorner;
     [SerializeField] GameObject tipTopRightCorner;
@@ -29,6 +29,21 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     [SerializeField] List<GameObject> tipObjects;
     [SerializeField] List<GameObject> bodyObjects;
 
+    readonly int tipLeftRightScaleAxisIndex = 0;
+    readonly int tipBackForthScaleAxisIndex = 2;
+    readonly int tipUpDownScaleAxisIndex = 1;
+    
+    readonly int tipLeftRightBoundsAxisIndex = 0;
+    readonly int tipBackForthBoundsAxisIndex = 2;
+    readonly int tipUpDownBoundsAxisIndex = 1;
+
+    readonly int bodyLeftRightScaleAxisIndex = 0;
+    readonly int bodyBackForthScaleAxisIndex = 2;
+    readonly int bodyUpDownScaleAxisIndex = 1;
+
+    readonly int bodyLeftRightBoundsAxisIndex = 0;
+    readonly int bodyBackForthBoundsAxisIndex = 2;
+    readonly int bodyUpDownBoundsAxisIndex = 1;
 
     [Header("Clamp Settings")]
     [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
@@ -68,7 +83,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -115,37 +130,45 @@ public class NewSwordTipScaleHandler : MonoBehaviour
 
     void RecalculateMeasurements()
     {
-        Vector3 unscaledTipSize = new (
-            tipTopLeftCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.x +
-                tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.x + 
-                tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.x,
-            tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.y +
-                tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.y + 
-                tipBottomRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size.y,
-            tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z + tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.z
-        );
         scaledTipSize = new (
-            unscaledTipSize.x * tipObjects[0].transform.localScale.x,
-            unscaledTipSize.y * tipObjects[0].transform.localScale.z,
-            unscaledTipSize.z * tipObjects[0].transform.localScale.y
-        );
-        tipUnscaledLength = tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z + tip.GetComponent<MeshFilter>().sharedMesh.bounds.size.z;
-        tipScaledLength = tipUnscaledLength * tipObjects[0].transform.localScale.z; 
-        bodyScaledLength = bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * bodyObjects[0].transform.localScale.z;
-        tipArea = scaledTipSize[0] * scaledTipSize[1];
-        bodyArea = bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.x * bodyObjects[0].transform.localScale.x * 
-                   bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.y * bodyObjects[0].transform.localScale.z;
+            tipTopLeftCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size        [tipLeftRightBoundsAxisIndex] * tipTopLeftCorner.transform.localScale [tipLeftRightScaleAxisIndex] +
+                tipTip.GetComponent<MeshFilter>().sharedMesh.bounds.size              [tipLeftRightBoundsAxisIndex] * tipTip.transform.localScale           [tipLeftRightScaleAxisIndex] + 
+                tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size   [tipLeftRightBoundsAxisIndex] * tipTopRightCorner.transform.localScale[tipLeftRightScaleAxisIndex],
+                
+            tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size       [tipUpDownBoundsAxisIndex] * tipTopRightCorner.transform.localScale   [tipUpDownScaleAxisIndex] +
+                tipTip.GetComponent<MeshFilter>().sharedMesh.bounds.size              [tipUpDownBoundsAxisIndex] * tipTip.transform.localScale              [tipUpDownScaleAxisIndex] + 
+                tipBottomRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size[tipUpDownBoundsAxisIndex] * tipBottomRightCorner.transform.localScale[tipUpDownScaleAxisIndex],
 
-        Debug.Log("bodyArea: " + bodyArea);
+            tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size       [tipBackForthBoundsAxisIndex] * tipTopRightCorner.transform.localScale[tipBackForthScaleAxisIndex] + 
+                tipTip.GetComponent<MeshFilter>().sharedMesh.bounds.size              [tipBackForthBoundsAxisIndex] * tipTip.transform.localScale           [tipBackForthScaleAxisIndex]
+        );
+
+        tipUnscaledLength = tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[tipBackForthBoundsAxisIndex] + tipTip.GetComponent<MeshFilter>().sharedMesh.bounds.size[tipBackForthBoundsAxisIndex];
+        tipScaledLength = tipTopRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size[tipBackForthBoundsAxisIndex]
+                             * tipTopRightCorner.transform.localScale[tipBackForthScaleAxisIndex] + 
+                          tipTip.GetComponent<MeshFilter>().sharedMesh.bounds.size[tipBackForthBoundsAxisIndex]
+                             * tipTip.transform.localScale[tipBackForthScaleAxisIndex];
+        bodyScaledLength = bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[tipBackForthBoundsAxisIndex] * bodyObjects[0].transform.localScale.z;
+        tipArea = scaledTipSize[0] * scaledTipSize[1];
+        bodyArea = tipArea;
+        // bodyArea = bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyLeftRightBoundsAxisIndex] * bodyObjects[0].transform.localScale[bodyLeftRightScaleAxisIndex] * 
+        //            bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * bodyObjects[0].transform.localScale[bodyUpDownScaleAxisIndex];
+
+        Debug.Log(
+            "\nTotal Length: " + (tipScaledLength + bodyScaledLength) +
+            "\ntipScaledLength: " + tipScaledLength +
+            "\nbodyScaledLength: " + bodyScaledLength
+        );
+        Debug.Log("bodyScaledLength: " + bodyScaledLength);
     }
 
     void FixComponentPositions()
     {
         onLengthScaleChanged.Invoke();
-        tip.transform.localPosition = new (
-            tip.transform.localPosition.x,
-            tipObjects[0].transform.localPosition.y + tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size.z * tipObjects[0].transform.localScale.z,
-            tip.transform.localPosition.z
+        tipTip.transform.localPosition = new (
+            tipTip.transform.localPosition.x,
+            tipObjects[0].transform.localPosition.y + tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[tipBackForthBoundsAxisIndex] * tipObjects[0].transform.localScale.z,
+            tipTip.transform.localPosition.z
         );
         tipCollider.size = new Vector3(scaledTipSize.x * 0.6f, scaledTipSize.z, scaledTipSize.y * 0.6f);
         tipCollider.center = new Vector3(0, scaledTipSize.z / 2, 0);
@@ -190,30 +213,22 @@ public class NewSwordTipScaleHandler : MonoBehaviour
                 foreach (GameObject component in tipObjects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0], 
-                        newComponentScale[1], 
-                        newComponentScale[2] * (float)change_in_tip_length_scale
-                    );
+                    newComponentScale[tipBackForthScaleAxisIndex] *= (float)change_in_tip_length_scale;
+                    component.transform.localScale = newComponentScale;
                 }
-                Vector3 tipComponentScale = tip.transform.localScale;
-                tip.transform.localScale = new(
-                    tipComponentScale[0], 
-                    tipComponentScale[1], 
-                    tipComponentScale[2] * (float)change_in_tip_length_scale
-                );
+                Vector3 tipComponentScale = tipTip.transform.localScale;
+                tipComponentScale[tipBackForthScaleAxisIndex] *= (float)change_in_tip_length_scale;
+                tipTip.transform.localScale = tipComponentScale;
                 foreach (GameObject component in bodyObjects)
                 {
                     Vector3 newComponentScale = component.transform.localScale;
-                    component.transform.localScale = new(
-                        newComponentScale[0], 
-                        newComponentScale[1], 
-                        newComponentScale[2] * (float)change_in_body_length_scale
-                    );
+                    newComponentScale[bodyBackForthScaleAxisIndex] *= (float)change_in_body_length_scale;
+                    component.transform.localScale = newComponentScale;
                 }
             }
             RecalculateMeasurements();
             FixComponentPositions();
+            return;
         }
         else
         {
@@ -248,8 +263,8 @@ public class NewSwordTipScaleHandler : MonoBehaviour
                         newComponentScale[2] * (float)change_in_tip_length_scale
                     );
                 }
-                Vector3 tipComponentScale = tip.transform.localScale;
-                tip.transform.localScale = new(
+                Vector3 tipComponentScale = tipTip.transform.localScale;
+                tipTip.transform.localScale = new(
                     tipComponentScale[0], 
                     tipComponentScale[1], 
                     tipComponentScale[2] * (float)change_in_tip_length_scale
@@ -266,9 +281,10 @@ public class NewSwordTipScaleHandler : MonoBehaviour
             }
             RecalculateMeasurements();
             FixComponentPositions();
+            return;
         }
         
-        Debug.Log("Scale change rejected: newScale out of bounds");
+        // Debug.Log("Scale change rejected: newScale out of bounds");
     }
 
     bool IsNewScaleWithinBounds(double tipScale, double bodyScale)
