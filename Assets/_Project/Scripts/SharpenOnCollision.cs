@@ -5,7 +5,6 @@ public class SharpenOnCollision : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] Transform scaleTarget;
-    [SerializeField] string targetName = "Center Pivot";
 
     [SerializeField] GameObject left_edge;
     [SerializeField] GameObject right_edge;
@@ -38,9 +37,48 @@ public class SharpenOnCollision : MonoBehaviour
 
     bool isUpDownSideSharpened = false;
 
-    void Update()
+    // void Update()
+    // {
+    //     SharpenLeftRightSide(0.001f);
+    // }
+    void OnTriggerStay(Collider other)
     {
-        SharpenLeftRightSide(0.001f);
+        Debug.Log("Trigger detected");
+        if (!other.gameObject.CompareTag("grinder")) { return; }
+        Debug.Log("Trigger matches grinder tag");
+
+        Vector3 worldNormal = (other.transform.position - transform.position).normalized;
+        // ContactPoint contact = collision.GetContact(0);
+        // Vector3 worldNormal = contact.normal;
+
+        Vector3 localNormal = scaleTarget.InverseTransformDirection(worldNormal);
+        Vector3 absNormal = new(
+            Mathf.Abs(localNormal.x),
+            Mathf.Abs(localNormal.y),
+            Mathf.Abs(localNormal.z)
+        );
+        if (absNormal.x >= absNormal.z) { 
+            SharpenLeftRightSide(0.00001f);
+        }
+        else
+        {
+            Debug.Log("Sharpening top down side");
+        }
+
+        // // VELOCITY
+        // float velocityMagnitude;
+        // Rigidbody hammerRb = collision.rigidbody;
+        // if (hammerRb == null) return;
+        // velocityMagnitude = hammerRb.linearVelocity.magnitude;
+        // if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) return;
+
+        // if (Time.time - lastHitTime < hitCooldown) return;
+        // lastHitTime = Time.time;
+
+        // // VOLUME SHIFT
+        // float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
+
+        // HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
     }
 
     void SharpenLeftRightSide(float length_lost)
