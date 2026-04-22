@@ -5831,7 +5831,7 @@ MonoBehaviour:
   m_SnapToColliderVolume: 1
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
-  m_MovementType: 2
+  m_MovementType: 0
   m_PredictedVisualsTransform: {fileID: 0}
   m_VelocityDamping: 1
   m_VelocityScale: 1
@@ -5985,8 +5985,6 @@ MonoBehaviour:
   swordBodyCollider: {fileID: 788308887361663529}
   yGrowthScale: 0.5
   volumeShiftModifier: 0.5
-  minVelocity: 0.8
-  maxVelocity: 1.1
   anvilAttachable: {fileID: 7808841537290161902}
   hitCooldown: 0.5
   temperatureScript: {fileID: 5033926640063999766}
@@ -6056,8 +6054,6 @@ MonoBehaviour:
   - {fileID: 6144748983226384797}
   - {fileID: 8983932019271965484}
   volumeShiftModifier: 0.1
-  minVelocity: 0.5
-  maxVelocity: 1.4
   anvilAttachable: {fileID: 7808841537290161902}
   hitCooldown: 0.5
   temperatureScript: {fileID: 5033926640063999766}
@@ -6152,8 +6148,6 @@ MonoBehaviour:
   - {fileID: 6144748983226384797}
   - {fileID: 8983932019271965484}
   volumeShiftModifier: 0.01
-  minVelocity: 0.5
-  maxVelocity: 1.4
   anvilAttachable: {fileID: 7808841537290161902}
   hitCooldown: 0.5
   temperatureScript: {fileID: 5033926640063999766}

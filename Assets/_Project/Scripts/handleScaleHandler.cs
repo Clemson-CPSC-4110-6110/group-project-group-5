@@ -118,7 +118,8 @@ public class HandleScaleHandler : MonoBehaviour
 
     void RecalculateMeasurements()
     {
-        handleUnscaledLength = handleObject.GetComponent<MeshFilter>().sharedMesh.bounds.size[handleBackForthBoundsAxisIndex];
+        // handleUnscaledLength = handleObject.GetComponent<MeshFilter>().sharedMesh.bounds.size[handleBackForthBoundsAxisIndex];
+        handleUnscaledLength = 0.2f;
         handleScaledLength = handleUnscaledLength * handleObject.transform.localScale[handleBackForthScaleAxisIndex];
         scaledHandleSize = new ( 0.02f, 0.02f, handleScaledLength );
 
@@ -145,19 +146,27 @@ public class HandleScaleHandler : MonoBehaviour
         //     handleHandle.transform.localPosition.z
         // );
 
-        Vector3 newColliderSize = new(1,1,1);
+        // Vector3 newColliderSize = new(1,1,1);
         // newColliderSize[tipLeftRightBoundsAxisIndex] = scaledTipSize.x * 0.6f;
         // newColliderSize[tipBackForthBoundsAxisIndex] = Math.Max(scaledTipSize.z, 0.1f);
         // newColliderSize[tipUpDownBoundsAxisIndex] = scaledTipSize.y * 0.6f;
         // tipCollider.size = newColliderSize;
         // tipCollider.center = new Vector3(0, newColliderSize[tipBackForthBoundsAxisIndex] / 2, 0);
-        handleCollider.size = new Vector3(scaledHandleSize.x * 0.6f, scaledHandleSize.z, scaledHandleSize.y * 0.6f);
-        handleCollider.center = new Vector3(0, -scaledHandleSize.z / 2, 0);
+        if (scaledHandleSize.z < 0.1f)
+        {
+            handleCollider.size = new Vector3(0.02f, 0.1f / handleObject.transform.localScale[handleBackForthScaleAxisIndex], 0.02f);
+            handleCollider.center = new Vector3(0, -handleCollider.size.y / 2, 0);
+        }
+        else
+        {
+            handleCollider.size = new Vector3(0.02f, 0.2f, 0.02f);
+            handleCollider.center = new Vector3(0, -0.1f, 0);
+        }
     }
 
     void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)
     {
-        Debug.Log("Handling handle hit");
+        // Debug.Log("Handling handle hit");
         Vector3 localNormal = scaleTarget.InverseTransformDirection(worldNormal);
         Vector3 absNormal = new(
             Mathf.Abs(localNormal.x),
@@ -176,20 +185,20 @@ public class HandleScaleHandler : MonoBehaviour
             float change_in_body_length = volumeShiftedOnHit / bodyArea;
             float change_in_body_length_scale = (bodyScaledLength - change_in_body_length) / bodyScaledLength;
 
-            Debug.Log(
-                "XZ HIT" + 
-                "\nvolume shifted: " + volumeShiftedOnHit +
-                "\nhandleArea: " + handleArea +
-                "\nbodyArea: " + bodyArea +
-                "\nhandleScaledLength: " + handleScaledLength + 
-                "\nchange_in_handle_length: " + change_in_handle_length + 
-                "\nchange_in_handle_length_scale: " + change_in_handle_length_scale + 
-                "\nchange_in_handle_volume: " + (1 - change_in_handle_length_scale) * handleScaledLength * handleArea + 
-                "\nbodyScaledLength: " + bodyScaledLength + 
-                "\nchange_in_body_length: " + change_in_body_length + 
-                "\nchange_in_body_length_scale: " + change_in_body_length_scale +
-                "\nchange_in_body_volume: " + (1 - change_in_body_length_scale) * bodyScaledLength * bodyArea
-            );
+            // Debug.Log(
+            //     "XZ HIT" + 
+            //     "\nvolume shifted: " + volumeShiftedOnHit +
+            //     "\nhandleArea: " + handleArea +
+            //     "\nbodyArea: " + bodyArea +
+            //     "\nhandleScaledLength: " + handleScaledLength + 
+            //     "\nchange_in_handle_length: " + change_in_handle_length + 
+            //     "\nchange_in_handle_length_scale: " + change_in_handle_length_scale + 
+            //     "\nchange_in_handle_volume: " + (1 - change_in_handle_length_scale) * handleScaledLength * handleArea + 
+            //     "\nbodyScaledLength: " + bodyScaledLength + 
+            //     "\nchange_in_body_length: " + change_in_body_length + 
+            //     "\nchange_in_body_length_scale: " + change_in_body_length_scale +
+            //     "\nchange_in_body_volume: " + (1 - change_in_body_length_scale) * bodyScaledLength * bodyArea
+            // );
 
             if (IsNewScaleWithinBounds(
                 handleObject.transform.localScale[handleBackForthBoundsAxisIndex] * change_in_handle_length_scale, 
@@ -233,18 +242,18 @@ public class HandleScaleHandler : MonoBehaviour
 
             float preservedFactor = Mathf.Sqrt( (volume_with_incoming_length_change + volume_to_spread_outward) / volume_with_incoming_length_change );
 
-            Debug.Log(
-                "Y HIT" + 
-                "\nvolume shifted: " + volumeShiftedOnHit +
-                "\nhandleArea: " + handleArea +
-                "\nchange_in_handle_length: " + change_in_handle_length + 
-                "\nchange_in_handle_length_scale: " + change_in_handle_length_scale + 
-                "\nchange_in_body_length: " + change_in_body_length + 
-                "\nchange_in_body_length_scale: " + change_in_body_length_scale +
-                "\nbiased_change_in_hit_axis_length: " + biased_change_in_hit_axis_length +
-                "\nbiased_change_in_hit_axis_scale: " + biased_change_in_hit_axis_scale +
-                "\npreservedFactor: " + preservedFactor
-            );
+            // Debug.Log(
+            //     "Y HIT" + 
+            //     "\nvolume shifted: " + volumeShiftedOnHit +
+            //     "\nhandleArea: " + handleArea +
+            //     "\nchange_in_handle_length: " + change_in_handle_length + 
+            //     "\nchange_in_handle_length_scale: " + change_in_handle_length_scale + 
+            //     "\nchange_in_body_length: " + change_in_body_length + 
+            //     "\nchange_in_body_length_scale: " + change_in_body_length_scale +
+            //     "\nbiased_change_in_hit_axis_length: " + biased_change_in_hit_axis_length +
+            //     "\nbiased_change_in_hit_axis_scale: " + biased_change_in_hit_axis_scale +
+            //     "\npreservedFactor: " + preservedFactor
+            // );
 
             if (IsNewScaleWithinBounds(
                 handleObject.transform.localScale[handleBackForthScaleAxisIndex] * change_in_handle_length_scale, 

@@ -115,7 +115,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         if (hammerRb == null) return;
         velocityMagnitude = hammerRb.linearVelocity.magnitude;
         if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) return;
-        Debug.Log("velocityMagnitude: " + velocityMagnitude);
+        // Debug.Log("velocityMagnitude: " + velocityMagnitude);
 
         if (Time.time - lastHitTime < hitCooldown) return;
         lastHitTime = Time.time;
@@ -155,7 +155,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
             topEdgeUnscaledSize[bodyBackForthBoundsAxisIndex] * top_edge.transform.localScale[bodyBackForthScaleAxisIndex]
         );
-        Debug.Log("Scaled Size: " + scaledSize);
+        // Debug.Log("Scaled Size: " + scaledSize);
 
         volume = scaledSize[0] * scaledSize[1] * scaledSize[2];
         if (originalVolume == 0f) { originalVolume = volume; }
@@ -359,6 +359,10 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 // );
                 return;
             }
+            else
+            {
+                Debug.Log("Scale change rejected: newScale out of bounds");
+            }
         }
         else if (absNormal.z >= absNormal.x && absNormal.z >= absNormal.y) { 
             int area_index = 1;
@@ -478,13 +482,17 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 // );
                 return;
             }
+            else
+            {
+                Debug.Log("Scale change rejected: newScale out of bounds");
+            }
         }
         // else
         // {
         //     Debug.Log("Y Hit Detected");
         // }
         
-        Debug.Log("Scale change rejected: newScale out of bounds");
+        // Debug.Log("Scale change rejected: newScale out of bounds");
     }
 
     bool IsNewScaleWithinBounds(Vector3 newScale, float c1Scale, float c2Scale, float c3Scale)

@@ -195,15 +195,15 @@ public class NewSwordTipScaleHandler : MonoBehaviour
             float change_in_body_length = volumeShiftedOnHit / tipArea;
             float change_in_body_length_scale = (bodyScaledLength - change_in_body_length) / bodyScaledLength;
 
-            Debug.Log(
-                "XZ HIT" + 
-                "\nvolume shifted: " + volumeShiftedOnHit +
-                "\ntipArea: " + tipArea +
-                "\nchange_in_tip_length: " + change_in_tip_length + 
-                "\nchange_in_tip_length_scale: " + change_in_tip_length_scale + 
-                "\nchange_in_body_length: " + change_in_body_length + 
-                "\nchange_in_body_length_scale: " + change_in_body_length_scale
-            );
+            // Debug.Log(
+            //     "XZ HIT" + 
+            //     "\nvolume shifted: " + volumeShiftedOnHit +
+            //     "\ntipArea: " + tipArea +
+            //     "\nchange_in_tip_length: " + change_in_tip_length + 
+            //     "\nchange_in_tip_length_scale: " + change_in_tip_length_scale + 
+            //     "\nchange_in_body_length: " + change_in_body_length + 
+            //     "\nchange_in_body_length_scale: " + change_in_body_length_scale
+            // );
 
             if (IsNewScaleWithinBounds(
                 tipObjects[0].transform.localScale.z * change_in_tip_length_scale, 
@@ -248,18 +248,18 @@ public class NewSwordTipScaleHandler : MonoBehaviour
 
             float preservedFactor = Mathf.Sqrt( (volume_with_incoming_length_change + volume_to_spread_outward) / volume_with_incoming_length_change );
 
-            Debug.Log(
-                "Y HIT" + 
-                "\nvolume shifted: " + volumeShiftedOnHit +
-                "\ntipArea: " + tipArea +
-                "\nchange_in_tip_length: " + change_in_tip_length + 
-                "\nchange_in_tip_length_scale: " + change_in_tip_length_scale + 
-                "\nchange_in_body_length: " + change_in_body_length + 
-                "\nchange_in_body_length_scale: " + change_in_body_length_scale +
-                "\nbiased_change_in_hit_axis_length: " + biased_change_in_hit_axis_length +
-                "\nbiased_change_in_hit_axis_scale: " + biased_change_in_hit_axis_scale +
-                "\npreservedFactor: " + preservedFactor
-            );
+            // Debug.Log(
+            //     "Y HIT" + 
+            //     "\nvolume shifted: " + volumeShiftedOnHit +
+            //     "\ntipArea: " + tipArea +
+            //     "\nchange_in_tip_length: " + change_in_tip_length + 
+            //     "\nchange_in_tip_length_scale: " + change_in_tip_length_scale + 
+            //     "\nchange_in_body_length: " + change_in_body_length + 
+            //     "\nchange_in_body_length_scale: " + change_in_body_length_scale +
+            //     "\nbiased_change_in_hit_axis_length: " + biased_change_in_hit_axis_length +
+            //     "\nbiased_change_in_hit_axis_scale: " + biased_change_in_hit_axis_scale +
+            //     "\npreservedFactor: " + preservedFactor
+            // );
 
             if (IsNewScaleWithinBounds(
                 tipObjects[0].transform.localScale[tipBackForthScaleAxisIndex] * biased_change_in_hit_axis_scale, 
