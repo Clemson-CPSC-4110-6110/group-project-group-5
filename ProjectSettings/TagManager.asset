@@ -10,6 +10,9 @@ TagManager:
   - wood
   - metal
   - brick
+  - guard
+  - handle
+  - pommel
   layers:
   - Default
   - TransparentFX
