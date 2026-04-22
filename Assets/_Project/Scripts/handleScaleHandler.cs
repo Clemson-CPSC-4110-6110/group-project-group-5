@@ -36,28 +36,28 @@ public class HandleScaleHandler : MonoBehaviour
     readonly int handleBackForthScaleAxisIndex = 1;
     readonly int handleUpDownScaleAxisIndex = 2;
     
-    readonly int handleLeftRightBoundsAxisIndex = 0;
+    // readonly int handleLeftRightBoundsAxisIndex = 0;
     readonly int handleBackForthBoundsAxisIndex = 1;
-    readonly int handleUpDownBoundsAxisIndex = 2;
+    // readonly int handleUpDownBoundsAxisIndex = 2;
 
-    readonly int bodyLeftRightScaleAxisIndex = 0;
+    // readonly int bodyLeftRightScaleAxisIndex = 0;
     readonly int bodyBackForthScaleAxisIndex = 2;
-    readonly int bodyUpDownScaleAxisIndex = 1;
+    // readonly int bodyUpDownScaleAxisIndex = 1;
 
-    readonly int bodyLeftRightBoundsAxisIndex = 0;
+    // readonly int bodyLeftRightBoundsAxisIndex = 0;
     readonly int bodyBackForthBoundsAxisIndex = 2;
-    readonly int bodyUpDownBoundsAxisIndex = 1;
+    // readonly int bodyUpDownBoundsAxisIndex = 1;
 
     [Header("Clamp Settings")]
     [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
     public Vector3 maxScale = new(2f, 2f, 2f);
 
-    [SerializeField] float minHandleScale = 0.001f;
-    [SerializeField] float minBodyScale = 0.001f;
+    // [SerializeField] float minHandleScale = 0.001f;
+    // [SerializeField] float minBodyScale = 0.001f;
 
 
     [Header("Dials")]
-    [SerializeField] float yGrowthScale = 0.7f; 
+    // [SerializeField] float yGrowthScale = 0.7f; 
     [SerializeField] float volumeShiftModifier = 1f;
     [SerializeField] float minVelocity = 0.01f;
     [SerializeField] float maxVelocity = 1f;

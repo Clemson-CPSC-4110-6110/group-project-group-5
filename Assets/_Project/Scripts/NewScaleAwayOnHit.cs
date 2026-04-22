@@ -17,7 +17,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
     readonly int colliderUpDownAxisIndex = 2;
 
     readonly int bodyLeftRightPosAxisIndex = 0;
-    readonly int bodyBackForthPosAxisIndex = 1;
+    // readonly int bodyBackForthPosAxisIndex = 1;
     readonly int bodyUpDownPosAxisIndex = 2;
 
     readonly int bodyLeftRightScaleAxisIndex = 0;
@@ -44,7 +44,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
     public Vector3 maxScale = new(2f, 2f, 2f);
 
     [Header("Dials")]
-    [SerializeField] float yGrowthScale = 0.7f; 
+    // [SerializeField] float yGrowthScale = 0.7f; 
     [SerializeField] float volumeShiftModifier = 1f;
     [SerializeField] float minVelocity = 0.01f;
     [SerializeField] float maxVelocity = 1f;

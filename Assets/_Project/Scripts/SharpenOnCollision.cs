@@ -19,20 +19,20 @@ public class SharpenOnCollision : MonoBehaviour
     [SerializeField] MeshRenderer tipRenderer;
     // public UnityEvent onSharpen;
 
-    readonly int colliderLeftRightAxisIndex = 0;
-    readonly int colliderBackForthAxisIndex = 1;
-    readonly int colliderUpDownAxisIndex = 2;
+    // readonly int colliderLeftRightAxisIndex = 0;
+    // readonly int colliderBackForthAxisIndex = 1;
+    // readonly int colliderUpDownAxisIndex = 2;
 
-    readonly int bodyLeftRightPosAxisIndex = 0;
-    readonly int bodyBackForthPosAxisIndex = 1;
-    readonly int bodyUpDownPosAxisIndex = 2;
+    // readonly int bodyLeftRightPosAxisIndex = 0;
+    // readonly int bodyBackForthPosAxisIndex = 1;
+    // readonly int bodyUpDownPosAxisIndex = 2;
 
     readonly int bodyLeftRightScaleAxisIndex = 0;
-    readonly int bodyBackForthScaleAxisIndex = 2;
+    // readonly int bodyBackForthScaleAxisIndex = 2;
     readonly int bodyUpDownScaleAxisIndex = 1;
 
     readonly int bodyLeftRightBoundsAxisIndex = 0;
-    readonly int bodyBackForthBoundsAxisIndex = 2;
+    // readonly int bodyBackForthBoundsAxisIndex = 2;
     readonly int bodyUpDownBoundsAxisIndex = 1;
 
     bool isUpDownSideSharpened = false;
