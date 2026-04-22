@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 3514306715181626808}
   - component: {fileID: 1937307155227850190}
   - component: {fileID: 2000341800062445073}
+  - component: {fileID: 7461965675072700816}
   m_Layer: 29
   m_Name: Tongs
   m_TagString: Untagged
@@ -282,6 +283,18 @@ MonoBehaviour:
   breakForce: 200
   ignoreObjects:
   - {fileID: 9201115148558986032}
+--- !u!114 &7461965675072700816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9201115148558986032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7900e8faeea184b429e04b5c98917c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOnCollision
 --- !u!1001 &1326180111244983326
 PrefabInstance:
   m_ObjectHideFlags: 0

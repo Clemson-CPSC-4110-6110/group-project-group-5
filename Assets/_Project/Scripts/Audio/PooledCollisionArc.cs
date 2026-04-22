@@ -38,6 +38,8 @@ public class PooledCollisionArc : MonoBehaviour
 
     public void PlayCollision(Collision collision)
     {
+        if (collision.gameObject.tag == "anvilSocketable" || collision.gameObject.tag == "hammer") return;
+
         AudioResource arc = GetARCForTag(collision.gameObject.tag);
         if (arc == null) return;
 

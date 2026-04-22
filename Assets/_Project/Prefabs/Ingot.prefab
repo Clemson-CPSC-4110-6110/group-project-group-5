@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 4421392544440019836}
   - component: {fileID: 6653365586317619973}
   - component: {fileID: 6672210973750949640}
+  - component: {fileID: 4662447838471501897}
   m_Layer: 0
   m_Name: Ingot
   m_TagString: anvilSocketable
@@ -241,7 +242,6 @@ MonoBehaviour:
   requiredHitValue: 20
   visualOfSwordInProgress: {fileID: 1149742761662193146}
   visualOfIngot: {fileID: 3429059269904639320}
-  swordBladeFinalScale: {x: 1, y: 1, z: 1}
   ingotFinalScale: {x: 0.3, y: 0.3, z: 0.3}
   swordPrefab: {fileID: 8663607840952365139, guid: 25493c8a7d389274f9ade792e62db0ba, type: 3}
   anvilAttachable: {fileID: 6653365586317619973}
@@ -281,6 +281,18 @@ MonoBehaviour:
   - {fileID: 8539330245502764308}
   - {fileID: 4525590242208746621}
   smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
+--- !u!114 &4662447838471501897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2362333114129222386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7900e8faeea184b429e04b5c98917c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOnCollision
 --- !u!1 &2680507100421441040
 GameObject:
   m_ObjectHideFlags: 0

@@ -3443,6 +3443,7 @@ GameObject:
   - component: {fileID: 535818815460419985}
   - component: {fileID: 2588257360722122390}
   - component: {fileID: 5104610313964134627}
+  - component: {fileID: 4328968636220843813}
   m_Layer: 0
   m_Name: Split Sword (9 section body)
   m_TagString: anvilSocketable
@@ -3658,9 +3659,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d429e273c20bb94e91d218b51204069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  swordBladeScaleTarget: {fileID: 6891449468608123666}
-  swordTipScaleHandler: {fileID: 3253238675181629228}
-  scaleAwayOnHit: {fileID: 0}
+  entireSwordScaler: {fileID: 0}
+  swordBodyScaleHandler: {fileID: 0}
+  swordRenderers: []
+  smithingMaterial: {fileID: 0}
 --- !u!114 &535818815460419985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3696,11 +3698,7 @@ MonoBehaviour:
   - {fileID: 4404690552526292801}
   - {fileID: 1577553876270945819}
   - {fileID: 317051216904173130}
-  coldColor: {r: 0.4, g: 0.5, b: 0.6, a: 1}
-  hotColor: {r: 1, g: 0.3, b: 0.3, a: 1}
-  maxHotColor: {r: 1, g: 1, b: 1, a: 1}
-  coldEmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  hotEmissionColor: {r: 1, g: 0.7019608, b: 0.7019608, a: 1}
+  smithingMaterial: {fileID: 0}
 --- !u!114 &5104610313964134627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3714,21 +3712,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewScaleAwayOnHit
   scaleTarget: {fileID: 4552344557634881992}
-  xMeshFilters:
-  - {fileID: 5506215680642443990}
-  yMeshFilters:
-  - {fileID: 4396680908086851050}
-  zMeshFilters:
-  - {fileID: 5506215680642443990}
-  minScale: {x: 0.2, y: 0.2, z: 0.2}
-  maxScale: {x: 3, y: 3, z: 3}
+  targetName: Center Pivot
+  left_edge: {fileID: 0}
+  right_edge: {fileID: 0}
+  top_edge: {fileID: 0}
+  bottom_edge: {fileID: 0}
+  top_left_corner: {fileID: 0}
+  top_right_corner: {fileID: 0}
+  bottom_left_corner: {fileID: 0}
+  bottom_right_corner: {fileID: 0}
+  hole_cover: {fileID: 0}
+  swordBodyCollider: {fileID: 0}
   yGrowthScale: 0.7
   volumeShiftModifier: 1
-  minVelocity: 0.5
-  maxVelocity: 1.4
   anvilAttachable: {fileID: 535818815460419985}
   hitCooldown: 0.3
   temperatureScript: {fileID: 2588257360722122390}
+  squashBias: 0.33
   onScaleChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3756,6 +3756,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4328968636220843813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6217469054863540359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7900e8faeea184b429e04b5c98917c32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioOnCollision
 --- !u!1 &6891449468608123666
 GameObject:
   m_ObjectHideFlags: 0
