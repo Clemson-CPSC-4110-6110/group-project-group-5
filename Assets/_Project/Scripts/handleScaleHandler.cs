@@ -80,7 +80,7 @@ public class HandleScaleHandler : MonoBehaviour
         RecalculateMeasurements();
         FixComponentPositions();
 
-        // StartCoroutine(TestHit());
+        StartCoroutine(TestHit());
     }
 
     IEnumerator TestHit()
@@ -88,7 +88,7 @@ public class HandleScaleHandler : MonoBehaviour
         yield return new WaitForSeconds(2);
         RecalculateMeasurements();
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * 1;
-        HandleDirectionalScale(new Vector3(0,1,0), volumeShiftedOnHit);
+        HandleDirectionalScale(new Vector3(0,0,1), volumeShiftedOnHit);
         StartCoroutine(TestHit());
     }
 
@@ -120,12 +120,13 @@ public class HandleScaleHandler : MonoBehaviour
     {
         handleUnscaledLength = handleObject.GetComponent<MeshFilter>().sharedMesh.bounds.size[handleBackForthBoundsAxisIndex];
         handleScaledLength = handleUnscaledLength * handleObject.transform.localScale[handleBackForthScaleAxisIndex];
-        scaledHandleSize = new ( 0.1f, 0.1f, handleScaledLength );
+        scaledHandleSize = new ( 0.02f, 0.02f, handleScaledLength );
 
         bodyScaledLength = bodyObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyBackForthBoundsAxisIndex]
                              * bodyObjects[0].transform.localScale[bodyBackForthScaleAxisIndex];
-        handleArea = scaledHandleSize[0] * scaledHandleSize[1];
+        handleArea = 0.02f * 0.02f;
         volume = handleArea * handleScaledLength;
+
         bodyArea = (bodyTopLeftCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size        [bodyLeftRightBoundsAxisIndex] * bodyTopLeftCorner.transform.localScale    [bodyLeftRightScaleAxisIndex] +
                         bodyTopEdge.GetComponent<MeshFilter>().sharedMesh.bounds.size          [bodyLeftRightBoundsAxisIndex] * bodyTopEdge.transform.localScale          [bodyLeftRightScaleAxisIndex] + 
                         bodyBottomRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyLeftRightBoundsAxisIndex] * bodyBottomRightCorner.transform.localScale[bodyLeftRightScaleAxisIndex]) *
@@ -133,7 +134,6 @@ public class HandleScaleHandler : MonoBehaviour
                     (bodyTopLeftCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size       [bodyUpDownBoundsAxisIndex] * bodyTopLeftCorner.transform.localScale       [bodyUpDownScaleAxisIndex] +
                         bodyLeftEdge.GetComponent<MeshFilter>().sharedMesh.bounds.size         [bodyUpDownBoundsAxisIndex] * bodyLeftEdge.transform.localScale            [bodyUpDownScaleAxisIndex] + 
                         bodyBottomRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * bodyBottomRightCorner.transform.localScale   [bodyUpDownScaleAxisIndex]);
-        // Debug.Log("Bounds: " + handleObject.GetComponent<MeshFilter>().sharedMesh.bounds.size);
     }
 
     void FixComponentPositions()
@@ -173,15 +173,20 @@ public class HandleScaleHandler : MonoBehaviour
                 "XZ HIT" + 
                 "\nvolume shifted: " + volumeShiftedOnHit +
                 "\nhandleArea: " + handleArea +
+                "\nbodyArea: " + bodyArea +
+                "\nhandleScaledLength: " + handleScaledLength + 
                 "\nchange_in_handle_length: " + change_in_handle_length + 
                 "\nchange_in_handle_length_scale: " + change_in_handle_length_scale + 
+                "\nchange_in_handle_volume: " + (1 - change_in_handle_length_scale) * handleScaledLength * handleArea + 
+                "\nbodyScaledLength: " + bodyScaledLength + 
                 "\nchange_in_body_length: " + change_in_body_length + 
-                "\nchange_in_body_length_scale: " + change_in_body_length_scale
+                "\nchange_in_body_length_scale: " + change_in_body_length_scale +
+                "\nchange_in_body_volume: " + (1 - change_in_body_length_scale) * bodyScaledLength * bodyArea
             );
 
             if (IsNewScaleWithinBounds(
-                handleObject.transform.localScale.z * change_in_handle_length_scale, 
-                bodyObjects[0].transform.localScale.z * change_in_body_length_scale
+                handleObject.transform.localScale[handleBackForthBoundsAxisIndex] * change_in_handle_length_scale, 
+                bodyObjects[0].transform.localScale[bodyBackForthBoundsAxisIndex] * change_in_body_length_scale
             ))
             {
                 Vector3 handleComponentScale = handleObject.transform.localScale;
@@ -235,7 +240,7 @@ public class HandleScaleHandler : MonoBehaviour
             );
 
             if (IsNewScaleWithinBounds(
-                handleObject.transform.localScale[handleBackForthScaleAxisIndex] * biased_change_in_hit_axis_scale, 
+                handleObject.transform.localScale[handleBackForthScaleAxisIndex] * change_in_handle_length_scale, 
                 bodyObjects[0].transform.localScale[bodyBackForthScaleAxisIndex] * biased_change_in_hit_axis_scale
             ))
             {
