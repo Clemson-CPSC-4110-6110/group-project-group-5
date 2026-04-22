@@ -5694,6 +5694,7 @@ GameObject:
   - component: {fileID: 922341763329496609}
   - component: {fileID: 7321330471544562566}
   - component: {fileID: 9009779540247927135}
+  - component: {fileID: -4273943373484286804}
   m_Layer: 0
   m_Name: Sword3
   m_TagString: anvilSocketable
@@ -6202,6 +6203,23 @@ MonoBehaviour:
   bottom_right_corner: {fileID: 8983932019271965484}
   bodyScaleScript: {fileID: 3316227432182917591}
   tipRenderer: {fileID: 1046277769412808864}
+--- !u!114 &-4273943373484286804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663607840952365139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406e0baf48671d44f944edaf5ed29e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SellableItem
+  itemName: Sword
+  basePrice: 50
+  sharpness: 0
+  material: 
+  buildQuality: 0
 --- !u!1 &8983932019271965484
 GameObject:
   m_ObjectHideFlags: 0

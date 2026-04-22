@@ -930,6 +930,7 @@ GameObject:
   - component: {fileID: 7936837250145609914}
   - component: {fileID: 1649319245707210816}
   - component: {fileID: 3448363518256314398}
+  - component: {fileID: 3365884942735525117}
   m_Layer: 0
   m_Name: Split Sword 1
   m_TagString: anvilSocketable
@@ -1224,8 +1225,24 @@ MonoBehaviour:
   - {fileID: 8521778300005331643}
   - {fileID: 454197866789515264}
   - {fileID: 2048638751682707988}
-  hotEmissionColor: {r: 1, g: 0.7019608, b: 0.7019608, a: 1}
   smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
+--- !u!114 &3365884942735525117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2582469074622645331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406e0baf48671d44f944edaf5ed29e34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SellableItem
+  itemName: Sword
+  basePrice: 50
+  sharpness: 0
+  material: 
+  buildQuality: 0
 --- !u!1 &4151210780088618988
 GameObject:
   m_ObjectHideFlags: 0
