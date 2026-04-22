@@ -280,7 +280,6 @@ MonoBehaviour:
   - {fileID: 3789059074603226236}
   - {fileID: 8539330245502764308}
   - {fileID: 4525590242208746621}
-  hotEmissionColor: {r: 1, g: 0.57339805, b: 0.23137254, a: 1}
   smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!1 &2680507100421441040
 GameObject:
@@ -858,7 +857,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 18118af93a2397247bd840f5b3a16b00, type: 2}
+  - {fileID: 2100000, guid: 563a093b1696fa2458291d92081864b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
