@@ -10,9 +10,9 @@ public class TemperatureScript : MonoBehaviour
 
     [SerializeField] Renderer[] targetRenderers;
     Color coldColor = Color.white;
-    Color hotColor = new(255/255, 119/255, 0/255);
+    Color hotColor = new(255f/255f, 210f/255f, 0f/255f);
     Color coldEmissionColor = Color.black; 
-    [SerializeField] Color hotEmissionColor = Color.red;
+    Color hotEmissionColor = new(255f/255f,80f/255f,50f/255f);
 
     public SmithingMaterial smithingMaterial;
 
@@ -36,7 +36,9 @@ public class TemperatureScript : MonoBehaviour
         // First blend: cold → red
         Color color = Color.Lerp(coldColor, hotColor, t);
         Color emissionColor = Color.Lerp(coldEmissionColor, hotEmissionColor, t);
-        float emissionIntensity = Mathf.Lerp(0f, 8f, t); // tweak 8 → higher for more glow
+        Debug.Log("Color: " + color);
+        Debug.Log("Emission Color: " + emissionColor);
+        float emissionIntensity = Mathf.Lerp(0f, 4f, t); // tweak 8 → higher for more glow
         emissionColor *= emissionIntensity;
 
         foreach (Renderer targetRenderer in targetRenderers)

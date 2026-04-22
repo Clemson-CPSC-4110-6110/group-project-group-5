@@ -280,8 +280,7 @@ MonoBehaviour:
   - {fileID: 3789059074603226236}
   - {fileID: 8539330245502764308}
   - {fileID: 4525590242208746621}
-  coldEmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  hotEmissionColor: {r: 1, g: 0.7028302, b: 0.7028302, a: 1}
+  hotEmissionColor: {r: 1, g: 0.57339805, b: 0.23137254, a: 1}
   smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!1 &2680507100421441040
 GameObject:
@@ -805,7 +804,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2190
+  m_VersionIndex: 2226
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1666,7 +1665,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6763
+  m_VersionIndex: 6799
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2548,7 +2547,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6235
+  m_VersionIndex: 6271
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3125,7 +3124,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5253
+  m_VersionIndex: 5289
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
