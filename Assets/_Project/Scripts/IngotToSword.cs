@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(TemperatureScript))]
 public class IngotToSword : MonoBehaviour
 {
     [SerializeField] float requiredHitValue = 20f;
@@ -12,14 +13,14 @@ public class IngotToSword : MonoBehaviour
     [SerializeField] float minHitVelocity = 0.01f;
     [SerializeField] float maxHitVelocity = 1f;
     [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
+    [SerializeField] TemperatureScript temperatureScript;
+    public SmithingMaterial smithingMaterial;
+    private float currentHitValue = 0;
+    private float lastHitTime = 0f;
     float defaultHandleVolume = 0.02f * 0.02f * 0.2f;
     float defaultBodyVolume = 0.1f * 0.1f * 0.6f;
     float defaultTipVolume = 0.1f * 0.01f * 0.078f;
     float defaultTotalVolume;
-
-    [SerializeField] TemperatureScript temperatureScript;
-    private float currentHitValue = 0;
-    private float lastHitTime = 0f;
     Vector3 volumeScale;
 
     void Awake()
@@ -27,6 +28,8 @@ public class IngotToSword : MonoBehaviour
         defaultTotalVolume = defaultHandleVolume + defaultBodyVolume + defaultTipVolume;
         visualOfSwordInProgress.transform.localScale = new(0.01f,0.01f,0.01f);
         SetVolume(defaultTotalVolume * Random.Range(0.3f,1.2f));
+        GetComponent<TemperatureScript>().smithingMaterial = smithingMaterial;
+        visualOfIngot.GetComponent<Renderer>().material = smithingMaterial.material;
     }
 
     void SetVolume(float volume)
@@ -84,6 +87,7 @@ public class IngotToSword : MonoBehaviour
         {
             GameObject newSword = Instantiate(swordPrefab, transform.position, transform.rotation);
             newSword.GetComponent<Sword>().SetBladeScale(swordBladeFinalScale);
+            newSword.GetComponent<Sword>().SetSmithingMaterial(smithingMaterial);
             newSword.GetComponent<TemperatureScript>().SetTemp(GetComponent<TemperatureScript>().GetTemp());
         }
         Debug.Log("DESTROYING GAME OBJECT");

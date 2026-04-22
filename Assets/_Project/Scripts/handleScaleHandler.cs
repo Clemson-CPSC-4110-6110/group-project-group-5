@@ -11,17 +11,12 @@ public class HandleScaleHandler : MonoBehaviour
 {
     [Header("Target")]
     [SerializeField] Transform scaleTarget;
-    [SerializeField] string targetName = "Handle Pivot";
+    [SerializeField] string targetName = "Sword Handle";
 
-    // [SerializeField] GameObject handleLeftEdge;
-    // [SerializeField] GameObject handleRightEdge;
-    // [SerializeField] GameObject handleTopEdge;
-    // [SerializeField] GameObject handleBottomEdge;
-    // [SerializeField] GameObject handleTopLeftCorner;
-    // [SerializeField] GameObject handleTopRightCorner;
-    // [SerializeField] GameObject handleBottomLeftCorner;
-    // [SerializeField] GameObject handleBottomRightCorner;
-    // [SerializeField] GameObject handleHandle;
+    [SerializeField] GameObject bodyLeftEdge;
+    [SerializeField] GameObject bodyTopEdge;
+    [SerializeField] GameObject bodyTopLeftCorner;
+    [SerializeField] GameObject bodyBottomRightCorner;
     [SerializeField] BoxCollider handleCollider;
     // [SerializeField] GameObject handleTopLeftCorner;
     // [SerializeField] GameObject handleTopRightCorner;
@@ -40,17 +35,15 @@ public class HandleScaleHandler : MonoBehaviour
     readonly int handleBackForthBoundsAxisIndex = 1;
     // readonly int handleUpDownBoundsAxisIndex = 2;
 
-    // readonly int bodyLeftRightScaleAxisIndex = 0;
+    readonly int bodyLeftRightScaleAxisIndex = 0;
     readonly int bodyBackForthScaleAxisIndex = 2;
-    // readonly int bodyUpDownScaleAxisIndex = 1;
-
-    // readonly int bodyLeftRightBoundsAxisIndex = 0;
+    readonly int bodyUpDownScaleAxisIndex = 1;
+    readonly int bodyLeftRightBoundsAxisIndex = 0;
     readonly int bodyBackForthBoundsAxisIndex = 2;
-    // readonly int bodyUpDownBoundsAxisIndex = 1;
+    readonly int bodyUpDownBoundsAxisIndex = 1;
 
     [Header("Clamp Settings")]
-    [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
-    public Vector3 maxScale = new(2f, 2f, 2f);
+    Vector3 minScale = new(0.001f, 0.001f, 0.001f);
 
     // [SerializeField] float minHandleScale = 0.001f;
     // [SerializeField] float minBodyScale = 0.001f;
@@ -74,6 +67,7 @@ public class HandleScaleHandler : MonoBehaviour
     float bodyScaledLength;
     // Vector3 area;
     float handleArea;
+    float bodyArea;
     float volume;
     float maxVolumeShift;
     private float lastHitTime = 0f;
@@ -93,18 +87,9 @@ public class HandleScaleHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         RecalculateMeasurements();
-        float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemp();
+        float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * 1;
         HandleDirectionalScale(new Vector3(0,1,0), volumeShiftedOnHit);
         StartCoroutine(TestHit());
-    }
-
-    public void ScaleUpMaxScale(Vector3 modifier)
-    {
-        maxScale = new(
-            maxScale[0] * modifier[0], 
-            maxScale[1] * modifier[1], 
-            maxScale[2] * modifier[2]
-        );
     }
 
     void OnCollisionEnter(Collision collision)
@@ -141,7 +126,14 @@ public class HandleScaleHandler : MonoBehaviour
                              * bodyObjects[0].transform.localScale[bodyBackForthScaleAxisIndex];
         handleArea = scaledHandleSize[0] * scaledHandleSize[1];
         volume = handleArea * handleScaledLength;
-        Debug.Log("Bounds: " + handleObject.GetComponent<MeshFilter>().sharedMesh.bounds.size);
+        bodyArea = (bodyTopLeftCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size        [bodyLeftRightBoundsAxisIndex] * bodyTopLeftCorner.transform.localScale    [bodyLeftRightScaleAxisIndex] +
+                        bodyTopEdge.GetComponent<MeshFilter>().sharedMesh.bounds.size          [bodyLeftRightBoundsAxisIndex] * bodyTopEdge.transform.localScale          [bodyLeftRightScaleAxisIndex] + 
+                        bodyBottomRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyLeftRightBoundsAxisIndex] * bodyBottomRightCorner.transform.localScale[bodyLeftRightScaleAxisIndex]) *
+                        
+                    (bodyTopLeftCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size       [bodyUpDownBoundsAxisIndex] * bodyTopLeftCorner.transform.localScale       [bodyUpDownScaleAxisIndex] +
+                        bodyLeftEdge.GetComponent<MeshFilter>().sharedMesh.bounds.size         [bodyUpDownBoundsAxisIndex] * bodyLeftEdge.transform.localScale            [bodyUpDownScaleAxisIndex] + 
+                        bodyBottomRightCorner.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * bodyBottomRightCorner.transform.localScale   [bodyUpDownScaleAxisIndex]);
+        // Debug.Log("Bounds: " + handleObject.GetComponent<MeshFilter>().sharedMesh.bounds.size);
     }
 
     void FixComponentPositions()
@@ -158,6 +150,7 @@ public class HandleScaleHandler : MonoBehaviour
 
     void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)
     {
+        Debug.Log("Handling handle hit");
         Vector3 localNormal = scaleTarget.InverseTransformDirection(worldNormal);
         Vector3 absNormal = new(
             Mathf.Abs(localNormal.x),
@@ -173,7 +166,7 @@ public class HandleScaleHandler : MonoBehaviour
             float change_in_handle_length = volumeShiftedOnHit / handleArea;
             float change_in_handle_length_scale = (handleScaledLength + change_in_handle_length) / handleScaledLength;
 
-            float change_in_body_length = volumeShiftedOnHit / handleArea;
+            float change_in_body_length = volumeShiftedOnHit / bodyArea;
             float change_in_body_length_scale = (bodyScaledLength - change_in_body_length) / bodyScaledLength;
 
             Debug.Log(
@@ -216,15 +209,15 @@ public class HandleScaleHandler : MonoBehaviour
             float change_in_handle_length = volumeShiftedOnHit / handleArea;
             float change_in_handle_length_scale = (handleScaledLength - change_in_handle_length) / handleScaledLength;
 
-            float change_in_body_length = volumeShiftedOnHit / handleArea;
+            float change_in_body_length = volumeShiftedOnHit / bodyArea;
             float change_in_body_length_scale = (bodyScaledLength + change_in_body_length) / bodyScaledLength;
 
-            float change_in_hit_axis_length = volumeShiftedOnHit / handleArea;
+            float change_in_hit_axis_length = volumeShiftedOnHit / bodyArea;
             float biased_change_in_hit_axis_length = change_in_hit_axis_length * percentSquashDown;
             float biased_change_in_hit_axis_scale = (bodyScaledLength + biased_change_in_hit_axis_length) / bodyScaledLength;
 
-            float volume_to_spread_outward = (1 - percentSquashDown) * change_in_hit_axis_length * handleArea;
-            float volume_with_incoming_length_change = handleArea * bodyScaledLength * biased_change_in_hit_axis_scale;
+            float volume_to_spread_outward = (1 - percentSquashDown) * change_in_hit_axis_length * bodyArea;
+            float volume_with_incoming_length_change = bodyArea * bodyScaledLength * biased_change_in_hit_axis_scale;
 
             float preservedFactor = Mathf.Sqrt( (volume_with_incoming_length_change + volume_to_spread_outward) / volume_with_incoming_length_change );
 
@@ -276,7 +269,7 @@ public class HandleScaleHandler : MonoBehaviour
 
     bool IsNewScaleWithinBounds(float handleScale, float bodyScale)
     {
-        return handleScale >= minScale.x && handleScale <= maxScale.x && 
+        return handleScale >= minScale.x && 
                bodyScale >= minScale.x;
     }
 }

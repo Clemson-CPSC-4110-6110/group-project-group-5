@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cdaea55d7ee9d4bb90664d4beb08bf, type: 3}
   m_Name: Iron
   m_EditorClassIdentifier: Assembly-CSharp::SmithingMaterial
-  material: {fileID: 0}
+  material: {fileID: 2100000, guid: 77893d36a93172d4689f5e9beb245b64, type: 2}
   density: 0
-  materialName: 
-  minWorkingTemp: 0
-  tempLostPerSecond: 0
+  materialName: Iron
+  minWorkingTemp: 100
+  maxWorkingTemp: 300
+  tempLostPerSecond: 0.1

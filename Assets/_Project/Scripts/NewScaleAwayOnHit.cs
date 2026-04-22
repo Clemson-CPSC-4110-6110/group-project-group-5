@@ -40,8 +40,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
     [SerializeField] BoxCollider swordBodyCollider;
 
     [Header("Clamp Settings")]
-    [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
-    public Vector3 maxScale = new(2f, 2f, 2f);
+    Vector3 minScale = new(0.01f, 0.01f, 0.01f);
 
     [Header("Dials")]
     // [SerializeField] float yGrowthScale = 0.7f; 
@@ -97,17 +96,9 @@ public class NewScaleAwayOnHit : MonoBehaviour
         yield return new WaitForSeconds(2);
         RecalculateMeasurements();
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemp();
+        // Debug.Log("temperatureScript.GetPercentMaxTemp(): " + temperatureScript.GetPercentMaxTemp());
         HandleDirectionalScale(new Vector3(0,1,0), volumeShiftedOnHit);
         StartCoroutine(TestHit());
-    }
-
-    public void ScaleUpMaxScale(Vector3 modifier)
-    {
-        maxScale = new(
-            maxScale[0] * modifier[0], 
-            maxScale[1] * modifier[1], 
-            maxScale[2] * modifier[2]
-        );
     }
 
     void OnCollisionEnter(Collision collision)
@@ -233,8 +224,8 @@ public class NewScaleAwayOnHit : MonoBehaviour
         swordBodyCollider.size = newColliderSize;
         // swordBodyCollider.size = new Vector3(scaledSize.x, scaledSize.z, scaledSize.y);
         Vector3 newColliderPos = new(0,0,0);
-        newColliderPos[colliderBackForthAxisIndex] = scaledSize[bodyBackForthScaleAxisIndex];
-        // swordBodyCollider.center = new Vector3(0, scaledSize.z / 2, 0);
+        newColliderPos[colliderBackForthAxisIndex] = scaledSize[bodyBackForthScaleAxisIndex] / 2;
+        swordBodyCollider.center = newColliderPos;
 
         onScaleChanged.Invoke();
 
@@ -489,14 +480,14 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
     bool IsNewScaleWithinBounds(Vector3 newScale, float c1Scale, float c2Scale, float c3Scale)
     {
-        return newScale.x >= minScale.x && newScale.x <= maxScale.x &&
-            newScale.y >= minScale.y && newScale.y <= maxScale.y &&
-            newScale.z >= minScale.z && newScale.z <= maxScale.z &&
+        return newScale.x >= minScale.x &&
+            newScale.y >= minScale.y &&
+            newScale.z >= minScale.z &&
 
             // TODO: MAKE A CUSTOM MIN MAX FOR COMPONENTS
-            c1Scale >= minScale.x / 10 && c1Scale <= maxScale.x * 10 && 
-            c2Scale >= minScale.x / 10 && c2Scale <= maxScale.x * 10 && 
-            c3Scale >= minScale.x / 10 && c3Scale <= maxScale.x * 10;
+            c1Scale >= minScale.x / 10 && 
+            c2Scale >= minScale.x / 10 && 
+            c3Scale >= minScale.x / 10;
     }
 
     Vector3 GetBiasedScales(

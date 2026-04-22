@@ -47,8 +47,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     // readonly int bodyUpDownBoundsAxisIndex = 1;
 
     [Header("Clamp Settings")]
-    [SerializeField] Vector3 minScale = new(0.2f, 0.2f, 0.2f);
-    public Vector3 maxScale = new(2f, 2f, 2f);
+    Vector3 minScale = new(0.001f, 0.001f, 0.001f);
 
     // [SerializeField] float minTipScale = 0.001f;
     // [SerializeField] float minBodyScale = 0.001f;
@@ -94,15 +93,6 @@ public class NewSwordTipScaleHandler : MonoBehaviour
         float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemp();
         HandleDirectionalScale(new Vector3(0,0,1), volumeShiftedOnHit);
         StartCoroutine(TestHit());
-    }
-
-    public void ScaleUpMaxScale(Vector3 modifier)
-    {
-        maxScale = new(
-            maxScale[0] * modifier[0], 
-            maxScale[1] * modifier[1], 
-            maxScale[2] * modifier[2]
-        );
     }
 
     void OnCollisionEnter(Collision collision)
@@ -318,7 +308,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
 
     bool IsNewScaleWithinBounds(float tipScale, float bodyScale)
     {
-        return tipScale >= minScale.x && tipScale <= maxScale.x && 
+        return tipScale >= minScale.x && 
                bodyScale >= minScale.x;
     }
 }

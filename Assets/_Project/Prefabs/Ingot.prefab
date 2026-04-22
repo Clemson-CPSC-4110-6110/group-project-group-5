@@ -249,6 +249,7 @@ MonoBehaviour:
   maxHitVelocity: 6
   hitCooldown: 0.3
   temperatureScript: {fileID: 6672210973750949640}
+  smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!114 &6653365586317619973
 MonoBehaviour:
   m_ObjectHideFlags: 0

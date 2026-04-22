@@ -1191,9 +1191,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d429e273c20bb94e91d218b51204069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  entireSwordScaler: {fileID: 0}
+  entireSwordScaler: {fileID: 2582469074622645331}
   swordBodyScaleHandler: {fileID: 0}
-  smithingMaterial: {fileID: 0}
+  swordRenderers: []
+  smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!114 &1649319245707210816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1223,7 +1224,6 @@ MonoBehaviour:
   - {fileID: 8521778300005331643}
   - {fileID: 454197866789515264}
   - {fileID: 2048638751682707988}
-  coldEmissionColor: {r: 0, g: 0, b: 0, a: 1}
   hotEmissionColor: {r: 1, g: 0.7019608, b: 0.7019608, a: 1}
   smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!1 &4151210780088618988

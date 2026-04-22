@@ -44,9 +44,9 @@ public class SharpenOnCollision : MonoBehaviour
     // }
     void OnTriggerStay(Collider other)
     {
-        Debug.Log("Trigger detected");
+        // Debug.Log("Trigger detected");
         if (!other.gameObject.CompareTag("grinder")) { return; }
-        Debug.Log("Trigger matches grinder tag");
+        // Debug.Log("Trigger matches grinder tag");
 
         Vector3 worldNormal = (other.transform.position - transform.position).normalized;
         // ContactPoint contact = collision.GetContact(0);

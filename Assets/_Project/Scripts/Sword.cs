@@ -1,12 +1,34 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(TemperatureScript))]
 public class Sword : MonoBehaviour
 {
     [SerializeField] GameObject entireSwordScaler;
     [SerializeField] NewScaleAwayOnHit swordBodyScaleHandler;
+
+    [SerializeField] List<Renderer> swordRenderers = new();
     // [SerializeField] SwordTipScaleHandler swordTipScaleHandler;
     // [SerializeField] ScaleAwayOnHit scaleAwayOnHit;
     public SmithingMaterial smithingMaterial;
+
+    void Awake()
+    {
+        GetComponent<TemperatureScript>().smithingMaterial = smithingMaterial;
+        foreach (Renderer renderer in swordRenderers)
+        {
+            renderer.material = smithingMaterial.material;
+        }
+    }
+    public void SetSmithingMaterial(SmithingMaterial sm)
+    {
+        smithingMaterial = sm;
+        GetComponent<TemperatureScript>().smithingMaterial = smithingMaterial;
+        foreach (Renderer renderer in swordRenderers)
+        {
+            renderer.material = smithingMaterial.material;
+        }
+    }
     public void SetBladeScale(Vector3 initialScale)
     {
         entireSwordScaler.transform.localScale = initialScale;

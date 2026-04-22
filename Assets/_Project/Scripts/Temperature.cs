@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TemperatureScript : MonoBehaviour
@@ -8,10 +9,9 @@ public class TemperatureScript : MonoBehaviour
     float tempLostPerSecond;
 
     [SerializeField] Renderer[] targetRenderers;
-    Color coldColor = Color.white; // gray-blue
-    Color hotColor = Color.orange;    // red
-    // [SerializeField] Color maxHotColor = Color.white;  
-    [SerializeField] Color coldEmissionColor = Color.black; 
+    Color coldColor = Color.white;
+    Color hotColor = new(255/255, 119/255, 0/255);
+    Color coldEmissionColor = Color.black; 
     [SerializeField] Color hotEmissionColor = Color.red;
 
     public SmithingMaterial smithingMaterial;
@@ -24,34 +24,25 @@ public class TemperatureScript : MonoBehaviour
 
     void Update()
     {
-        // Decrease temp
         temp -= tempLostPerSecond * Time.deltaTime;
         temp = Mathf.Clamp(temp, minTemp, maxTemp);
-        // Debug.Log("Temp: " + temp);
         UpdateColor();
     }
 
     void UpdateColor()
     {
-        // Debug.Log("Updating Color");
-        // Normalize temp (0 → 1)
         float t = Mathf.InverseLerp(minTemp, maxTemp, temp);
 
         // First blend: cold → red
-        Color midColor = Color.Lerp(coldColor, hotColor, t);
-        Color midEmissionColor = Color.Lerp(coldEmissionColor, hotEmissionColor, t);
+        Color color = Color.Lerp(coldColor, hotColor, t);
+        Color emissionColor = Color.Lerp(coldEmissionColor, hotEmissionColor, t);
+        float emissionIntensity = Mathf.Lerp(0f, 8f, t); // tweak 8 → higher for more glow
+        emissionColor *= emissionIntensity;
 
-        // // Optional: push toward white at very high temps
-        // if (t > 0.8f)
-        // {
-        //     float whiteBlend = (t - 0.8f) / 0.2f;
-        //     midColor = Color.Lerp(midColor, maxHotColor, whiteBlend);
-        // }
-        
         foreach (Renderer targetRenderer in targetRenderers)
         {
-            targetRenderer.material.color = midColor;
-            targetRenderer.material.SetColor("_EmissionColor", midEmissionColor);
+            targetRenderer.material.color = color;
+            targetRenderer.material.SetColor("_EmissionColor", emissionColor);
         }
     }
 
@@ -69,6 +60,6 @@ public class TemperatureScript : MonoBehaviour
     }
     public float GetPercentMaxTemp()
     {
-        return (temp - smithingMaterial.minWorkingTemp) / (smithingMaterial.maxWorkingTemp - smithingMaterial.minWorkingTemp);
+        return Math.Max(0, (temp - smithingMaterial.minWorkingTemp) / (smithingMaterial.maxWorkingTemp - smithingMaterial.minWorkingTemp));
     }
 }
