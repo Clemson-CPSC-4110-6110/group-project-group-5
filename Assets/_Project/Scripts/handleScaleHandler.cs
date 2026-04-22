@@ -153,7 +153,7 @@ public class HandleScaleHandler : MonoBehaviour
         //     handleHandle.transform.localPosition.z
         // );
         handleCollider.size = new Vector3(scaledHandleSize.x * 0.6f, scaledHandleSize.z, scaledHandleSize.y * 0.6f);
-        handleCollider.center = new Vector3(0, scaledHandleSize.z / 2, 0);
+        handleCollider.center = new Vector3(0, -scaledHandleSize.z / 2, 0);
     }
 
     void HandleDirectionalScale(Vector3 worldNormal, float volumeShiftedOnHit)

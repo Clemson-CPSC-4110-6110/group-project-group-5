@@ -376,7 +376,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
             List<GameObject> c3Objects;
 
             // TODO: I GOT NO IDEA WHY THIS HAS TO BE FLIPPED
-            if (localNormal.z < 0)
+            if (localNormal.z > 0)
             {
                 c1Objects = topComponents;
                 c3Objects = bottomComponents;

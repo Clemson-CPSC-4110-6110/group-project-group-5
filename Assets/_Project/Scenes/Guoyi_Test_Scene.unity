@@ -48650,8 +48650,8 @@ Transform:
   - {fileID: 1285723840}
   m_Father: {fileID: 2070701735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1976031660
-CapsuleCollider:
+--- !u!65 &1976031660
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -48668,10 +48668,8 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.13
-  m_Height: 0.63
-  m_Direction: 1
+  serializedVersion: 3
+  m_Size: {x: 0.25, y: 0.55, z: 0.55}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1976124451
 GameObject:
@@ -58109,7 +58107,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3483378012277325115}
+  m_Father: {fileID: 6617342404504303942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3114837287650763980
 GameObject:
@@ -58184,8 +58182,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3106673830176293689}
+  m_Children: []
   m_Father: {fileID: 6617342404504303942}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &3609453940134177999
@@ -59575,7 +59572,7 @@ Transform:
   m_GameObject: {fileID: 1116246110983840843}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0.703, y: 1.314, z: -1.2}
+  m_LocalPosition: {x: 0.703, y: 1.314, z: -0.138}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -59583,6 +59580,7 @@ Transform:
   - {fileID: 6651556893851532945}
   - {fileID: 1461191782}
   - {fileID: 7356768001279454468}
+  - {fileID: 3106673830176293689}
   - {fileID: 3483378012277325115}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
@@ -60769,6 +60767,8 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_Colliders:
   - {fileID: 7356768001279454469}
+  - {fileID: 3708862456646552544}
+  - {fileID: 1461191783}
   m_InteractionLayers:
     m_Bits: 1
   m_DistanceCalculationMode: 1
@@ -61130,7 +61130,7 @@ MonoBehaviour:
   anvilAttachable: {fileID: 6798971549824535901}
   hitCooldown: 0.3
   temperatureScript: {fileID: 8853521196136510042}
-  percentSquashDown: 0.8
+  percentSquashDown: 0
   onLengthScaleChanged:
     m_PersistentCalls:
       m_Calls:
@@ -61925,9 +61925,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TemperatureScript
   targetRenderers:
-  - {fileID: 5719280639068669162}
-  - {fileID: 224798939586428037}
-  - {fileID: 5449853282345714024}
   - {fileID: 1168706777}
   - {fileID: 226029082}
   - {fileID: 831689871}
@@ -61936,6 +61933,16 @@ MonoBehaviour:
   - {fileID: 299432921}
   - {fileID: 573242237}
   - {fileID: 1702199890}
+  - {fileID: 430530603}
+  - {fileID: 138429422}
+  - {fileID: 2090755771}
+  - {fileID: 1352018502}
+  - {fileID: 1861340655}
+  - {fileID: 1410669857}
+  - {fileID: 1174818177}
+  - {fileID: 895449019}
+  - {fileID: 1436744166}
+  - {fileID: 5449853282345714024}
   coldColor: {r: 0.4, g: 0.5, b: 0.6, a: 1}
   hotColor: {r: 1, g: 0.3, b: 0.3, a: 1}
   maxHotColor: {r: 1, g: 1, b: 1, a: 1}
@@ -62374,7 +62381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &9172548758176596072
 BoxCollider:
   m_ObjectHideFlags: 0
