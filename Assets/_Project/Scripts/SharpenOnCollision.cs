@@ -19,23 +19,24 @@ public class SharpenOnCollision : MonoBehaviour
     [SerializeField] MeshRenderer tipRenderer;
     // public UnityEvent onSharpen;
 
-    readonly int colliderLeftRightAxisIndex = 0;
-    readonly int colliderBackForthAxisIndex = 1;
-    readonly int colliderUpDownAxisIndex = 2;
+    // readonly int colliderLeftRightAxisIndex = 0;
+    // readonly int colliderBackForthAxisIndex = 1;
+    // readonly int colliderUpDownAxisIndex = 2;
 
-    readonly int bodyLeftRightPosAxisIndex = 0;
-    readonly int bodyBackForthPosAxisIndex = 1;
-    readonly int bodyUpDownPosAxisIndex = 2;
+    // readonly int bodyLeftRightPosAxisIndex = 0;
+    // readonly int bodyBackForthPosAxisIndex = 1;
+    // readonly int bodyUpDownPosAxisIndex = 2;
 
     readonly int bodyLeftRightScaleAxisIndex = 0;
-    readonly int bodyBackForthScaleAxisIndex = 2;
+    // readonly int bodyBackForthScaleAxisIndex = 2;
     readonly int bodyUpDownScaleAxisIndex = 1;
 
     readonly int bodyLeftRightBoundsAxisIndex = 0;
-    readonly int bodyBackForthBoundsAxisIndex = 2;
+    // readonly int bodyBackForthBoundsAxisIndex = 2;
     readonly int bodyUpDownBoundsAxisIndex = 1;
 
     bool isUpDownSideSharpened = false;
+    bool isLeftRightSideSharpened = false;
 
     // void Update()
     // {
@@ -62,7 +63,7 @@ public class SharpenOnCollision : MonoBehaviour
         }
         else
         {
-            Debug.Log("Sharpening top down side");
+            SharpenUpDownSide(0.00001f);
         }
 
         // // VELOCITY
@@ -83,14 +84,14 @@ public class SharpenOnCollision : MonoBehaviour
 
     void SharpenLeftRightSide(float length_lost)
     {
-        if (isUpDownSideSharpened) return;
+        if (isLeftRightSideSharpened) return;
         // float change_in_scale = 0.9f;
         float old_edge_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex];
         float new_edge_length;
         if (old_edge_length - length_lost <= 0)
         {
             new_edge_length = 0;
-            isUpDownSideSharpened = true;
+            isLeftRightSideSharpened = true;
             tipRenderer.enabled = false;
         }
         else
@@ -138,6 +139,69 @@ public class SharpenOnCollision : MonoBehaviour
 
         Vector3 newBottomRightCornerScale = bottom_right_corner.transform.localScale;
         newBottomRightCornerScale[bodyUpDownScaleAxisIndex] *= bottom_change_scale_up_down;
+        bottom_right_corner.transform.localScale = newBottomRightCornerScale;
+
+        bodyScaleScript.RecalculateMeasurements();
+        bodyScaleScript.FixComponentPositions();
+    }
+
+    void SharpenUpDownSide(float length_lost)
+    {
+        if (isUpDownSideSharpened) return;
+        // float change_in_scale = 0.9f;
+        float old_edge_length = top_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyLeftRightBoundsAxisIndex] * top_edge.transform.localScale[bodyLeftRightScaleAxisIndex];
+        float new_edge_length;
+        if (old_edge_length - length_lost <= 0)
+        {
+            new_edge_length = 0;
+            isUpDownSideSharpened = true;
+            tipRenderer.enabled = false;
+        }
+        else
+        {
+            new_edge_length = old_edge_length - length_lost;
+        }
+        float change_in_scale = new_edge_length / old_edge_length;
+
+        Vector3 newEdgeScale = top_edge.transform.localScale;
+        newEdgeScale[bodyLeftRightScaleAxisIndex] *= change_in_scale;
+        top_edge.transform.localScale = newEdgeScale;
+        bottom_edge.transform.localScale = newEdgeScale;
+
+        // float new_edge_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex];
+        // float length_lost = old_edge_length - new_edge_length;
+        // float length_lost = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * (1 - change_in_scale);
+
+        float left_change_left_right_length = top_left_corner.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyLeftRightBoundsAxisIndex]
+                                          * top_left_corner.transform.localScale[bodyLeftRightScaleAxisIndex];
+        float left_change_scale_left_right = (left_change_left_right_length + length_lost / 2) / left_change_left_right_length;
+        
+        float right_change_left_right_length = top_right_corner.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyLeftRightBoundsAxisIndex]
+                                             * top_right_corner.transform.localScale[bodyLeftRightScaleAxisIndex];
+        float right_change_scale_left_right = (right_change_left_right_length + length_lost / 2) / right_change_left_right_length;
+
+        Vector3 newTopLeftCornerScale = top_left_corner.transform.localScale;
+        newTopLeftCornerScale[bodyLeftRightScaleAxisIndex] *= left_change_scale_left_right;
+        top_left_corner.transform.localScale = newTopLeftCornerScale;
+
+        Vector3 newTopEdgeScale = left_edge.transform.localScale;
+        newTopEdgeScale[bodyLeftRightScaleAxisIndex] *= left_change_scale_left_right;
+        left_edge.transform.localScale = newTopEdgeScale;
+
+        Vector3 newTopRightCornerScale = bottom_left_corner.transform.localScale;
+        newTopRightCornerScale[bodyLeftRightScaleAxisIndex] *= left_change_scale_left_right;
+        bottom_left_corner.transform.localScale = newTopRightCornerScale;
+
+        Vector3 newBottomLeftCornerScale = top_right_corner.transform.localScale;
+        newBottomLeftCornerScale[bodyLeftRightScaleAxisIndex] *= right_change_scale_left_right;
+        top_right_corner.transform.localScale = newBottomLeftCornerScale;
+
+        Vector3 newBottomEdgeScale = right_edge.transform.localScale;
+        newBottomEdgeScale[bodyLeftRightScaleAxisIndex] *= right_change_scale_left_right;
+        right_edge.transform.localScale = newBottomEdgeScale;
+
+        Vector3 newBottomRightCornerScale = bottom_right_corner.transform.localScale;
+        newBottomRightCornerScale[bodyLeftRightScaleAxisIndex] *= right_change_scale_left_right;
         bottom_right_corner.transform.localScale = newBottomRightCornerScale;
 
         bodyScaleScript.RecalculateMeasurements();
