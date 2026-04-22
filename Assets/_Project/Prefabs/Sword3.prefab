@@ -5695,6 +5695,7 @@ GameObject:
   - component: {fileID: 7321330471544562566}
   - component: {fileID: 9009779540247927135}
   - component: {fileID: -4273943373484286804}
+  - component: {fileID: 8385151696722562761}
   m_Layer: 0
   m_Name: Sword3
   m_TagString: anvilSocketable
@@ -6220,6 +6221,20 @@ MonoBehaviour:
   sharpness: 0
   material: 
   buildQuality: 0
+--- !u!114 &8385151696722562761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8663607840952365139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34062ea11ec776b48b415dd4142e2f5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwordDecorationHandler
+  sword: {fileID: 8663607840952365139}
+  handle: {fileID: 7198568395690531063}
 --- !u!1 &8983932019271965484
 GameObject:
   m_ObjectHideFlags: 0
