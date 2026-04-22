@@ -49,7 +49,7 @@ public class Heater : MonoBehaviour
     {
         foreach (TemperatureScript temperatureScript in attachedTemperatureScripts)
         {
-            temperatureScript.AddTemperature(temperatureAddedPerSecond * Time.deltaTime);
+            temperatureScript.AddTemp(temperatureAddedPerSecond * Time.deltaTime);
         }
     }
 }

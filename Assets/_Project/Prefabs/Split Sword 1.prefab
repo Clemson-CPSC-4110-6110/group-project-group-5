@@ -1191,9 +1191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d429e273c20bb94e91d218b51204069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  swordBladeScaleTarget: {fileID: 4151210780088618988}
-  swordTipScaleHandler: {fileID: 4758394493496410856}
-  scaleAwayOnHit: {fileID: 2945676224104437852}
+  entireSwordScaler: {fileID: 0}
+  swordBodyScaleHandler: {fileID: 0}
+  smithingMaterial: {fileID: 0}
 --- !u!114 &1649319245707210816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1223,11 +1223,9 @@ MonoBehaviour:
   - {fileID: 8521778300005331643}
   - {fileID: 454197866789515264}
   - {fileID: 2048638751682707988}
-  coldColor: {r: 0.4, g: 0.5, b: 0.6, a: 1}
-  hotColor: {r: 1, g: 0.3, b: 0.3, a: 1}
-  maxHotColor: {r: 1, g: 1, b: 1, a: 1}
   coldEmissionColor: {r: 0, g: 0, b: 0, a: 1}
   hotEmissionColor: {r: 1, g: 0.7019608, b: 0.7019608, a: 1}
+  smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!1 &4151210780088618988
 GameObject:
   m_ObjectHideFlags: 0

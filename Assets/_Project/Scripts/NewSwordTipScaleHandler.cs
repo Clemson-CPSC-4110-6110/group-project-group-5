@@ -91,7 +91,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         RecalculateMeasurements();
-        float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
+        float volumeShiftedOnHit = Mathf.Clamp01(1f / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemp();
         HandleDirectionalScale(new Vector3(0,0,1), volumeShiftedOnHit);
         StartCoroutine(TestHit());
     }
@@ -124,7 +124,7 @@ public class NewSwordTipScaleHandler : MonoBehaviour
         lastHitTime = Time.time;
 
         // VOLUME SHIFT
-        float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
+        float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemp();
 
         HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
     }

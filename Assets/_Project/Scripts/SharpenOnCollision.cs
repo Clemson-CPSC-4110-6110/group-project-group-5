@@ -77,7 +77,7 @@ public class SharpenOnCollision : MonoBehaviour
         // lastHitTime = Time.time;
 
         // // VOLUME SHIFT
-        // float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemperature();
+        // float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemp();
 
         // HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
     }

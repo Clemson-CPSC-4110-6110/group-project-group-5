@@ -54,7 +54,7 @@ public class IngotToSword : MonoBehaviour
         float velocityMagnitude = hammerRb.linearVelocity.magnitude;
         if (velocityMagnitude < minHitVelocity || velocityMagnitude > maxHitVelocity) return;
         if (Time.time - lastHitTime < hitCooldown) return;
-        float hitValue = Mathf.Clamp01( (velocityMagnitude - minHitVelocity) / (maxHitVelocity - minHitVelocity) ) * 3 * temperatureScript.GetPercentMaxTemperature();
+        float hitValue = Mathf.Clamp01( (velocityMagnitude - minHitVelocity) / (maxHitVelocity - minHitVelocity) ) * 3 * temperatureScript.GetPercentMaxTemp();
         Debug.Log("hitValue: " + hitValue);
         lastHitTime = Time.time;
         HandleHit(hitValue);
@@ -84,7 +84,7 @@ public class IngotToSword : MonoBehaviour
         {
             GameObject newSword = Instantiate(swordPrefab, transform.position, transform.rotation);
             newSword.GetComponent<Sword>().SetBladeScale(swordBladeFinalScale);
-            newSword.GetComponent<TemperatureScript>().SetTemperature(GetComponent<TemperatureScript>().GetTemperature());
+            newSword.GetComponent<TemperatureScript>().SetTemp(GetComponent<TemperatureScript>().GetTemp());
         }
         Debug.Log("DESTROYING GAME OBJECT");
         // Destroy the current object

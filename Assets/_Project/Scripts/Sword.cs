@@ -6,7 +6,7 @@ public class Sword : MonoBehaviour
     [SerializeField] NewScaleAwayOnHit swordBodyScaleHandler;
     // [SerializeField] SwordTipScaleHandler swordTipScaleHandler;
     // [SerializeField] ScaleAwayOnHit scaleAwayOnHit;
-
+    public SmithingMaterial smithingMaterial;
     public void SetBladeScale(Vector3 initialScale)
     {
         entireSwordScaler.transform.localScale = initialScale;

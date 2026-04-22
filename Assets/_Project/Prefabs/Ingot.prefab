@@ -248,9 +248,6 @@ MonoBehaviour:
   minHitVelocity: 0.01
   maxHitVelocity: 6
   hitCooldown: 0.3
-  defaultSwordBladeBodySize: {x: 0, y: 0, z: 0}
-  defaultSwordHandleSize: {x: 0, y: 0, z: 0}
-  defaultSwordTipSize: {x: 0, y: 0, z: 0}
   temperatureScript: {fileID: 6672210973750949640}
 --- !u!114 &6653365586317619973
 MonoBehaviour:
@@ -282,11 +279,9 @@ MonoBehaviour:
   - {fileID: 3789059074603226236}
   - {fileID: 8539330245502764308}
   - {fileID: 4525590242208746621}
-  coldColor: {r: 0.4, g: 0.5, b: 0.6, a: 1}
-  hotColor: {r: 1, g: 0.3, b: 0.3, a: 1}
-  maxHotColor: {r: 1, g: 1, b: 1, a: 1}
   coldEmissionColor: {r: 0, g: 0, b: 0, a: 1}
   hotEmissionColor: {r: 1, g: 0.7028302, b: 0.7028302, a: 1}
+  smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!1 &2680507100421441040
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,49 +2,51 @@ using UnityEngine;
 
 public class TemperatureScript : MonoBehaviour
 {
-    float temperature = 60;
-    float minTemperature = 60;
-    float maxTemperature = 500;
-    float temperatureLostPerSecond = 2;
+    float temp = 60;
+    readonly float minTemp = 60;
+    readonly float maxTemp = 500;
+    float tempLostPerSecond;
 
     [SerializeField] Renderer[] targetRenderers;
-
-    [SerializeField] Color coldColor = new Color(0.4f, 0.5f, 0.6f); // gray-blue
-    [SerializeField] Color hotColor = new Color(1f, 0.3f, 0.3f);    // red
-    [SerializeField] Color maxHotColor = Color.white;  
+    Color coldColor = Color.white; // gray-blue
+    Color hotColor = Color.orange;    // red
+    // [SerializeField] Color maxHotColor = Color.white;  
     [SerializeField] Color coldEmissionColor = Color.black; 
     [SerializeField] Color hotEmissionColor = Color.red;
 
+    public SmithingMaterial smithingMaterial;
+
     void Awake()
     {
-        temperature = minTemperature;
+        tempLostPerSecond = smithingMaterial.tempLostPerSecond;
+        temp = minTemp;
     }
 
     void Update()
     {
-        // Decrease temperature
-        temperature -= temperatureLostPerSecond * Time.deltaTime;
-        temperature = Mathf.Clamp(temperature, minTemperature, maxTemperature);
-        // Debug.Log("Temperature: " + temperature);
+        // Decrease temp
+        temp -= tempLostPerSecond * Time.deltaTime;
+        temp = Mathf.Clamp(temp, minTemp, maxTemp);
+        // Debug.Log("Temp: " + temp);
         UpdateColor();
     }
 
     void UpdateColor()
     {
         // Debug.Log("Updating Color");
-        // Normalize temperature (0 → 1)
-        float t = Mathf.InverseLerp(minTemperature, maxTemperature, temperature);
+        // Normalize temp (0 → 1)
+        float t = Mathf.InverseLerp(minTemp, maxTemp, temp);
 
         // First blend: cold → red
         Color midColor = Color.Lerp(coldColor, hotColor, t);
         Color midEmissionColor = Color.Lerp(coldEmissionColor, hotEmissionColor, t);
 
-        // Optional: push toward white at very high temps
-        if (t > 0.8f)
-        {
-            float whiteBlend = (t - 0.8f) / 0.2f;
-            midColor = Color.Lerp(midColor, maxHotColor, whiteBlend);
-        }
+        // // Optional: push toward white at very high temps
+        // if (t > 0.8f)
+        // {
+        //     float whiteBlend = (t - 0.8f) / 0.2f;
+        //     midColor = Color.Lerp(midColor, maxHotColor, whiteBlend);
+        // }
         
         foreach (Renderer targetRenderer in targetRenderers)
         {
@@ -53,20 +55,20 @@ public class TemperatureScript : MonoBehaviour
         }
     }
 
-    public void AddTemperature(float amountAdded)
+    public void AddTemp(float amountAdded)
     {
-        temperature += amountAdded;
+        temp += amountAdded;
     }
-    public void SetTemperature(float newTemperature)
+    public void SetTemp(float newTemp)
     {
-        temperature = newTemperature;
+        temp = newTemp;
     }
-    public float GetTemperature()
+    public float GetTemp()
     {
-        return temperature;
+        return temp;
     }
-    public float GetPercentMaxTemperature()
+    public float GetPercentMaxTemp()
     {
-        return temperature / (maxTemperature - minTemperature);
+        return (temp - smithingMaterial.minWorkingTemp) / (smithingMaterial.maxWorkingTemp - smithingMaterial.minWorkingTemp);
     }
 }
