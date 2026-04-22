@@ -43,10 +43,10 @@ public class NewScaleAwayOnHit : MonoBehaviour
     Vector3 minScale = new(0.01f, 0.01f, 0.01f);
 
     [Header("Dials")]
-    // [SerializeField] float yGrowthScale = 0.7f; 
+    [SerializeField] float yGrowthScale = 0.5f; 
     [SerializeField] float volumeShiftModifier = 1f;
-    [SerializeField] float minVelocity = 0.01f;
-    [SerializeField] float maxVelocity = 1f;
+    float minVelocity = 0.7f;
+    float maxVelocity = 1.1f;
     [SerializeField] AnvilAttachable anvilAttachable;
     [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
     [SerializeField] TemperatureScript temperatureScript;
@@ -115,6 +115,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         if (hammerRb == null) return;
         velocityMagnitude = hammerRb.linearVelocity.magnitude;
         if (velocityMagnitude < minVelocity || velocityMagnitude > maxVelocity) return;
+        Debug.Log("velocityMagnitude: " + velocityMagnitude);
 
         if (Time.time - lastHitTime < hitCooldown) return;
         lastHitTime = Time.time;
@@ -220,7 +221,7 @@ public class NewScaleAwayOnHit : MonoBehaviour
         Vector3 newColliderSize = new();
         newColliderSize[colliderLeftRightAxisIndex] = scaledSize[bodyLeftRightScaleAxisIndex];
         newColliderSize[colliderUpDownAxisIndex] = scaledSize[bodyUpDownScaleAxisIndex];
-        newColliderSize[colliderBackForthAxisIndex] = scaledSize[bodyBackForthScaleAxisIndex];
+        newColliderSize[colliderBackForthAxisIndex] = scaledSize[bodyBackForthScaleAxisIndex] * 0.95f;
         swordBodyCollider.size = newColliderSize;
         // swordBodyCollider.size = new Vector3(scaledSize.x, scaledSize.z, scaledSize.y);
         Vector3 newColliderPos = new(0,0,0);
@@ -287,8 +288,12 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 scaledSize[1] *
                 scaledSize[2]
             ));
-            newScale[bodyUpDownScaleAxisIndex] *= preservedFactor;
-            newScale[bodyBackForthScaleAxisIndex] *= preservedFactor;
+            float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
+            float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
+            newScale[bodyBackForthScaleAxisIndex] *= yPreservedFactor;
+            newScale[bodyUpDownScaleAxisIndex] *= nonYpreservedFactor;
+            // newScale[bodyUpDownScaleAxisIndex] *= preservedFactor;
+            // newScale[bodyBackForthScaleAxisIndex] *= preservedFactor;
 
             if (
                 IsNewScaleWithinBounds(
@@ -344,14 +349,14 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
                 RecalculateMeasurements();
                 FixComponentPositions();
-                Debug.Log(
-                    "X HIT - Volume: " + volume + 
-                    "\nvolume shifted: " + volumeShiftedOnHit +
-                    "\narea: " + area +
-                    "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
-                    "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
-                    "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale
-                );
+                // Debug.Log(
+                //     "X HIT - Volume: " + volume + 
+                //     "\nvolume shifted: " + volumeShiftedOnHit +
+                //     "\narea: " + area +
+                //     "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
+                //     "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
+                //     "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale
+                // );
                 return;
             }
         }
@@ -402,8 +407,12 @@ public class NewScaleAwayOnHit : MonoBehaviour
                 scaledSize[1] *
                 scaledSize[2]
             ));
-            newScale[bodyLeftRightScaleAxisIndex] *= preservedFactor;
-            newScale[bodyBackForthScaleAxisIndex] *= preservedFactor;
+            float yPreservedFactor = 1 + (preservedFactor - 1) * yGrowthScale;
+            float nonYpreservedFactor = preservedFactor * preservedFactor / yPreservedFactor;
+            newScale[bodyBackForthScaleAxisIndex] *= yPreservedFactor;
+            newScale[bodyLeftRightScaleAxisIndex] *= nonYpreservedFactor;
+            // newScale[bodyLeftRightScaleAxisIndex] *= preservedFactor;
+            // newScale[bodyBackForthScaleAxisIndex] *= preservedFactor;
 
             if (
                 IsNewScaleWithinBounds(
@@ -459,21 +468,21 @@ public class NewScaleAwayOnHit : MonoBehaviour
 
                 RecalculateMeasurements();
                 FixComponentPositions();
-                Debug.Log(
-                    "Z HIT - Volume: " + volume + 
-                    "\nvolume shifted: " + volumeShiftedOnHit +
-                    "\narea: " + area +
-                    "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
-                    "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
-                    "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale
-                );
+                // Debug.Log(
+                //     "Z HIT - Volume: " + volume + 
+                //     "\nvolume shifted: " + volumeShiftedOnHit +
+                //     "\narea: " + area +
+                //     "\nbiased_change_in_c1_axis_scale: " + biased_change_in_c1_axis_scale + 
+                //     "\nbiased_change_in_c2_axis_scale: " + biased_change_in_c2_axis_scale + 
+                //     "\nbiased_change_in_c3_axis_scale: " + biased_change_in_c3_axis_scale
+                // );
                 return;
             }
         }
-        else
-        {
-            Debug.Log("Y Hit Detected");
-        }
+        // else
+        // {
+        //     Debug.Log("Y Hit Detected");
+        // }
         
         Debug.Log("Scale change rejected: newScale out of bounds");
     }
@@ -537,11 +546,11 @@ public class NewScaleAwayOnHit : MonoBehaviour
         float biased_change_in_c1_axis_scale = (c1_scaled_axis_length + biased_change_in_c1_axis_length) / c1_scaled_axis_length;
         float biased_change_in_c2_axis_scale = (c2_scaled_axis_length + biased_change_in_c2_axis_length) / c2_scaled_axis_length;
         float biased_change_in_c3_axis_scale = (c3_scaled_axis_length + biased_change_in_c3_axis_length) / c3_scaled_axis_length;
-        Debug.Log(
-            "\nbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
-            "\nbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
-            "\nbiased_change_in_c3_vol: " + biased_change_in_c3_vol
-        );
+        // Debug.Log(
+        //     "\nbiased_change_in_c1_vol: " + biased_change_in_c1_vol + 
+        //     "\nbiased_change_in_c2_vol: " + biased_change_in_c2_vol + 
+        //     "\nbiased_change_in_c3_vol: " + biased_change_in_c3_vol
+        // );
         return new (
             biased_change_in_c1_axis_scale,
             biased_change_in_c2_axis_scale,

@@ -36,8 +36,8 @@ public class TemperatureScript : MonoBehaviour
         // First blend: cold → red
         Color color = Color.Lerp(coldColor, hotColor, t);
         Color emissionColor = Color.Lerp(coldEmissionColor, hotEmissionColor, t);
-        Debug.Log("Color: " + color);
-        Debug.Log("Emission Color: " + emissionColor);
+        // Debug.Log("Color: " + color);
+        // Debug.Log("Emission Color: " + emissionColor);
         float emissionIntensity = Mathf.Lerp(0f, 4f, t); // tweak 8 → higher for more glow
         emissionColor *= emissionIntensity;
 

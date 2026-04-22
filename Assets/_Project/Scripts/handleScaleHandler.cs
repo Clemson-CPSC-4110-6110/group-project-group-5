@@ -52,8 +52,8 @@ public class HandleScaleHandler : MonoBehaviour
     [Header("Dials")]
     // [SerializeField] float yGrowthScale = 0.7f; 
     [SerializeField] float volumeShiftModifier = 1f;
-    [SerializeField] float minVelocity = 0.01f;
-    [SerializeField] float maxVelocity = 1f;
+    float minVelocity = 0.7f;
+    float maxVelocity = 1.1f;
     [SerializeField] AnvilAttachable anvilAttachable;
     [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
     [SerializeField] TemperatureScript temperatureScript;
@@ -144,6 +144,13 @@ public class HandleScaleHandler : MonoBehaviour
         //     handleObjects[0].transform.localPosition.y + handleObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[handleBackForthBoundsAxisIndex] * handleObjects[0].transform.localScale.z,
         //     handleHandle.transform.localPosition.z
         // );
+
+        Vector3 newColliderSize = new(1,1,1);
+        // newColliderSize[tipLeftRightBoundsAxisIndex] = scaledTipSize.x * 0.6f;
+        // newColliderSize[tipBackForthBoundsAxisIndex] = Math.Max(scaledTipSize.z, 0.1f);
+        // newColliderSize[tipUpDownBoundsAxisIndex] = scaledTipSize.y * 0.6f;
+        // tipCollider.size = newColliderSize;
+        // tipCollider.center = new Vector3(0, newColliderSize[tipBackForthBoundsAxisIndex] / 2, 0);
         handleCollider.size = new Vector3(scaledHandleSize.x * 0.6f, scaledHandleSize.z, scaledHandleSize.y * 0.6f);
         handleCollider.center = new Vector3(0, -scaledHandleSize.z / 2, 0);
     }

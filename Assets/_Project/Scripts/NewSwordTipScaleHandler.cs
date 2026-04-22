@@ -56,8 +56,8 @@ public class NewSwordTipScaleHandler : MonoBehaviour
     [Header("Dials")]
     // [SerializeField] float yGrowthScale = 0.7f; 
     [SerializeField] float volumeShiftModifier = 1f;
-    [SerializeField] float minVelocity = 0.01f;
-    [SerializeField] float maxVelocity = 1f;
+    float minVelocity = 0.7f;
+    float maxVelocity = 1.1f;
     [SerializeField] AnvilAttachable anvilAttachable;
     [SerializeField] float hitCooldown = 0.5f; // cooldown in seconds
     [SerializeField] TemperatureScript temperatureScript;
@@ -164,7 +164,14 @@ public class NewSwordTipScaleHandler : MonoBehaviour
             tipObjects[0].transform.localPosition.y + tipObjects[0].GetComponent<MeshFilter>().sharedMesh.bounds.size[tipBackForthBoundsAxisIndex] * tipObjects[0].transform.localScale.z,
             tipTip.transform.localPosition.z
         );
-        tipCollider.size = new Vector3(scaledTipSize.x * 0.6f, scaledTipSize.z, scaledTipSize.y * 0.6f);
+        // Vector3 newColliderSize = new(1,1,1);
+        // newColliderSize[tipLeftRightBoundsAxisIndex] = scaledTipSize.x * 0.6f;
+        // newColliderSize[tipBackForthBoundsAxisIndex] = Math.Max(scaledTipSize.z, 0.1f);
+        // newColliderSize[tipUpDownBoundsAxisIndex] = scaledTipSize.y * 0.6f;
+        // tipCollider.size = newColliderSize;
+        // tipCollider.center = new Vector3(0, newColliderSize[tipBackForthBoundsAxisIndex] / 2, 0);
+        
+        tipCollider.size = new Vector3(scaledTipSize.x * 0.6f, Math.Max(scaledTipSize.z, 0.1f), scaledTipSize.y * 0.6f);
         tipCollider.center = new Vector3(0, scaledTipSize.z / 2, 0);
     }
 

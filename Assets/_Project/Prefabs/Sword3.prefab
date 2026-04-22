@@ -5710,7 +5710,7 @@ Transform:
   m_GameObject: {fileID: 8663607840952365139}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0.205, y: 1.314, z: 0.998}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5958,7 +5958,6 @@ MonoBehaviour:
   - {fileID: 217886938366721235}
   - {fileID: 5324501226816308192}
   - {fileID: 696222171030077396}
-  hotEmissionColor: {r: 1, g: 0.7019608, b: 0.7019608, a: 1}
   smithingMaterial: {fileID: 11400000, guid: 898b0a20dbb40c3499e85b2a664977da, type: 2}
 --- !u!114 &3316227432182917591
 MonoBehaviour:
@@ -5984,11 +5983,12 @@ MonoBehaviour:
   bottom_right_corner: {fileID: 8983932019271965484}
   hole_cover: {fileID: 5524414939165987543}
   swordBodyCollider: {fileID: 788308887361663529}
-  volumeShiftModifier: 1
-  minVelocity: 0.5
-  maxVelocity: 1.4
+  yGrowthScale: 0.5
+  volumeShiftModifier: 0.5
+  minVelocity: 0.8
+  maxVelocity: 1.1
   anvilAttachable: {fileID: 7808841537290161902}
-  hitCooldown: 0.3
+  hitCooldown: 0.5
   temperatureScript: {fileID: 5033926640063999766}
   squashBias: 1.2
   onScaleChanged:
@@ -6059,7 +6059,7 @@ MonoBehaviour:
   minVelocity: 0.5
   maxVelocity: 1.4
   anvilAttachable: {fileID: 7808841537290161902}
-  hitCooldown: 0.3
+  hitCooldown: 0.5
   temperatureScript: {fileID: 5033926640063999766}
   percentSquashDown: 0
   onLengthScaleChanged:
@@ -6152,8 +6152,8 @@ MonoBehaviour:
   - {fileID: 6144748983226384797}
   - {fileID: 8983932019271965484}
   volumeShiftModifier: 0.01
-  minVelocity: 0.01
-  maxVelocity: 1
+  minVelocity: 0.5
+  maxVelocity: 1.4
   anvilAttachable: {fileID: 7808841537290161902}
   hitCooldown: 0.5
   temperatureScript: {fileID: 5033926640063999766}

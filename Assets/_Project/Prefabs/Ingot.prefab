@@ -243,7 +243,7 @@ MonoBehaviour:
   visualOfIngot: {fileID: 3429059269904639320}
   swordBladeFinalScale: {x: 1, y: 1, z: 1}
   ingotFinalScale: {x: 0.3, y: 0.3, z: 0.3}
-  swordPrefab: {fileID: 2582469074622645331, guid: ae5fa90f724672044990b6614159f8d5, type: 3}
+  swordPrefab: {fileID: 8663607840952365139, guid: 25493c8a7d389274f9ade792e62db0ba, type: 3}
   anvilAttachable: {fileID: 6653365586317619973}
   minHitVelocity: 0.01
   maxHitVelocity: 6

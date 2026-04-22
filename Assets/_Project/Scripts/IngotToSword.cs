@@ -6,7 +6,7 @@ public class IngotToSword : MonoBehaviour
     [SerializeField] float requiredHitValue = 20f;
     [SerializeField] GameObject visualOfSwordInProgress;
     [SerializeField] GameObject visualOfIngot;
-    [SerializeField] Vector3 swordBladeFinalScale;
+    // [SerializeField] Vector3 swordBladeFinalScale;
     [SerializeField] Vector3 ingotFinalScale = new(0.2f, 0.2f, 0.2f);
     [SerializeField] GameObject swordPrefab;
     [SerializeField] AnvilAttachable anvilAttachable;
@@ -27,7 +27,7 @@ public class IngotToSword : MonoBehaviour
     {
         defaultTotalVolume = defaultHandleVolume + defaultBodyVolume + defaultTipVolume;
         visualOfSwordInProgress.transform.localScale = new(0.01f,0.01f,0.01f);
-        SetVolume(defaultTotalVolume * Random.Range(0.3f,1.2f));
+        SetVolume(defaultTotalVolume * Random.Range(0.3f,0.6f));
         GetComponent<TemperatureScript>().smithingMaterial = smithingMaterial;
         visualOfIngot.GetComponent<Renderer>().material = smithingMaterial.material;
     }
@@ -72,7 +72,7 @@ public class IngotToSword : MonoBehaviour
             1 - (1 - ingotFinalScale[1]) * percentHits,
             1 - (1 - ingotFinalScale[2]) * percentHits
         );
-        Vector3 visualScale = swordBladeFinalScale * percentHits;
+        Vector3 visualScale = volumeScale * percentHits;
         visualOfSwordInProgress.transform.localScale = visualScale;
         if (currentHitValue >= requiredHitValue)
         {
@@ -86,7 +86,7 @@ public class IngotToSword : MonoBehaviour
         if (swordPrefab != null)
         {
             GameObject newSword = Instantiate(swordPrefab, transform.position, transform.rotation);
-            newSword.GetComponent<Sword>().SetBladeScale(swordBladeFinalScale);
+            newSword.GetComponent<Sword>().SetBladeScale(volumeScale);
             newSword.GetComponent<Sword>().SetSmithingMaterial(smithingMaterial);
             newSword.GetComponent<TemperatureScript>().SetTemp(GetComponent<TemperatureScript>().GetTemp());
         }
