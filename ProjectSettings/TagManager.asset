@@ -7,6 +7,9 @@ TagManager:
   - hammer
   - anvilSocketable
   - grinder
+  - wood
+  - metal
+  - brick
   layers:
   - Default
   - TransparentFX

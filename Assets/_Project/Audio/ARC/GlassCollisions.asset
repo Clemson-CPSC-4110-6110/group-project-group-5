@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-8151538817451815380
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactGlass_light_003_{-8151538817451815380}
+  m_AudioClip: {fileID: 8300000, guid: 892c9c18133c3ef4a81cb4d45fe70c2d, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-178641345887308776
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactGlass_light_000_{-178641345887308776}
+  m_AudioClip: {fileID: 8300000, guid: b92d65a0787b08440bf4dc27769781da, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &101701006145693745
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactGlass_light_001_{101701006145693745}
+  m_AudioClip: {fileID: 8300000, guid: 304cf4632f6b91b45a21493103257251, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GlassCollisions
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: -1, y: 1}
+  m_PitchRandomizationRange: {x: -90, y: 90}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: -178641345887308776}
+  - {fileID: 101701006145693745}
+  - {fileID: 7142665827887901517}
+  - {fileID: -8151538817451815380}
+  - {fileID: 7892943366763584265}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 1
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 1
+  m_PitchRandomizationEnabled: 1
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &7142665827887901517
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactGlass_light_002_{7142665827887901517}
+  m_AudioClip: {fileID: 8300000, guid: feda057dafeb1cc469204773609965b0, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &7892943366763584265
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactGlass_light_004_{7892943366763584265}
+  m_AudioClip: {fileID: 8300000, guid: 252deeee03902474296f9da365452268, type: 3}
+  m_Volume: 0
+  m_Enabled: 1

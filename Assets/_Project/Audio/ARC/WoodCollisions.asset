@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-105885201421628260
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactWood_heavy_001_{-105885201421628260}
+  m_AudioClip: {fileID: 8300000, guid: 5924d9e228583f74b85ae1bb9baa6653, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &189453531808450316
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactWood_heavy_004_{189453531808450316}
+  m_AudioClip: {fileID: 8300000, guid: 5f6746e9d20b7f042adc2912dfa9f9ff, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1680898465779300084
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactWood_heavy_002_{1680898465779300084}
+  m_AudioClip: {fileID: 8300000, guid: 18f89378c7702ce43899090d90c5b804, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5917050504463339772
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactWood_heavy_003_{5917050504463339772}
+  m_AudioClip: {fileID: 8300000, guid: 14715fd92cfcd9140b12ad47e4f057d1, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WoodCollisions
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: -1, y: 1}
+  m_PitchRandomizationRange: {x: -90, y: 90}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 7335814701316585308}
+  - {fileID: -105885201421628260}
+  - {fileID: 1680898465779300084}
+  - {fileID: 5917050504463339772}
+  - {fileID: 189453531808450316}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 1
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 1
+  m_PitchRandomizationEnabled: 1
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &7335814701316585308
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactWood_heavy_000_{7335814701316585308}
+  m_AudioClip: {fileID: 8300000, guid: c7faa93be853812429c64a5ebfa9574a, type: 3}
+  m_Volume: 0
+  m_Enabled: 1

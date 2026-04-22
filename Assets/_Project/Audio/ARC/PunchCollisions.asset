@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-8380727209888374213
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactPunch_heavy_004_{-8380727209888374213}
+  m_AudioClip: {fileID: 8300000, guid: 86442e9f4fdb3844cabb1ee2e7788f8c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6526966990235131604
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactPunch_heavy_003_{-6526966990235131604}
+  m_AudioClip: {fileID: 8300000, guid: 6e04916e5923a5d4aa40436e48439b9c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-4752576063715418662
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactPunch_heavy_001_{-4752576063715418662}
+  m_AudioClip: {fileID: 8300000, guid: 9c47edd947e547e4b9534d0a86aa0e62, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-665508718770050910
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactPunch_heavy_002_{-665508718770050910}
+  m_AudioClip: {fileID: 8300000, guid: d5775636c46d8d04ca3572e341c8db97, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &4541831473123561338
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: impactPunch_heavy_000_{4541831473123561338}
+  m_AudioClip: {fileID: 8300000, guid: 417cc4e905c384d4b9959560fa42497c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PunchCollisions
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: -1, y: 1}
+  m_PitchRandomizationRange: {x: -90, y: 90}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 4541831473123561338}
+  - {fileID: -4752576063715418662}
+  - {fileID: -665508718770050910}
+  - {fileID: -6526966990235131604}
+  - {fileID: -8380727209888374213}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 1
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 1
+  m_PitchRandomizationEnabled: 1
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0

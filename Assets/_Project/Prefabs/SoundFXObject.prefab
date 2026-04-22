@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7098640317085001390}
   - component: {fileID: 7229850823509282383}
-  - component: {fileID: 4661732699151503170}
+  - component: {fileID: 5656070394062459214}
   m_Layer: 0
   m_Name: SoundFXObject
   m_TagString: Untagged
@@ -42,7 +42,7 @@ AudioSource:
   m_GameObject: {fileID: 801329763869440241}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -6016339854390603164, guid: 6ebfa5d2ba7433f4f8cac9e59245808b, type: 2}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 01a6891c52dd3fb419c5d5a79535bb72, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -130,7 +130,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4661732699151503170
+--- !u!114 &5656070394062459214
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
