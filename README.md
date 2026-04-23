@@ -69,6 +69,9 @@ Interact with UI - Left/Right Trigger Button
 16. Decorations will be unable to be used if they leave the hitbox of the blade body
 17. If a user hits a decoration with the hammer but the decoration slips off, no decoration of that type can be attached and the decoration will fall through the floor.
 18. Blade will not be properly released from tongs after grabbing blade from anvil.
+19. Hammer can fall through floor.
+20. The anvil guide does not mention shaping.
+
 
 ## Credits/attributions
 
