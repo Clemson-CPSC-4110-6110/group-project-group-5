@@ -71,11 +71,12 @@ Interact with UI - Left/Right Trigger Button
 18. Blade will not be properly released from tongs after grabbing blade from anvil.
 19. Hammer can fall through floor.
 20. The anvil guide does not mention shaping.
+21. Sword will not perfectly match sword visual (scale and rotation) from ingot once ingot is fully converted
 
 
 ## Credits/attributions
 
-Team members, ChatGPT, SasquatchBStudios
+Guoyi Zhong, Jack Walsh, Himanshu Pallath, Kevin Lam
 
 
 # PRE-MILESTONE 4 README

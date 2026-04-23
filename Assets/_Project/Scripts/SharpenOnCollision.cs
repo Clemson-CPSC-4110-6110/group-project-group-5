@@ -44,7 +44,7 @@ public class SharpenOnCollision : MonoBehaviour
 
     // void Update()
     // {
-    //     SharpenLeftRightSide(0.001f);
+    //     SharpenLeftRightSide(0.00001f);
     // }
 
     void Awake()
@@ -126,6 +126,9 @@ public class SharpenOnCollision : MonoBehaviour
         Vector3 newEdgeScale = left_edge.transform.localScale;
         newEdgeScale[bodyUpDownScaleAxisIndex] *= change_in_scale;
         left_edge.transform.localScale = newEdgeScale;
+
+        newEdgeScale = right_edge.transform.localScale;
+        newEdgeScale[bodyUpDownScaleAxisIndex] *= change_in_scale;
         right_edge.transform.localScale = newEdgeScale;
 
         // float new_edge_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex];
@@ -189,6 +192,9 @@ public class SharpenOnCollision : MonoBehaviour
         Vector3 newEdgeScale = top_edge.transform.localScale;
         newEdgeScale[bodyLeftRightScaleAxisIndex] *= change_in_scale;
         top_edge.transform.localScale = newEdgeScale;
+
+        newEdgeScale = bottom_edge.transform.localScale;
+        newEdgeScale[bodyLeftRightScaleAxisIndex] *= change_in_scale;
         bottom_edge.transform.localScale = newEdgeScale;
 
         // float new_edge_length = left_edge.GetComponent<MeshFilter>().sharedMesh.bounds.size[bodyUpDownBoundsAxisIndex] * left_edge.transform.localScale[bodyUpDownScaleAxisIndex];
