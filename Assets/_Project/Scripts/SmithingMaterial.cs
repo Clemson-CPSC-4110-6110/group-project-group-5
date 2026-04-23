@@ -9,4 +9,5 @@ public class SmithingMaterial : ScriptableObject
     public float minWorkingTemp = 60;
     public float maxWorkingTemp = 300;
     public float tempLostPerSecond;
+    public float priceMultiplier = 1;
 }

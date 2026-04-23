@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TemperatureScript))]
 public class IngotToSword : MonoBehaviour
 {
+    [SerializeField] List<SmithingMaterial> potentialSmithingMaterials = new();
     [SerializeField] float requiredHitValue = 20f;
     [SerializeField] GameObject visualOfSwordInProgress;
     [SerializeField] GameObject visualOfIngot;
@@ -25,6 +27,7 @@ public class IngotToSword : MonoBehaviour
 
     void Awake()
     {
+        smithingMaterial = potentialSmithingMaterials[Random.Range(0, potentialSmithingMaterials.Count)];
         defaultTotalVolume = defaultHandleVolume + defaultBodyVolume + defaultTipVolume;
         visualOfSwordInProgress.transform.localScale = new(0.01f,0.01f,0.01f);
         SetVolume(defaultTotalVolume * Random.Range(0.3f,0.6f));
