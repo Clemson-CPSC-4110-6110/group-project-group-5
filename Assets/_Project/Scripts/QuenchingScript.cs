@@ -33,6 +33,7 @@ public class QuenchingScript : MonoBehaviour
         {
             temperatureScript = other.GetComponentInParent<TemperatureScript>();
         }
+        if (temperatureScript == null) return;
         GameObject objectWithScript = temperatureScript.gameObject;
         temperatureScripts.Remove(objectWithScript);
     }
@@ -53,6 +54,7 @@ public class QuenchingScript : MonoBehaviour
         foreach (GameObject obj in temperatureScripts.Keys)
         {
             temperatureScripts[obj].AddTemp(-temperatureLostPerSecond * Time.deltaTime);
+            if (temperatureScripts[obj].GetPercentMaxTemp() == 0) temperatureScripts.Remove(obj);
         }
 
         if (temperatureScripts.Keys.Count == 0) return;
