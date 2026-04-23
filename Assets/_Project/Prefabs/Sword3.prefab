@@ -1677,7 +1677,7 @@ GameObject:
   - component: {fileID: 7461813694922755914}
   m_Layer: 0
   m_Name: Tip Pivot
-  m_TagString: Untagged
+  m_TagString: anvilSocketable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4287,7 +4287,7 @@ GameObject:
   - component: {fileID: 5881747699118128801}
   m_Layer: 0
   m_Name: Sword Handle
-  m_TagString: Untagged
+  m_TagString: anvilSocketable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5504,7 +5504,7 @@ GameObject:
   - component: {fileID: 788308887361663529}
   m_Layer: 0
   m_Name: Center Pivot
-  m_TagString: Untagged
+  m_TagString: anvilSocketable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
