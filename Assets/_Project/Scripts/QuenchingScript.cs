@@ -8,20 +8,22 @@ public class QuenchingScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("entered object: " + other.gameObject.name);
+
         if (!other.CompareTag("anvilSocketable")) return;
 
-        GameObject objectWithScript = other.gameObject;
         if (!other.TryGetComponent<TemperatureScript>(out var temperatureScript))
         {
-            objectWithScript = objectWithScript.transform.parent.gameObject;
             temperatureScript = other.GetComponentInParent<TemperatureScript>();
         }
-
+        GameObject objectWithScript = temperatureScript.gameObject;
+        Debug.Log("objectWithScript: " + objectWithScript.name);
         temperatureScripts[objectWithScript] = temperatureScript;
     }
 
     void OnTriggerExit(Collider other)
     {
+        Debug.Log("Removing: " + other.gameObject.name);
         temperatureScripts.Remove(other.gameObject);
     }
 

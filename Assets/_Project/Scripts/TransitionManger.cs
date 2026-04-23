@@ -106,8 +106,7 @@ public class TransitionManager : MonoBehaviour
             SetAlpha(Mathf.Lerp(from, to, elapsed));
             yield return null;
         }
-        // SetAlpha(to);
-        SetAlpha(0);
+        SetAlpha(to);
     }
 
     void SetAlpha(float alpha)

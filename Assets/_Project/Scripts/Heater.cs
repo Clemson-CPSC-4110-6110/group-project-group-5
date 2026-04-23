@@ -24,7 +24,7 @@ public class Heater : MonoBehaviour
         TemperatureScript ts = collision.gameObject.GetComponent<TemperatureScript>();
         if (ts == null) return;
         attachedTemperatureScripts.Remove(ts);
-        Debug.Log("Removing " + ts.gameObject.name + " from list. Now there are " + attachedTemperatureScripts.Count + " items");
+        // Debug.Log("Removing " + ts.gameObject.name + " from list. Now there are " + attachedTemperatureScripts.Count + " items");
     }
     // void OnTriggerStay(Collider other)
     // {

@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1233149941 &-7566907759141367482
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact6_{-7566907759141367482}
+  m_AudioClip: {fileID: 8300000, guid: b084521af24466e4b8bbf8743d5c2493, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-6460815469398281492
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact15_{-6460815469398281492}
+  m_AudioClip: {fileID: 8300000, guid: c20a131ee400df544a6cafa00e56cca6, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-1059369902115898673
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact8_{-1059369902115898673}
+  m_AudioClip: {fileID: 8300000, guid: 80bd9d4bd8318a14485df52d305370ad, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-937862199547820914
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact9_{-937862199547820914}
+  m_AudioClip: {fileID: 8300000, guid: 43ee5d708d955024a8d299dd01f323d7, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-842577898118302254
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact14_{-842577898118302254}
+  m_AudioClip: {fileID: 8300000, guid: 580a4c0578dc75541932f82d6784965c, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &-105885201421628260
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact2_{-105885201421628260}
+  m_AudioClip: {fileID: 8300000, guid: 6e125c7f6c3574341bb7b01fe6b9dfee, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &91725757622287397
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact11_{91725757622287397}
+  m_AudioClip: {fileID: 8300000, guid: 1674e1d30004b9b46b597f21c3ffdfa0, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &189453531808450316
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact5_{189453531808450316}
+  m_AudioClip: {fileID: 8300000, guid: 918f83b22a83106499b56f98ef8934cc, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1680898465779300084
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact3_{1680898465779300084}
+  m_AudioClip: {fileID: 8300000, guid: 3af8a9d07bc438e458fa25f5e334a22b, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &1717599985177927787
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact12_{1717599985177927787}
+  m_AudioClip: {fileID: 8300000, guid: 662368c20c74f1347bfe72d20c30a417, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5103617015781222602
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact7_{5103617015781222602}
+  m_AudioClip: {fileID: 8300000, guid: 8e728a1e9d3dc5f41a2d59668c45e98e, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5578778843545854331
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact13_{5578778843545854331}
+  m_AudioClip: {fileID: 8300000, guid: 96228358d940aef4c8f99ed7bb4f3488, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &5917050504463339772
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact4_{5917050504463339772}
+  m_AudioClip: {fileID: 8300000, guid: f72a112b8aedd154887e21eb1e70c0f8, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1307931743 &6418180475301049370
+AudioRandomContainer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MetalStrikeCollisions
+  m_Volume: 0
+  m_Pitch: 0
+  m_AutomaticTriggerTime: 0
+  m_LoopCount: 1
+  m_VolumeRandomizationRange: {x: -1, y: 1}
+  m_PitchRandomizationRange: {x: -90, y: 90}
+  m_AutomaticTriggerTimeRandomizationRange: {x: 0, y: 0}
+  m_LoopCountRandomizationRange: {x: 0, y: 0}
+  m_Elements:
+  - {fileID: 7335814701316585308}
+  - {fileID: -105885201421628260}
+  - {fileID: 1680898465779300084}
+  - {fileID: 5917050504463339772}
+  - {fileID: 189453531808450316}
+  - {fileID: -7566907759141367482}
+  - {fileID: 5103617015781222602}
+  - {fileID: -1059369902115898673}
+  - {fileID: -937862199547820914}
+  - {fileID: 7588548263617238315}
+  - {fileID: 91725757622287397}
+  - {fileID: 1717599985177927787}
+  - {fileID: 5578778843545854331}
+  - {fileID: -842577898118302254}
+  - {fileID: -6460815469398281492}
+  m_AvoidRepeatingLast: 0
+  m_PlaybackMode: 1
+  m_TriggerMode: 0
+  m_AutomaticTriggerMode: 1
+  m_LoopMode: 2
+  m_VolumeRandomizationEnabled: 1
+  m_PitchRandomizationEnabled: 1
+  m_AutomaticTriggerTimeRandomizationEnabled: 0
+  m_LoopCountRandomizationEnabled: 0
+--- !u!1233149941 &7335814701316585308
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact1_{7335814701316585308}
+  m_AudioClip: {fileID: 8300000, guid: d3b11b80263d8a145ad7641f5e978ff4, type: 3}
+  m_Volume: 0
+  m_Enabled: 1
+--- !u!1233149941 &7588548263617238315
+AudioContainerElement:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HammerImpact10_{7588548263617238315}
+  m_AudioClip: {fileID: 8300000, guid: 4827fbf98a5198d45a996fbc8ff7bbbc, type: 3}
+  m_Volume: 0
+  m_Enabled: 1

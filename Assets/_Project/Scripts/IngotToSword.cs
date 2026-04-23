@@ -61,7 +61,7 @@ public class IngotToSword : MonoBehaviour
         if (velocityMagnitude < minHitVelocity || velocityMagnitude > maxHitVelocity) return;
         if (Time.time - lastHitTime < hitCooldown) return;
         float hitValue = Mathf.Clamp01( (velocityMagnitude - minHitVelocity) / (maxHitVelocity - minHitVelocity) ) * 3 * temperatureScript.GetPercentMaxTemp();
-        Debug.Log("hitValue: " + hitValue);
+        // Debug.Log("hitValue: " + hitValue);
         lastHitTime = Time.time;
         HandleHit(hitValue);
     }
