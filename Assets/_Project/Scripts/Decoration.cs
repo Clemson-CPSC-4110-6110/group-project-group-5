@@ -77,7 +77,21 @@ public class Decoration : MonoBehaviour
         }
         else
         {
-            gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, attachLocalRotation);
+            // gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, attachLocalRotation);
+            ContactPoint contact = collision.GetContact(0);
+            Vector3 worldNormal = contact.normal;
+            Vector3 localNormal = swordTransform.InverseTransformDirection(worldNormal);
+            Vector3 absNormal = new(
+                Mathf.Abs(localNormal.x),
+                Mathf.Abs(localNormal.y),
+                Mathf.Abs(localNormal.z)
+            );
+            Debug.Log("absNormal: " + absNormal);
+            float angle = (absNormal.x >= absNormal.z) ? 0 : 90;
+            Vector3 newRotationEulers = attachLocalRotation.eulerAngles;
+            newRotationEulers.y += angle;
+            // attachLocalRotation = Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z);
+            gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z));
             gameObject.transform.localScale = attachLocalScale;
         }
 
