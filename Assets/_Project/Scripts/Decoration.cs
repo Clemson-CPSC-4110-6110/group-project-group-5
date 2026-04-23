@@ -44,21 +44,41 @@ public class Decoration : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.contactCount == 0 || !collision.gameObject.CompareTag("hammer")) { return; }
-        if (swordTransform != null)
-        {
-            AttachDecoration();
-        }
-    }
-
-    void AttachDecoration()
-    {
+        if (swordTransform == null) return;
+        // AttachDecoration();
         gameObject.transform.SetParent(swordTransform);
         decoCollider.enabled = false;
         rb.isKinematic = true;
         rb.useGravity = false;
         grabInteractable.enabled = false;
         // rb.enabled = false;
-        gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, attachLocalRotation);
+
+        ContactPoint contact = collision.GetContact(0);
+        Vector3 worldNormal = contact.normal;
+        Vector3 localNormal = swordTransform.InverseTransformDirection(worldNormal);
+        Vector3 absNormal = new(
+            Mathf.Abs(localNormal.x),
+            Mathf.Abs(localNormal.y),
+            Mathf.Abs(localNormal.z)
+        );
+        Debug.Log("absNormal: " + absNormal);
+        float angle = (absNormal.x >= absNormal.z) ? 90 : 0;
+        Vector3 newRotationEulers = attachLocalRotation.eulerAngles;
+        newRotationEulers.z += angle;
+        // attachLocalRotation = Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z);
+        gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z));
         swordDecorationHandler.OnDecorationAttach(gameObject.tag);
     }
+
+    // void AttachDecoration()
+    // {
+    //     gameObject.transform.SetParent(swordTransform);
+    //     decoCollider.enabled = false;
+    //     rb.isKinematic = true;
+    //     rb.useGravity = false;
+    //     grabInteractable.enabled = false;
+    //     // rb.enabled = false;
+    //     gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, attachLocalRotation);
+    //     swordDecorationHandler.OnDecorationAttach(gameObject.tag);
+    // }
 }

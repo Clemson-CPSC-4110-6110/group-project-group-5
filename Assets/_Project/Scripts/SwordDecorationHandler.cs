@@ -21,6 +21,7 @@ public class SwordDecorationHandler : MonoBehaviour
         ContactPoint contact = collision.GetContact(0);
         // Debug.Log("Collision name: " + contact.thisCollider.name);
         if (contact.thisCollider.name != targetName) { return; }
+
         // Debug.Log("Collision was with handle");
 
         // Debug.Log("Name: " + collision.gameObject.name);
@@ -36,6 +37,15 @@ public class SwordDecorationHandler : MonoBehaviour
             contactingDecorations.Add(decoration);
             decoration.SetSwordToAttachTo(sword.transform);
             decoration.SetLocalAttachPosition(new(0,0,0));
+            // Vector3 worldNormal = contact.normal;
+            // Vector3 localNormal = handle.transform.InverseTransformDirection(worldNormal);
+            // Vector3 absNormal = new(
+            //     Mathf.Abs(localNormal.x),
+            //     Mathf.Abs(localNormal.y),
+            //     Mathf.Abs(localNormal.z)
+            // );
+            // Debug.Log("absNormal: " + absNormal);
+            // float angle = (absNormal.x >= absNormal.y) ? 0 : 90;
             decoration.SetLocalAttachRotation(Quaternion.Euler(-90f, 0f, 0f));
             decoration.SetSwordDecorationHandler(this);
         }
@@ -54,6 +64,14 @@ public class SwordDecorationHandler : MonoBehaviour
             // Debug.Log("Pommel is touching handle");
             contactingDecorations.Add(decoration);
             decoration.SetSwordToAttachTo(sword.transform);
+            // Vector3 worldNormal = contact.normal;
+            // Vector3 localNormal = handle.transform.InverseTransformDirection(worldNormal);
+            // Vector3 absNormal = new(
+            //     Mathf.Abs(localNormal.x),
+            //     Mathf.Abs(localNormal.y),
+            //     Mathf.Abs(localNormal.z)
+            // );
+            // float angle = (absNormal.x >= absNormal.y) ? 0 : 90;
             decoration.SetLocalAttachRotation(Quaternion.Euler(-90f, 0f, 0f));
             decoration.SetLocalAttachPosition(new(0,-(0.2f * handle.transform.localScale[handleBackForthScaleAxisIndex]),0));
             decoration.SetSwordDecorationHandler(this);

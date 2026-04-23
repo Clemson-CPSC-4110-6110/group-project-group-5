@@ -36815,6 +36815,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DiamondP
       objectReference: {fileID: 0}
+    - target: {fileID: 4126395374084270877, guid: 0a99fa001bb0f704d8670b20c1cef9c3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5236857123582691106, guid: 0a99fa001bb0f704d8670b20c1cef9c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -37218,7 +37222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4861638119589376927, guid: f89f23b3eb32cff42b9e7b4d7568f9d8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9173827805489089644, guid: f89f23b3eb32cff42b9e7b4d7568f9d8, type: 3}
       propertyPath: m_LocalPosition.x
