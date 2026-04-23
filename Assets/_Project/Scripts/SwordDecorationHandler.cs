@@ -32,7 +32,7 @@ public class SwordDecorationHandler : MonoBehaviour
         if (collision.gameObject.CompareTag("guard"))
         {
             if (isGuardAttached) return;
-            Debug.Log("Guard is touching handle");
+            // Debug.Log("Guard is touching handle");
             contactingDecorations.Add(decoration);
             decoration.SetSwordToAttachTo(sword.transform);
             decoration.SetLocalAttachPosition(new(0,0,0));
@@ -42,7 +42,7 @@ public class SwordDecorationHandler : MonoBehaviour
         else if (collision.gameObject.CompareTag("handle"))
         {
             if (isHandleAttached) return;
-            Debug.Log("Handle is touching handle");
+            // Debug.Log("Handle is touching handle");
             contactingDecorations.Add(decoration);
             decoration.SetSwordToAttachTo(sword.transform);
             decoration.SetLocalAttachPosition(new(0,-0.02f,0));
@@ -51,9 +51,10 @@ public class SwordDecorationHandler : MonoBehaviour
         else if (collision.gameObject.CompareTag("pommel"))
         {
             if (isPommelAttached) return;
-            Debug.Log("Pommel is touching handle");
+            // Debug.Log("Pommel is touching handle");
             contactingDecorations.Add(decoration);
             decoration.SetSwordToAttachTo(sword.transform);
+            decoration.SetLocalAttachRotation(Quaternion.Euler(-90f, 0f, 0f));
             decoration.SetLocalAttachPosition(new(0,-(0.2f * handle.transform.localScale[handleBackForthScaleAxisIndex]),0));
             decoration.SetSwordDecorationHandler(this);
         }
