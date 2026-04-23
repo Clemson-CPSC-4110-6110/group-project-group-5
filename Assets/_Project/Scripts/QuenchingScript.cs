@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class QuenchingScript : MonoBehaviour
 {
+    [SerializeField] AudioClip audioClip;
+    [SerializeField] float volume;
     Dictionary<GameObject, TemperatureScript> temperatureScripts = new();
     float temperatureLostPerSecond = 20;
+    float audioPerSecond = 2;
+    float timer = 0f;
+    public float interval = 0.1f;
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("entered object: " + other.gameObject.name);
+        // Debug.Log("entered object: " + other.gameObject.name);
 
         if (!other.CompareTag("anvilSocketable")) return;
 
@@ -24,7 +29,12 @@ public class QuenchingScript : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         Debug.Log("Removing: " + other.gameObject.name);
-        temperatureScripts.Remove(other.gameObject);
+        if (!other.TryGetComponent<TemperatureScript>(out var temperatureScript))
+        {
+            temperatureScript = other.GetComponentInParent<TemperatureScript>();
+        }
+        GameObject objectWithScript = temperatureScript.gameObject;
+        temperatureScripts.Remove(objectWithScript);
     }
 
     // void OnTriggerStay(Collider other)
@@ -43,6 +53,15 @@ public class QuenchingScript : MonoBehaviour
         foreach (GameObject obj in temperatureScripts.Keys)
         {
             temperatureScripts[obj].AddTemp(-temperatureLostPerSecond * Time.deltaTime);
+        }
+
+        if (temperatureScripts.Keys.Count == 0) return;
+        timer += Time.deltaTime;
+        if (timer >= interval)
+        {
+            timer = 0f;
+
+            SoundFXManager.Instance.PlaySoundFXClip(audioClip, transform, volume);
         }
     }
 }
