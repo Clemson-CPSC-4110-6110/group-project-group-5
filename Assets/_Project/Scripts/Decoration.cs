@@ -14,6 +14,7 @@ public class Decoration : MonoBehaviour
     XRGrabInteractable grabInteractable;
     protected Transform swordTransform;
     protected Vector3 attachLocalPosition;
+    protected Vector3 attachLocalScale = new(1,1,1);
     protected Quaternion attachLocalRotation = Quaternion.identity;
     SwordDecorationHandler swordDecorationHandler;
     void Awake()
@@ -30,6 +31,10 @@ public class Decoration : MonoBehaviour
     public void SetLocalAttachPosition(Vector3 newAttachLocalPosition)
     {
         attachLocalPosition = newAttachLocalPosition;
+    }
+    public void SetLocalAttachScale(Vector3 newAttachLocalScale)
+    {
+        attachLocalScale = newAttachLocalScale;
     }
     public void SetLocalAttachRotation(Quaternion newAttachLocalRotation)
     {
@@ -53,20 +58,29 @@ public class Decoration : MonoBehaviour
         grabInteractable.enabled = false;
         // rb.enabled = false;
 
-        ContactPoint contact = collision.GetContact(0);
-        Vector3 worldNormal = contact.normal;
-        Vector3 localNormal = swordTransform.InverseTransformDirection(worldNormal);
-        Vector3 absNormal = new(
-            Mathf.Abs(localNormal.x),
-            Mathf.Abs(localNormal.y),
-            Mathf.Abs(localNormal.z)
-        );
-        Debug.Log("absNormal: " + absNormal);
-        float angle = (absNormal.x >= absNormal.z) ? 90 : 0;
-        Vector3 newRotationEulers = attachLocalRotation.eulerAngles;
-        newRotationEulers.z += angle;
-        // attachLocalRotation = Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z);
-        gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z));
+        if (!gameObject.CompareTag("handle"))
+        {
+            ContactPoint contact = collision.GetContact(0);
+            Vector3 worldNormal = contact.normal;
+            Vector3 localNormal = swordTransform.InverseTransformDirection(worldNormal);
+            Vector3 absNormal = new(
+                Mathf.Abs(localNormal.x),
+                Mathf.Abs(localNormal.y),
+                Mathf.Abs(localNormal.z)
+            );
+            Debug.Log("absNormal: " + absNormal);
+            float angle = (absNormal.x >= absNormal.z) ? 90 : 0;
+            Vector3 newRotationEulers = attachLocalRotation.eulerAngles;
+            newRotationEulers.z += angle;
+            // attachLocalRotation = Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z);
+            gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, Quaternion.Euler(newRotationEulers.x, newRotationEulers.y, newRotationEulers.z));
+        }
+        else
+        {
+            gameObject.transform.SetLocalPositionAndRotation(attachLocalPosition, attachLocalRotation);
+            gameObject.transform.localScale = attachLocalScale;
+        }
+
         swordDecorationHandler.OnDecorationAttach(gameObject.tag);
     }
 

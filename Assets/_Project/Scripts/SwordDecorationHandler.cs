@@ -10,6 +10,7 @@ public class SwordDecorationHandler : MonoBehaviour
     bool isGuardAttached = false;
     bool isHandleAttached = false;
     bool isPommelAttached = false;
+    readonly int handleBackForthBoundsAxisIndex = 1;
     readonly int handleBackForthScaleAxisIndex = 1;
     List<Decoration> contactingDecorations = new();
 
@@ -56,6 +57,11 @@ public class SwordDecorationHandler : MonoBehaviour
             contactingDecorations.Add(decoration);
             decoration.SetSwordToAttachTo(sword.transform);
             decoration.SetLocalAttachPosition(new(0,-0.02f,0));
+            float scaledHandleLength = handle.GetComponent<MeshFilter>().sharedMesh.bounds.size[handleBackForthBoundsAxisIndex] * handle.transform.localScale[handleBackForthScaleAxisIndex];
+            float scaledHandleDecoLength = scaledHandleLength - 0.02f;
+            float handleDecoScale = 1 + (scaledHandleDecoLength - 0.18f) / 0.18f;
+            Debug.Log("scaledHandleDecoLength: " + scaledHandleDecoLength);
+            decoration.SetLocalAttachScale(new(1,handleDecoScale,1));
             decoration.SetSwordDecorationHandler(this);
         }
         else if (collision.gameObject.CompareTag("pommel"))
