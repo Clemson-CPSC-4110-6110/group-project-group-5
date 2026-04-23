@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Renderer))]
 public class Decoration : MonoBehaviour
 {
+    [SerializeField] List<Material> materials = new();
     Rigidbody rb;
     Collider decoCollider;
     protected Transform swordTransform;
@@ -14,6 +17,7 @@ public class Decoration : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         decoCollider = GetComponent<Collider>();
+        GetComponent<Renderer>().material = materials[Random.Range(0, materials.Count)];
     }
     public void SetSwordToAttachTo(Transform newSwordTransform)
     {

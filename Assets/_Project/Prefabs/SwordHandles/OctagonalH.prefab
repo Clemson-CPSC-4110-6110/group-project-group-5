@@ -1021,3 +1021,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5100f8b8b42147246a1d62b4686143a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Decoration
+  materials:
+  - {fileID: 2100000, guid: db940d9d9712fa9498d13ac9a36df2d7, type: 2}
+  - {fileID: 2100000, guid: a5ddb3e34cbdfd24f9625f4c3d5f7553, type: 2}
+  - {fileID: 2100000, guid: 0b8a36e19d044254cb7c7a8623d703ca, type: 2}
+  - {fileID: 2100000, guid: 039c971de4923b943bdbc99c6f07820d, type: 2}
+  - {fileID: 2100000, guid: 008ec6ce5b1c77847adfd4c044ae0427, type: 2}
+  - {fileID: 2100000, guid: 80a499b71ee36e348a75339c544257bf, type: 2}

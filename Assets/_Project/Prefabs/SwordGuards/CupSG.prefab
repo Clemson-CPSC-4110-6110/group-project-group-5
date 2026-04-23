@@ -3577,3 +3577,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5100f8b8b42147246a1d62b4686143a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Decoration
+  materials:
+  - {fileID: 2100000, guid: db940d9d9712fa9498d13ac9a36df2d7, type: 2}
+  - {fileID: 2100000, guid: a5ddb3e34cbdfd24f9625f4c3d5f7553, type: 2}
+  - {fileID: 2100000, guid: 9b48a1f6ae8e4a84b9b813e153de44cc, type: 2}
+  - {fileID: 2100000, guid: 44a3920887fbe134a862256e38341e34, type: 2}
+  - {fileID: 2100000, guid: 4b9b523dcfa37484b98fed193a3e9520, type: 2}
+  - {fileID: 2100000, guid: d3bb15285eeeac746816e22d64e9a29d, type: 2}
