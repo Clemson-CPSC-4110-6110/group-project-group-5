@@ -5,7 +5,30 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 public class BuyScript : MonoBehaviour
 {
     [SerializeField] TMP_Text textObj;
+    [SerializeField] XRBaseInteractable xRInteractable;
     GameObject itemBeingSold;
+
+    void Awake()
+    {
+        DisableTextVisibility();
+        xRInteractable.hoverEntered.AddListener((args) => EnableTextVisibility());
+        xRInteractable.hoverExited.AddListener((args) => DisableTextVisibility());
+    }
+
+    void DisableTextVisibility()
+    {
+        Color color = textObj.color;
+        color.a = 0;
+        textObj.color = color;
+    }
+
+    void EnableTextVisibility()
+    {
+        Color color = textObj.color;
+        color.a = 100;
+        textObj.color = color;
+    }
+
     public void SetItemBeingSold(GameObject newObject)
     {
         itemBeingSold = newObject;
