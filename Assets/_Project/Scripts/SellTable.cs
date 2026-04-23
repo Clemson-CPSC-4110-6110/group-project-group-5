@@ -12,8 +12,12 @@ public class SellTable : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        SellableItem item = other.GetComponent<SellableItem>();
-        if (item != null)
+        other.TryGetComponent<SellableItem>(out var item);
+        if (item == null)
+        {
+            item = other.GetComponentInParent<SellableItem>();
+        }
+        if (item)
         {
             currentItem = item;
             tableUI.ShowItem(item);
@@ -59,7 +63,7 @@ public class SellTable : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[SellTable] Audio missing — source: {audioSource}, clip: {sellSound}");
+            Debug.LogWarning($"[SellTable] Audio missing ï¿½ source: {audioSource}, clip: {sellSound}");
         }
 
         Destroy(currentItem.gameObject);

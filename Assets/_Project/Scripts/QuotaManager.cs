@@ -29,7 +29,7 @@ public class QuotaManager : MonoBehaviour
     int cycleCount = 0;
     bool gameOver = false;
 
-    // Day flavor text — add more as you like
+    // Day flavor text ï¿½ add more as you like
     string[] daySubtitles = new string[]
     {
         "Time to get to work...",
@@ -85,6 +85,8 @@ public class QuotaManager : MonoBehaviour
 
         Debug.Log($"[QuotaManager] +${amount} | {ItemsSoldToday}/{ItemsRequiredToday} sold | Total: ${CurrentMoney}");
         UpdateUI();
+
+        if (amount < 0) return;
 
         if (ItemsSoldToday >= ItemsRequiredToday)
             EvaluateDay();

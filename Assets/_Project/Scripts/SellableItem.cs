@@ -15,6 +15,6 @@ public class SellableItem : MonoBehaviour
     {
         // For now just return base price, will change later (line 8)
         // Later we can do: return basePrice * sharpnessMultiplier * materialMultiplier etc.
-        return basePrice;
+        return basePrice * GetComponent<TemperatureScript>().smithingMaterial.priceMultiplier;
     }
 }

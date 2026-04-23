@@ -7,7 +7,10 @@ public class BuyScript : MonoBehaviour
     [SerializeField] TMP_Text textObj;
     [SerializeField] XRBaseInteractable xRInteractable;
     [SerializeField] float basePrice = 100;
+    [SerializeField] AudioClip audioClip;
+    float volume = 1f;
     GameObject itemBeingSold;
+    int price;
 
     void Awake()
     {
@@ -34,13 +37,14 @@ public class BuyScript : MonoBehaviour
     {
         itemBeingSold = newObject;
         newObject.TryGetComponent(out IngotToSword ingotScript);
-        float price = basePrice;
+        float newPrice = basePrice;
         if (ingotScript) 
         { 
-            price *= ingotScript.smithingMaterial.priceMultiplier; 
-            price *= newObject.transform.localScale.x * newObject.transform.localScale.y * newObject.transform.localScale.z;
+            newPrice *= ingotScript.smithingMaterial.priceMultiplier; 
+            newPrice *= newObject.transform.localScale.x * newObject.transform.localScale.y * newObject.transform.localScale.z;
         }
-        textObj.text = $"Buy for <color=yellow>{(int)price}</color> gold";
+        price = (int)newPrice;
+        textObj.text = $"Buy for <color=yellow>{price}</color> gold";
         itemBeingSold.GetComponent<XRGrabInteractable>().enabled = false;
     }
     public void PurchaseItemBeingSold()
@@ -48,6 +52,9 @@ public class BuyScript : MonoBehaviour
         if (!itemBeingSold) return;
         itemBeingSold.GetComponent<XRGrabInteractable>().enabled = true;
         itemBeingSold = null;
+        textObj.text = $"<color=red>SOLD</color>";
+        QuotaManager.Instance.AddMoney(-price);
+        SoundFXManager.Instance.PlaySoundFXClip(audioClip, transform, volume);
     }
     public void DeleteItemBeingSold()
     {
