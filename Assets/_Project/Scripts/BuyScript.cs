@@ -6,6 +6,7 @@ public class BuyScript : MonoBehaviour
 {
     [SerializeField] TMP_Text textObj;
     [SerializeField] XRBaseInteractable xRInteractable;
+    [SerializeField] float basePrice = 100;
     GameObject itemBeingSold;
 
     void Awake()
@@ -33,7 +34,7 @@ public class BuyScript : MonoBehaviour
     {
         itemBeingSold = newObject;
         newObject.TryGetComponent(out IngotToSword ingotScript);
-        float price = 100;
+        float price = basePrice;
         if (ingotScript) 
         { 
             price *= ingotScript.smithingMaterial.priceMultiplier; 

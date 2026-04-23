@@ -5,7 +5,7 @@ public class RefreshItemSelectionScript : MonoBehaviour
 {
     [SerializeField] List<Transform> spawnPoints = new();
     [SerializeField] List<BuyScript> buyScripts = new();
-    [SerializeField] GameObject itemPrefab;
+    [SerializeField] List<GameObject> itemPrefabs;
 
     void Start()
     {
@@ -17,7 +17,7 @@ public class RefreshItemSelectionScript : MonoBehaviour
         for (int i = 0; i < spawnPoints.Count; i++)
         {
             buyScripts[i].DeleteItemBeingSold();
-            GameObject newItem = Instantiate(itemPrefab);
+            GameObject newItem = Instantiate(itemPrefabs[Random.Range(0, itemPrefabs.Count)]);
             // spawnPoints[i].localPosition = Vector3.zero;
             newItem.transform.position = spawnPoints[i].position;
             buyScripts[i].SetItemBeingSold(newItem);

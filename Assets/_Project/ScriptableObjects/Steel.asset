@@ -18,3 +18,4 @@ MonoBehaviour:
   minWorkingTemp: 120
   maxWorkingTemp: 300
   tempLostPerSecond: 0.05
+  priceMultiplier: 1.1
