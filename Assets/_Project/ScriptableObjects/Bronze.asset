@@ -17,5 +17,5 @@ MonoBehaviour:
   materialName: Bronze
   minWorkingTemp: 80
   maxWorkingTemp: 300
-  tempLostPerSecond: 0.5
+  tempLostPerSecond: 3
   priceMultiplier: 0.9

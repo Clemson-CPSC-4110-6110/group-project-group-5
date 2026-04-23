@@ -17,5 +17,5 @@ MonoBehaviour:
   materialName: Steel
   minWorkingTemp: 120
   maxWorkingTemp: 300
-  tempLostPerSecond: 0.05
+  tempLostPerSecond: 1.5
   priceMultiplier: 1.1

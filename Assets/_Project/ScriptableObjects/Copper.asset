@@ -17,5 +17,5 @@ MonoBehaviour:
   materialName: Copper
   minWorkingTemp: 50
   maxWorkingTemp: 300
-  tempLostPerSecond: 1
+  tempLostPerSecond: 2.5
   priceMultiplier: 0.8

@@ -49,7 +49,7 @@ public class Heater : MonoBehaviour
     {
         foreach (TemperatureScript temperatureScript in attachedTemperatureScripts)
         {
-            temperatureScript.AddTemp(temperatureScript.smithingMaterial.tempLostPerSecond * 1000 * Time.deltaTime);
+            temperatureScript.AddTemp(temperatureScript.smithingMaterial.tempLostPerSecond * 100 * Time.deltaTime);
         }
     }
 }

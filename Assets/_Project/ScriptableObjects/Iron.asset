@@ -17,4 +17,5 @@ MonoBehaviour:
   materialName: Iron
   minWorkingTemp: 100
   maxWorkingTemp: 300
-  tempLostPerSecond: 0.1
+  tempLostPerSecond: 2
+  priceMultiplier: 1
