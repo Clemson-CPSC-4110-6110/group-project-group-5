@@ -17,6 +17,10 @@ public class SharpenOnCollision : MonoBehaviour
     // [SerializeField] GameObject hole_cover;
     [SerializeField] NewScaleAwayOnHit bodyScaleScript;
     [SerializeField] MeshRenderer tipRenderer;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip audioClip;
+    [SerializeField] float volume;
+
     // public UnityEvent onSharpen;
 
     // readonly int colliderLeftRightAxisIndex = 0;
@@ -42,6 +46,19 @@ public class SharpenOnCollision : MonoBehaviour
     // {
     //     SharpenLeftRightSide(0.001f);
     // }
+
+    void Awake()
+    {
+        audioSource.clip = audioClip;
+        audioSource.volume = volume;
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (!other.gameObject.CompareTag("grinder")) { return; }
+        // audioSource.Play(audioClip, volume);
+        audioSource.Play();
+    }
+
     void OnTriggerStay(Collider other)
     {
         // Debug.Log("Trigger detected");
@@ -80,6 +97,12 @@ public class SharpenOnCollision : MonoBehaviour
         // float volumeShiftedOnHit = Mathf.Clamp01(velocityMagnitude / maxVelocity) * maxVolumeShift * temperatureScript.GetPercentMaxTemp();
 
         // HandleDirectionalScale(worldNormal, volumeShiftedOnHit);
+    }
+    
+    void OnTriggerExit(Collider other)
+    {
+        if (!other.gameObject.CompareTag("grinder")) { return; }
+        audioSource.Stop();
     }
 
     void SharpenLeftRightSide(float length_lost)
